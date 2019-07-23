@@ -72,13 +72,6 @@ GEM
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
-    coffee-rails (4.2.2)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     devise (4.6.2)
@@ -189,17 +182,6 @@ GEM
     rspec-support (3.8.2)
     ruby_dep (1.5.0)
     rubyzip (1.2.3)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    sass-rails (5.0.7)
-      railties (>= 4.0.0, < 6)
-      sass (~> 3.1)
-      sprockets (>= 2.8, < 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
-      tilt (>= 1.1, < 3)
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
@@ -226,17 +208,12 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
-    turbolinks (5.2.0)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     twilio-ruby (5.25.1)
       faraday (~> 0.9)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.20)
-      execjs (>= 0.3.0, < 3)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (3.7.0)
@@ -263,7 +240,6 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   chromedriver-helper
-  coffee-rails (~> 4.2)
   devise (~> 4.6)
   jbuilder (~> 2.5)
   jquery-rails (~> 4.3)
@@ -273,19 +249,16 @@ DEPENDENCIES
   pundit (~> 2.0)
   rails (~> 5.2.3)
   rspec-rails (~> 3.8)
-  sass-rails (~> 5.0)
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
-  turbolinks (~> 5)
   twilio-ruby (~> 5.25)
   tzinfo-data
-  uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   webpacker (~> 4.x)
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.6.3p62
 
 BUNDLED WITH
-   1.17.1
+   1.17.2
