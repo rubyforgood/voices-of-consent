@@ -59,7 +59,3 @@ gem "devise", "~> 4.6"
 gem "pundit", "~> 2.0"
 
 gem "twilio-ruby", "~> 5.25"
-
-gem "bootstrap", "~> 4.3"
-
-gem "jquery-rails", "~> 4.3"
