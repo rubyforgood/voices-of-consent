@@ -1,0 +1,13 @@
+<title>VoicesOfConsent</title>
+
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Voices of Consent">
+<meta name="author" content="Ruby for Good">
+
+<%= javascript_pack_tag 'application',
+  async: Rails.env.production?,
+  'data-turbolinks-track': 'reload' %>
