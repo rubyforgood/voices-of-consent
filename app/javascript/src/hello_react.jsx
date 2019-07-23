@@ -11,11 +11,12 @@ const Hello = (props) => {
   return (
     <div className="row">
       <div className="col-sm">
-        Oh, hello {props.name}!
-      </div>
-
-      <div className="col-sm">
-        <span>{count}</span> <button onClick={() => setCount(count + 1)}>+</button>
+        <p>
+          Oh, hello {props.name}!
+        </p>
+        <p>
+          <span>{count}</span> <button onClick={() => setCount(count + 1)}>+</button>
+        </p>
       </div>
     </div>
   )

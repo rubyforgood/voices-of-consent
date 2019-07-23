@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   end
 
   def contact
+    render :contact, layout: 'embed'
   end
 
   def admin

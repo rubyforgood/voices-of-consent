@@ -7,9 +7,9 @@
   <body>
     <%= render 'shared/navigation' %>
 
-    <%= yield :header %>
-
     <div class="container">
+      <%= yield :title %>
+      <%= yield :breadcrumbs %>
       <%= yield %>
     </div>
 
