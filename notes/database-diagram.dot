@@ -1,0 +1,259 @@
+digraph G {
+
+  // start styles
+  // rankdir=LR
+
+  graph [fontname="helvetica",fontsize=14,splines=true,pad=0.1,compound=true,color="grey60",fontcolor="grey10",fillcolor=grey95,style="filled"];
+  node [fontname="helvetica",fontsize=12,color=purple4,shape=box,style="filled",fontcolor=purple4,fillcolor=grey99,penwidth=2];
+  edge [fontname="helvetica",color=grey35,fontcolor=black,arrowhead="normal",penwidth=2,arrowsize=0.5];
+
+  // end styles
+
+  subgraph cluster_c0 {
+    AbuseType -> AbuseTypeItem [arrowhead=crow];
+    style="dotted"
+  }
+
+
+  subgraph cluster_c2 {
+    InventoryType -> InventoryItem [arrowhead=crow];
+    InventoryItem -> InventoryAdjustment [arrowhead=crow];
+    style="dotted"
+      node [color=blue,
+           style=filled,
+           fontcolor=black]
+  }
+
+  subgraph cluster_c3 {
+    color="blue";
+    Person -> BoxRequest [arrowhead=crow];
+    BoxRequest -> Box [arrowhead=crow];
+    Box -> BoxItem [arrowhead=crow];
+
+  }
+
+  subgraph cluster_c4 {
+    MeetingType -> Meeting [arrowhead=crow];
+    Meeting -> Attendance  [arrowhead=crow];
+    style="dotted"
+  }
+
+  subgraph cluster_c5 {
+    User -> PermissionRecord [arrowhead=crow];
+    style="dotted"
+  }
+
+
+  subgraph cluster_c6 {
+    Purchase -> PurchaseList [arrowhead=crow];
+    style="dotted"
+  }
+
+  subgraph cluster_c7 {
+    Location;
+    style="dotted"
+  }
+
+  AbuseType -> BoxRequest [arrowhead=crow];
+  InventoryType -> AbuseTypeItem [arrowhead=crow];
+  BoxItem -> InventoryAdjustment [arrowhead=one];
+  Purchase -> InventoryAdjustment:e [arrowhead=crow];
+  Box -> Purchase [arrowhead=crow];
+  Location -> InventoryItem [arrowhead=crow];
+  Location -> Meeting [arrowhead=crow];
+  Location -> Purchase [arrowhead=crow];
+
+  //      User -> BoxRequest;
+  //      User -> Box;
+  //      User -> Purchase;
+  //      User -> BoxItem;
+  //      User -> Message [arrowhead=none];
+  User -> Attendance [arrowhead=crow];
+  // Box -> Message [arrowhead=crow];
+
+
+  //  ******RELATIONS*******
+  Feedback [
+    shape=record;
+  label="{Feedback (polymorphic)|
+    feedbackable_type (model name)\n
+    feedbackable_id (record id)\n
+    content\n
+    created_by_id (optional)\n
+
+
+}"]
+Message [
+  shape=record;
+  label="{Message (polymporhic)|
+  messagable_type (model name)\n
+  messageable_id (record id)\n
+  sent_to_id (user)\n
+  sent_by_id (user)\n
+  content\n
+  delivery_type (text, email, phone)\n
+  delivery_status\n
+  }"]
+
+Location [
+  shape=record;
+  label="{Location|
+  name\n
+  street_address\n
+  city\n
+  state\n
+  zip\n
+  type (e.g. storage unit, store, meeting space, zoom link)\n
+  }"]
+Person [
+  shape=record;
+  label="{
+    Person|
+      user_id\n
+      first_name\n
+      last_name\n
+      underage (bool)\n
+  }"]
+AbuseType [
+  shape=record;
+  label="{
+    AbuseType|
+      name\n
+  }"]
+AbuseTypeItem [
+  shape=record;
+  label="{
+    AbuseTypeItem|
+      abuse_type_id\n
+      inventory_type_id\n
+  }"]
+BoxRequest [
+  shape=record;
+  label="{BoxRequest|
+  person_id\n
+  abuse_type_id\n
+  reviewer_id\n
+  tags (acts_as_taggable_on)\n
+  urgent (bool flag)\n
+  summary\n
+  }"]
+Purchase [
+  shape=record;
+  label="{Purchase|
+  location_id (DollarGeneral, USPS, etc)\n
+  total_price\n
+  receipt_photo_upload (optional)\n
+  tracking_number (optional)\n
+  purchased_by_id (user)\n
+  reimbursement_status (not_reimbursed, unreimbursable, reimbursed)\n
+  reimbursed_by_id (user)\n
+  reimbursement_check_number (string)\n
+
+  }"]
+PurchaseList [
+  shape=record;
+  label="{PurchaseList|
+  purchase_id\n
+  inventory_type_id\n
+  quantity\n
+  price_for_this_quantity\n
+  sku\n
+  product_url\n
+  item_description\n
+  }"]
+InventoryType [
+  shape=record;
+  label="{InventoryType|
+  name\n
+  description\n
+  photo_upload\n
+  suggested_source_location_id (location)\n
+  estimated_price (decimals)\n
+  }"]
+InventoryItem [
+  shape=record;
+  label="{InventoryItem|
+  inventory_type_id\n
+  storage_location_id (location)\n
+  cached_quantity\n
+  }"]
+InventoryAdjustment [
+  shape=record;
+  label="{InventoryAdjustment|
+  inventory_item_id\n
+  purchase_id (optional)\n
+  box_item_id (optional)\n
+  quantity:int (positive or negative count, which \nchanges inventory_item#cached_quantity)\n
+  }"]
+User [
+  shape=record;
+  label="{User|
+  person_id\n
+  [devise_fields]
+  }"]
+Box [
+  shape=record;
+  label="{Box|
+  box_request_id\n
+  designer_id (user)\n
+  design_reviewer_id (optional user)\n
+  assembler_id (optional user)\n
+  shipper_id (optional user)\n
+shipment_id (purchase)
+  }"]
+BoxItem [
+  shape=record;
+  label="{BoxItem|
+  box_id\n
+  inventory_adjustment_id\n
+  box_assembler_id (user)\n
+  created_by_id (user)\n
+  updated_by_id (user)\n
+  }"]
+MeetingType [
+  shape=record;
+  label="{MeetingType|
+  name\n
+  description\n
+(e.g. event, training, leaders_meeting)
+  }"]
+Meeting [
+  shape=record;
+  label="{Meeting|
+  meeting_type_id\n
+  title\n
+  location_id\n
+  start_time\n
+  end_time\n
+  tentative (bool)\n
+  }"]
+Attendance [
+  shape=record;
+  label="{Attendance|
+  meeting_id\n
+  user_id\n
+  special_duties\n
+completed_hours (bool)
+  }"]
+
+PermissionRecord [
+  shape=record;
+  label="{PermissionRecord|
+  user_id\n
+  can_view_all_requests (bool)\n
+  can_review_requests (bool)\n
+  can_design_boxes (bool)\n
+  can_assemble_boxes (bool)\n
+  can_ship_boxes (bool)\n
+  can_view_finances (bool)\n
+  can_be_reimbursed (bool)\n
+  can_reimburse (bool)\n
+  can_review_feedback (bool)\n
+  }"]
+
+}
+
+
+
+
+
