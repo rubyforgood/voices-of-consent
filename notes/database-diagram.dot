@@ -84,15 +84,15 @@ digraph G {
                     created_by_id (optional)\n
                     status:\n(e.g. not_reviewed, handled_needs_followup)\n
                     }"]
-    Message [
+    MessageLog [
                 shape=record;
-                label="{Message (polymporhic)|
+                label="{MessageLog (polymporhic)|
                     messagable_type (model name)\n
                     messageable_id (record id)\n
                     content\n
                     sent_to_id (user)\n
                     sent_by_id (user)\n
-                    delivery_type (text, email, phone)\n
+                    delivery_type (text, autoemail, email, phone)\n
                     delivery_status\n
                     }"]
 
@@ -108,18 +108,26 @@ digraph G {
                     }"]
     Requester [
                 shape=record;
-                label="{Requester|
-                    Person (STI)\n
+                label="{
+                    Requester|
+                    first_name\n
+                    last_name\n
+                    street_address\n
+                    city\n
+                    state\n
+                    zip\n
+                    county\n
+                    phone\n
+                    ok_to_email:bool\n
+                    ok_to_text:bool\n
+                    ok_to_call:bool\n
+                    ok_to_mail:bool\n
+                    underage:bool\n
                     }"]
     Volunteer [
                 shape=record;
-                label="{Volunteer|
-                    Person (STI)\n
-                    }"]
-    Person [
-                shape=record;
                 label="{
-                    Person|
+                    Volunteer|
                     first_name\n
                     last_name\n
                     street_address\n
@@ -132,6 +140,7 @@ digraph G {
                     graduation_year:int\n
                     ok_to_email:bool\n
                     ok_to_text:bool\n
+                    ok_to_call:bool\n
                     ok_to_mail:bool\n
                     underage:bool\n
                     }"]
@@ -274,16 +283,13 @@ digraph G {
                     can_be_shipper:bool\n
                     can_be_reimburser:bool\n
                     can_be_purchaser:bool\n
-                    can_view_finances:bool\n
-                    can_view_all_requests:bool\n
+                    can_view_purchases:bool\n
+                    can_view_box_requests:bool\n
                     can_review_feedback:bool\n
                     can_write_thank_you_notes:bool\n
                     can_volunteer_at_events:bool\n
                     can_manage_users:bool\n
+                    can_view_message_logs:bool\n
                     }"]
 
 }
-
-
-
-
