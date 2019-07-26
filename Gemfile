@@ -59,3 +59,5 @@ gem "devise", "~> 4.6"
 gem "pundit", "~> 2.0"
 
 gem "twilio-ruby", "~> 5.25"
+
+gem 'acts-as-taggable-on', '~> 6.0'
