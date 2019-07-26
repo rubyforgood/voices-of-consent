@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :inventory_types
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
 
