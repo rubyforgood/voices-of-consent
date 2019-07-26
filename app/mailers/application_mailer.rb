@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'mirandawang94@gmail.com'
+  default from: 'r4g.voicesofconsent.test@gmail.com'
   layout 'mailer'
 end
