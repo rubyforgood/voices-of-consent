@@ -112,6 +112,7 @@ digraph G {
                     Requester|
                     first_name\n
                     last_name\n
+                    email\n
                     street_address\n
                     city\n
                     state\n
@@ -130,6 +131,7 @@ digraph G {
                     Volunteer|
                     first_name\n
                     last_name\n
+                    email\n
                     street_address\n
                     city\n
                     state\n

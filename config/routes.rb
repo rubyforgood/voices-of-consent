@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :locations
   resources :meetings
+  resources :requesters
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
 

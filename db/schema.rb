@@ -17,11 +17,33 @@ ActiveRecord::Schema.define(version: 2019_07_26_175433) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
     t.string "zip"
     t.integer "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "requesters", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "street_address"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "county"
+    t.string "phone"
+    t.boolean "ok_to_email"
+    t.boolean "ok_to_text"
+    t.boolean "ok_to_call"
+    t.boolean "ok_to_mail"
+    t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
