@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_174144) do
     t.datetime "updated_at", null: false
   end
 
-<<<<<<< HEAD
   create_table "volunteers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -65,7 +64,8 @@ ActiveRecord::Schema.define(version: 2019_07_26_174144) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-=======
+  end
+  
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_174144) do
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
->>>>>>> Add ActsAsTaggableOn gem
   end
 
 end
