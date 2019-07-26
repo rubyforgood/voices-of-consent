@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
   resources :locations
   resources :meetings
-=======
   resources :volunteers
   resources :box_requests
->>>>>>> develop
   resources :requesters
   resources :meetings
+  resources :meeting_types
 
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
