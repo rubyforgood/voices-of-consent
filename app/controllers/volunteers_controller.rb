@@ -25,7 +25,9 @@ class VolunteersController < ApplicationController
   # POST /volunteers.json
   def create
     @volunteer = Volunteer.new(volunteer_params)
-
+    if @volunteer.save
+      VolunteerMailer.welcome_email(@volunteer).deliver_now
+    end
     respond_to do |format|
       if @volunteer.save
         format.html { redirect_to @volunteer, notice: 'Volunteer was successfully created.' }
@@ -69,6 +71,6 @@ class VolunteersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def volunteer_params
-      params.require(:volunteer).permit(:first_name, :last_name, :street_address, :city, :state, :zip, :county, :phone, :university_location_id, :graduation_year, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
+      params.require(:volunteer).permit(:first_name, :last_name, :email, :street_address, :city, :state, :zip, :county, :phone, :university_location_id, :graduation_year, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
     end
 end

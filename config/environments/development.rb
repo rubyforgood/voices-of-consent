@@ -75,9 +75,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                 587,
-  domain:               'voicesofconsent.org',
-  user_name:            '<username>',
-  password:             '<password>',
+  domain:               'gmail.com',
+  user_name:            'r4g.voicesofconsent.test',
+  password:             'r4gvoicesofconsent',
   authentication:       'plain',
   enable_starttls_auto: true  }
 end
