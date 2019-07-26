@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html
   root 'home#index'
+  get 'box_design/claim/:box_id', to: 'box_design#claim'
+  post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
 end
