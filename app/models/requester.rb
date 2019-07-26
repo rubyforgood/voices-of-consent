@@ -11,4 +11,6 @@ class Requester < ApplicationRecord
   validates :ok_to_call, inclusion: { in: [ true, false ] }
   validates :ok_to_mail, inclusion: { in: [ true, false ] }
   validates :underage, inclusion: { in: [ true, false ] }
+
+  has_many :box_requests
 end
