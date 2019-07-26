@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :locations
   resources :meetings
+  resources :boxes
   resources :volunteers
   resources :box_requests
   resources :requesters

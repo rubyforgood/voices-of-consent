@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Box request:</strong>
+  <%= @box.box_request %>
+</p>
+
+<p>
+  <strong>Designed by:</strong>
+  <%= @box.designed_by %>
+</p>
+
+<p>
+  <strong>Design reviewed by:</strong>
+  <%= @box.design_reviewed_by %>
+</p>
+
+<p>
+  <strong>Assembled by:</strong>
+  <%= @box.assembled_by %>
+</p>
+
+<p>
+  <strong>Shipped by:</strong>
+  <%= @box.shipped_by %>
+</p>
+
+<p>
+  <strong>Shipping payment:</strong>
+  <%= @box.shipping_payment %>
+</p>
+
+<p>
+  <strong>Shipped at:</strong>
+  <%= @box.shipped_at %>
+</p>
+
+<p>
+  <strong>Shipment tracking number:</strong>
+  <%= @box.shipment_tracking_number %>
+</p>
+
+<%= link_to 'Edit', edit_box_path(@box) %> |
+<%= link_to 'Back', boxes_path %>
