@@ -55,6 +55,13 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inventory_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "street_address"
