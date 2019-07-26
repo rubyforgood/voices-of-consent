@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    passwords: 'users/passwords', sessions: "users/sessions"
+  }
+
   resources :locations
   resources :meetings
   resources :volunteers
@@ -6,7 +10,6 @@ Rails.application.routes.draw do
   resources :requesters
   resources :meetings
   resources :meeting_types
-
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
