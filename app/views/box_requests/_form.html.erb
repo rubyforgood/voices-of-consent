@@ -1,0 +1,42 @@
+<%= form_with(model: box_request, local: true) do |form| %>
+  <% if box_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(box_request.errors.count, "error") %> prohibited this box_request from being saved:</h2>
+
+      <ul>
+      <% box_request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :summary %>
+    <%= form.text_area :summary %>
+  </div>
+
+  <div class="field">
+    <%= form.label :question_re_current_situation %>
+    <%= form.text_area :question_re_current_situation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :question_re_affect %>
+    <%= form.text_area :question_re_affect %>
+  </div>
+
+  <div class="field">
+    <%= form.label :question_re_referral_source %>
+    <%= form.text_area :question_re_referral_source %>
+  </div>
+
+  <div class="field">
+    <%= form.label :question_re_if_not_self_completed %>
+    <%= form.text_area :question_re_if_not_self_completed %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
