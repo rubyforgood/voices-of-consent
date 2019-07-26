@@ -15,8 +15,6 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-console.log('Hello Ruby for Good!')
-
 // global dependencies
 require("@rails/ujs").start()
 require("turbolinks").start()
@@ -28,4 +26,5 @@ import 'bootstrap/js/dist/carousel'
 import 'bootstrap/js/dist/dropdown'
 
 // application entry
-import 'main'
+// import 'main'
+import "stylesheets/application.scss"
