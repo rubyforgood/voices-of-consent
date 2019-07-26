@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :volunteers
   resources :requesters
+
+  get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
 
