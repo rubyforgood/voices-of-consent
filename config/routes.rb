@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
+<<<<<<< HEAD
+  resources :locations
+  resources :meetings
+=======
   resources :volunteers
   resources :box_requests
+>>>>>>> develop
   resources :requesters
   resources :meeting_types
 
