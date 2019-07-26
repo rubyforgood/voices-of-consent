@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Volunteers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Street address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>County</th>
+      <th>Phone</th>
+      <th>University location</th>
+      <th>Graduation year</th>
+      <th>Ok to email</th>
+      <th>Ok to text</th>
+      <th>Ok to call</th>
+      <th>Ok to mail</th>
+      <th>Underage</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @volunteers.each do |volunteer| %>
+      <tr>
+        <td><%= volunteer.first_name %></td>
+        <td><%= volunteer.last_name %></td>
+        <td><%= volunteer.street_address %></td>
+        <td><%= volunteer.city %></td>
+        <td><%= volunteer.state %></td>
+        <td><%= volunteer.zip %></td>
+        <td><%= volunteer.county %></td>
+        <td><%= volunteer.phone %></td>
+        <td><%= volunteer.university_location_id %></td>
+        <td><%= volunteer.graduation_year %></td>
+        <td><%= volunteer.ok_to_email %></td>
+        <td><%= volunteer.ok_to_text %></td>
+        <td><%= volunteer.ok_to_call %></td>
+        <td><%= volunteer.ok_to_mail %></td>
+        <td><%= volunteer.underage %></td>
+        <td><%= link_to 'Show', volunteer %></td>
+        <td><%= link_to 'Edit', edit_volunteer_path(volunteer) %></td>
+        <td><%= link_to 'Destroy', volunteer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Volunteer', new_volunteer_path %>
