@@ -1,0 +1,2 @@
+module InventoryTalliesHelper
+end
