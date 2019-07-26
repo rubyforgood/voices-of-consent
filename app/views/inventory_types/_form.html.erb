@@ -1,0 +1,17 @@
+<%= form_with(model: inventory_type, local: true) do |form| %>
+  <% if inventory_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(inventory_type.errors.count, "error") %> prohibited this inventory_type from being saved:</h2>
+
+      <ul>
+      <% inventory_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
