@@ -26,7 +26,9 @@ $ yarn install
 $ heroku local -f Profile.dev
 ```
 
-To run the mail catcher gem's mail server run:
+To get the MailCatcher gem's mail server up run:
+```
 $ mailcatcher
 Go to http://localhost:1080/
 Send mail through smtp://localhost:1025
+```
