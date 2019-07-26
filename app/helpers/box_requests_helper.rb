@@ -1,0 +1,2 @@
+module BoxRequestsHelper
+end
