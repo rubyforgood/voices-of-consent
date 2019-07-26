@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @requester.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @requester.last_name %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @requester.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @requester.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @requester.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @requester.zip %>
+</p>
+
+<p>
+  <strong>County:</strong>
+  <%= @requester.county %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @requester.phone %>
+</p>
+
+<p>
+  <strong>Ok to email:</strong>
+  <%= @requester.ok_to_email %>
+</p>
+
+<p>
+  <strong>Ok to text:</strong>
+  <%= @requester.ok_to_text %>
+</p>
+
+<p>
+  <strong>Ok to call:</strong>
+  <%= @requester.ok_to_call %>
+</p>
+
+<p>
+  <strong>Ok to mail:</strong>
+  <%= @requester.ok_to_mail %>
+</p>
+
+<p>
+  <strong>Underage:</strong>
+  <%= @requester.underage %>
+</p>
+
+<%= link_to 'Edit', edit_requester_path(@requester) %> |
+<%= link_to 'Back', requesters_path %>

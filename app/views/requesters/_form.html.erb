@@ -1,0 +1,82 @@
+<%= form_with(model: requester, local: true) do |form| %>
+  <% if requester.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(requester.errors.count, "error") %> prohibited this requester from being saved:</h2>
+
+      <ul>
+      <% requester.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :street_address %>
+    <%= form.text_field :street_address %>
+  </div>
+
+  <div class="field">
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div class="field">
+    <%= form.label :zip %>
+    <%= form.text_field :zip %>
+  </div>
+
+  <div class="field">
+    <%= form.label :county %>
+    <%= form.text_field :county %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone %>
+    <%= form.text_field :phone %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ok_to_email %>
+    <%= form.text_field :ok_to_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ok_to_text %>
+    <%= form.text_field :ok_to_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ok_to_call %>
+    <%= form.text_field :ok_to_call %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ok_to_mail %>
+    <%= form.text_field :ok_to_mail %>
+  </div>
+
+  <div class="field">
+    <%= form.label :underage %>
+    <%= form.text_field :underage %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
