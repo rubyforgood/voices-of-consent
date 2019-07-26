@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   resources :volunteers
   resources :box_requests
   resources :requesters
-  resources :meetings
   resources :meeting_types
+  resources :inventory_types
+
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
