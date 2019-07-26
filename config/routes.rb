@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :volunteers
   resources :box_requests
   resources :requesters
+  resources :meeting_types
 
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
