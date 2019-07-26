@@ -5,9 +5,9 @@ class Requester < ApplicationRecord
   validates :city, presence:true
   validates :state, presence:true
   validates :zip, presence:true
-  validates :ok_to_email, presence:true
-  validates :ok_to_text, presence:true
-  validates :ok_to_call, presence:true
-  validates :ok_to_mail, presence:true
-  validates :underage, presence:true
+  validates :ok_to_email, inclusion: { in: [ true, false ] }
+  validates :ok_to_text, inclusion: { in: [ true, false ] }
+  validates :ok_to_call, inclusion: { in: [ true, false ] }
+  validates :ok_to_mail, inclusion: { in: [ true, false ] }
+  validates :underage, inclusion: { in: [ true, false ] }
 end
