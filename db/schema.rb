@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_194508) do
+ActiveRecord::Schema.define(version: 2019_07_26_201310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,10 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.integer "cached_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inventory_type_id"
+    t.bigint "storage_location_id"
+    t.index ["inventory_type_id"], name: "index_inventory_tallies_on_inventory_type_id"
+    t.index ["storage_location_id"], name: "index_inventory_tallies_on_storage_location_id"
   end
 
   create_table "inventory_types", force: :cascade do |t|
@@ -69,6 +73,13 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.string "state"
     t.string "zip"
     t.integer "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inventory_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -149,13 +160,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "inventory_types", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "volunteers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -177,6 +181,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
 end
