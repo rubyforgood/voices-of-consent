@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :box_requests
 >>>>>>> develop
   resources :requesters
+  resources :meetings
 
   get 'login_demo/index'
   get 'contact', to: 'home#contact'

@@ -135,4 +135,12 @@ ActiveRecord::Schema.define(version: 2019_07_26_175433) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "meetings", force: :cascade do |t|
+    t.bigint "meeting_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
+  end
+
+  add_foreign_key "meetings", "meeting_types"
 end
