@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2019_07_26_174144) do
     t.text "question_re_if_not_self_completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "requester_id"
+    t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
   create_table "requesters", force: :cascade do |t|
