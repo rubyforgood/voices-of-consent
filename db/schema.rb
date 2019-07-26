@@ -34,6 +34,13 @@ ActiveRecord::Schema.define(version: 2019_07_26_174144) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "meeting_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
