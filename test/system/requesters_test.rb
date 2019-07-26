@@ -18,6 +18,7 @@ class RequestersTest < ApplicationSystemTestCase
     fill_in "County", with: @requester.county
     fill_in "First name", with: @requester.first_name
     fill_in "Last name", with: @requester.last_name
+    fill_in "Email", with: @requester.email
     fill_in "Ok to call", with: @requester.ok_to_call
     fill_in "Ok to email", with: @requester.ok_to_email
     fill_in "Ok to mail", with: @requester.ok_to_mail
@@ -41,6 +42,7 @@ class RequestersTest < ApplicationSystemTestCase
     fill_in "County", with: @requester.county
     fill_in "First name", with: @requester.first_name
     fill_in "Last name", with: @requester.last_name
+    fill_in "Email", with: @requester.email
     fill_in "Ok to call", with: @requester.ok_to_call
     fill_in "Ok to email", with: @requester.ok_to_email
     fill_in "Ok to mail", with: @requester.ok_to_mail

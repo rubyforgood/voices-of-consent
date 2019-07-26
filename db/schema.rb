@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_142831) do
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
