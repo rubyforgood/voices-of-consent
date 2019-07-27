@@ -17,8 +17,11 @@ To get started developing on your machine, you'll need something like the follow
 * yarn 1.16
 * bundler 2.0.2
 * heroku 7.26.2
+* redis >= 4.0
 
 To run the app locally:
+
+- Ensure Redis is running (`brew services start redis` on macOS or `redis-server` to run it as a one-off process)
 
 ```
 $ bundle install
