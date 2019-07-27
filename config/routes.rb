@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   resources :requesters
   resources :meeting_types
   resources :inventory_types
-
+  resources :inventory_adjustments
+  
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'

@@ -1,0 +1,17 @@
+<%= form_with(model: inventory_adjustment, local: true) do |form| %>
+  <% if inventory_adjustment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(inventory_adjustment.errors.count, "error") %> prohibited this inventory_adjustment from being saved:</h2>
+
+      <ul>
+      <% inventory_adjustment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
