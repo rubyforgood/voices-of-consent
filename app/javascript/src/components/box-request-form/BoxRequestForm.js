@@ -9,6 +9,7 @@ class BoxRequestForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      abuseTypeOptions: ["Emotional", "Physical", "Sexual", "All of the Above"],
       attemptedSubmit: false,
       boxRequest: {
         first_name: '',
@@ -119,6 +120,17 @@ class BoxRequestForm extends React.Component {
     );
   }
 
+  renderAbuseTypes() {
+    const abuseTypes = this.state.abuseTypeOptions.map((type) =>
+      <div class="row form-check">
+        <input class="form-check-input" type="checkbox" value={type} id="abuse_types" onChange={this.handleCheckBoxChange} />
+        <label class="form-check-label" for="abuse_types">{type}</label>
+      </div>
+    );
+
+    return abuseTypes;
+  }
+
   render() {
     const { boxRequest } = this.state;
 
@@ -145,22 +157,7 @@ class BoxRequestForm extends React.Component {
 
           <label class="row section-top">Type of abuse you have faced *</label>
           { this.state.attemptedSubmit && boxRequest.abuse_types.length === 0 ? this.renderRequiredAlert() : null }
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="emotional" id="defaultCheck2" onChange={this.handleCheckBoxChange}/>
-              <label class="form-check-label" for="defaultCheck1">Emotional</label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="physical" id="defaultCheck2" onChange={this.handleCheckBoxChange}/>
-              <label class="form-check-label" for="defaultCheck2">Physical</label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="sexual" id="defaultCheck2" onChange={this.handleCheckBoxChange} />
-              <label class="form-check-label" for="defaultCheck2">Sexual</label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="all" id="defaultCheck2" onChange={this.handleCheckBoxChange} />
-              <label class="form-check-label" for="defaultCheck2">All of the Above</label>
-            </div>
+          { this.renderAbuseTypes() }
 
           <div class="row section-top" >
             <label>Briefly describe your current situation. Is the abuse current? Do you live with your abuser? Do you have kids affected by the abuse? *</label>
