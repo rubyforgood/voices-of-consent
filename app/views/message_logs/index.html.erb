@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Message Logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>messageable type</th>
+      <th>messageable</th>
+      <th>Content</th>
+      <th>Delivery type</th>
+      <th>Delivery status</th>
+      <th>Sent to</th>
+      <th>Sent by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @message_logs.each do |message_log| %>
+      <tr>
+        <td><%= message_log.messageable_type %></td>
+        <td><%= message_log.messageable_id %></td>
+        <td><%= message_log.content %></td>
+        <td><%= message_log.delivery_type %></td>
+        <td><%= message_log.delivery_status %></td>
+        <td><%= message_log.sent_to_id %></td>
+        <td><%= message_log.sent_by_id %></td>
+        <td><%= link_to 'Show', message_log %></td>
+        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
+        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Message Log', new_message_log_path %>
