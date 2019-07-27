@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_145126) do
+
+ActiveRecord::Schema.define(version: 2019_07_27_153024) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,11 +178,23 @@ ActiveRecord::Schema.define(version: 2019_07_27_145126) do
     t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
     t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
   end
+  
+  create_table "message_logs", force: :cascade do |t|
+    t.text "content"
+    t.integer "delivery_type"
+    t.string "delivery_status"
+    t.integer "sent_to_id"
+    t.integer "sent_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "messageable_type"
+    t.bigint "messageable_id"
+    t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
+  end
 
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
@@ -219,6 +233,14 @@ ActiveRecord::Schema.define(version: 2019_07_27_145126) do
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "user_permissions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "permission"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_permissions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -266,4 +288,5 @@ ActiveRecord::Schema.define(version: 2019_07_27_145126) do
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
   add_foreign_key "purchases", "locations"
+  add_foreign_key "user_permissions", "users"
 end

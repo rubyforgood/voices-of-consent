@@ -1,5 +1,6 @@
 class BoxRequest < ApplicationRecord
   belongs_to :requester
+  include Messageable
 
   validates :requester, presence: true
   validates :summary, presence: true
