@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
 
+  get 'box_design/new', to: 'box_design#new'
   get 'box_design/claim/:box_id', to: 'box_design#claim'
   post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
   resource :user_management, only: %i[show create destroy], controller: :user_management
