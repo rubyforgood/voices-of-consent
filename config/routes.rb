@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get 'box_design/claim/:box_id', to: 'box_design#claim'
   post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
 
+  post 'box_request_triage', to: "box_request_triage#create"
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html
   root 'home#index'
