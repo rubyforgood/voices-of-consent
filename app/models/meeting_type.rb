@@ -1,0 +1,2 @@
+class MeetingType < ApplicationRecord
+end

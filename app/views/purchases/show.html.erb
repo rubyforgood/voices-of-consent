@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @purchase.location %>
+</p>
+
+<p>
+  <strong>Total price:</strong>
+  <%= @purchase.total_price %>
+</p>
+
+<p>
+  <strong>Purchased by:</strong>
+  <%= @purchase.purchased_by %>
+</p>
+
+<p>
+  <strong>Reimbursed by:</strong>
+  <%= @purchase.reimbursed_by %>
+</p>
+
+<p>
+  <strong>Reimbursement check number:</strong>
+  <%= @purchase.reimbursement_check_number %>
+</p>
+
+<p>
+  <strong>Reimbursement status:</strong>
+  <%= @purchase.reimbursement_status %>
+</p>
+
+<%= link_to 'Edit', edit_purchase_path(@purchase) %> |
+<%= link_to 'Back', purchases_path %>
