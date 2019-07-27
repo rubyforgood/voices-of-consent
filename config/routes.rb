@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :meeting_types
   resources :inventory_types
 
+  get 'box_shipment/claim/:box_id', to: 'box_shipment#claim', as: 'claim'
+  post 'box_shipment/mark_as_shipped'
+
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
