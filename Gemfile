@@ -63,6 +63,8 @@ gem 'webpacker', '~> 4.x'
 
 # auth
 gem 'devise', '~> 4.6'
+gem 'devise_invitable', '~> 2.0.0'
+
 gem 'pundit', '~> 2.0'
 
 gem 'twilio-ruby', '~> 5.25'
