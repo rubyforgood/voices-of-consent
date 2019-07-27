@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2019_07_27_153024) do
-
+ActiveRecord::Schema.define(version: 2019_07_27_152754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,20 +163,6 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
   end
 
-  create_table "purchases", force: :cascade do |t|
-    t.bigint "location_id"
-    t.float "total_price"
-    t.bigint "purchased_by_id"
-    t.bigint "reimbursed_by_id"
-    t.string "reimbursement_check_number"
-    t.string "reimbursement_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["location_id"], name: "index_purchases_on_location_id"
-    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
-    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
-  end
-  
   create_table "message_logs", force: :cascade do |t|
     t.text "content"
     t.integer "delivery_type"
@@ -192,9 +176,24 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "location_id"
+    t.float "total_price"
+    t.bigint "purchased_by_id"
+    t.bigint "reimbursed_by_id"
+    t.string "reimbursement_check_number"
+    t.string "reimbursement_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_purchases_on_location_id"
+    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
+    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
+  end
+
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
