@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>messageable type:</strong>
+  <%= @message_log.messageable_type %>
+</p>
+
+<p>
+  <strong>messageable:</strong>
+  <%= @message_log.messageable_id %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @message_log.content %>
+</p>
+
+<p>
+  <strong>Delivery type:</strong>
+  <%= @message_log.delivery_type %>
+</p>
+
+<p>
+  <strong>Delivery status:</strong>
+  <%= @message_log.delivery_status %>
+</p>
+
+<p>
+  <strong>Sent to:</strong>
+  <%= @message_log.sent_to_id %>
+</p>
+
+<p>
+  <strong>Sent by:</strong>
+  <%= @message_log.sent_by_id %>
+</p>
+
+<%= link_to 'Edit', edit_message_log_path(@message_log) %> |
+<%= link_to 'Back', message_logs_path %>

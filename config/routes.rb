@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :purchases
+  resources :message_logs
   devise_for :users, controllers: {
     passwords: 'users/passwords', sessions: "users/sessions"
   }
@@ -19,7 +20,8 @@ Rails.application.routes.draw do
   resources :requesters
   resources :meeting_types
   resources :inventory_types
-
+  resources :inventory_adjustments
+  
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
