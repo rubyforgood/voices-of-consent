@@ -63,6 +63,12 @@ textarea[type=text] {
   font-size: 12px;
 }
 
+.required-field {
+  font-size: 12px;
+  padding: 0.25rem 1.25rem 0.25rem 0.2rem;
+  border-radius: 0;
+}
+
 .section-label {
   margin-bottom: 5px;
 }
