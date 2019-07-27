@@ -1,3 +1,3 @@
 class InventoryType < ApplicationRecord
-    
+
 end
