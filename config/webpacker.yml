@@ -19,6 +19,9 @@ default: &default
   # Extract and emit a css file
   extract_css: false
 
+  # show details in webpack output
+  webpack_compile_output: true
+
   static_assets_extensions:
     - .jpg
     - .jpeg
