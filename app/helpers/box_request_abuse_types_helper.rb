@@ -1,0 +1,2 @@
+module BoxRequestAbuseTypesHelper
+end
