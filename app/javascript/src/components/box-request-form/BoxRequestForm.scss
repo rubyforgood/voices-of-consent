@@ -63,10 +63,16 @@ textarea[type=text] {
   font-size: 12px;
 }
 
+.required-fields-submit-alert,
 .required-field {
   font-size: 12px;
   padding: 0.25rem 1.25rem 0.25rem 0.2rem;
   border-radius: 0;
+}
+
+.required-fields-submit-alert {
+  margin-top: 25px;
+  margin-bottom: 0px;
 }
 
 .section-label {
