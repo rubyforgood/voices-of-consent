@@ -130,7 +130,6 @@ class BoxRequestForm extends React.Component {
 
     return abuseTypes;
   }
-
   render() {
     const { boxRequest } = this.state;
 
