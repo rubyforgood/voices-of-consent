@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :box_request_abuse_types
   resources :purchases
   resources :message_logs
   devise_for :users, controllers: {

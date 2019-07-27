@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_152754) do
+ActiveRecord::Schema.define(version: 2019_07_27_201201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,15 @@ ActiveRecord::Schema.define(version: 2019_07_27_152754) do
     t.index ["inventory_adjustment_id"], name: "index_box_items_on_inventory_adjustment_id"
     t.index ["researched_by_id"], name: "index_box_items_on_researched_by_id"
     t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
+  end
+
+  create_table "box_request_abuse_types", force: :cascade do |t|
+    t.bigint "box_request_id"
+    t.bigint "abuse_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abuse_type_id"], name: "index_box_request_abuse_types_on_abuse_type_id"
+    t.index ["box_request_id"], name: "index_box_request_abuse_types_on_box_request_id"
   end
 
   create_table "box_requests", force: :cascade do |t|
@@ -277,6 +286,8 @@ ActiveRecord::Schema.define(version: 2019_07_27_152754) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "box_request_abuse_types", "abuse_types"
+  add_foreign_key "box_request_abuse_types", "box_requests"
   add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
