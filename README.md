@@ -25,3 +25,10 @@ $ bundle install
 $ yarn install
 $ heroku local -f Procfile.dev
 ```
+
+To get the MailCatcher gem's mail server up run:
+```
+$ mailcatcher
+Go to http://localhost:1080/
+Send mail through smtp://localhost:1025
+```

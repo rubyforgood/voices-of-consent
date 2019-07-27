@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @volunteer.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @volunteer.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= User.find(@volunteer.user_id).email %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @volunteer.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @volunteer.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @volunteer.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @volunteer.zip %>
+</p>
+
+<p>
+  <strong>County:</strong>
+  <%= @volunteer.county %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @volunteer.phone %>
+</p>
+
+<p>
+  <strong>University location:</strong>
+  <%= @volunteer.university_location_id %>
+</p>
+
+<p>
+  <strong>Graduation year:</strong>
+  <%= @volunteer.graduation_year %>
+</p>
+
+<p>
+  <strong>Ok to email:</strong>
+  <%= @volunteer.ok_to_email %>
+</p>
+
+<p>
+  <strong>Ok to text:</strong>
+  <%= @volunteer.ok_to_text %>
+</p>
+
+<p>
+  <strong>Ok to call:</strong>
+  <%= @volunteer.ok_to_call %>
+</p>
+
+<p>
+  <strong>Ok to mail:</strong>
+  <%= @volunteer.ok_to_mail %>
+</p>
+
+<p>
+  <strong>Underage:</strong>
+  <%= @volunteer.underage %>
+</p>
+
+<%= link_to 'Edit', edit_volunteer_path(@volunteer) %> |
+<%= link_to 'Back', volunteers_path %>
