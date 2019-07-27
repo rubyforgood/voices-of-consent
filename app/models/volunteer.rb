@@ -13,7 +13,6 @@ class Volunteer < ApplicationRecord
   validates :ok_to_call, inclusion: { in: [true, false] }
   validates :ok_to_mail, inclusion: { in: [true, false] }
   validates :underage, inclusion: { in: [true, false] }
-  validates :user_id, presence: true
 
   belongs_to :user
 end
