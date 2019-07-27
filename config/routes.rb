@@ -1,8 +1,15 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   resources :purchases
   devise_for :users, controllers: {
     passwords: 'users/passwords', sessions: "users/sessions"
   }
+  devise_scope :users do
+    authenticated :user do
+      mount Sidekiq::Web => '/sidekiq'
+    end
+  end
 
   resources :locations
   resources :meetings
