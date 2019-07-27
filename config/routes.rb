@@ -21,13 +21,14 @@ Rails.application.routes.draw do
   resources :meeting_types
   resources :inventory_types
   resources :inventory_adjustments
-  
+
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
 
   get 'box_design/claim/:box_id', to: 'box_design#claim'
   post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
+  resource :user_management, only: %i[show create destroy], controller: :user_management
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html

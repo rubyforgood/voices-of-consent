@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <th>Email</th>
+  </tr>
+  <% User.all.each do |user| %>
+    <tr>
+      <td> <%= user.email %> </td>
+    </tr>
+  <% end %>
+</table>
