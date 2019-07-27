@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_213802) do
+
+ActiveRecord::Schema.define(version: 2019_07_27_153024) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +101,21 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["inventory_type_id"], name: "index_core_box_items_on_inventory_type_id"
   end
 
+  create_table "inventory_adjustments", force: :cascade do |t|
+    t.bigint "inventory_tally_id"
+    t.bigint "purchase_id"
+    t.bigint "box_item_id"
+    t.integer "total_cost"
+    t.integer "tally_quantity_start"
+    t.integer "tally_quantity_end"
+    t.integer "adjustment_quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["box_item_id"], name: "index_inventory_adjustments_on_box_item_id"
+    t.index ["inventory_tally_id"], name: "index_inventory_adjustments_on_inventory_tally_id"
+    t.index ["purchase_id"], name: "index_inventory_adjustments_on_purchase_id"
+  end
+
   create_table "inventory_tallies", force: :cascade do |t|
     t.string "additional_location_info"
     t.integer "cached_quantity"
@@ -161,11 +178,23 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
     t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
   end
+  
+  create_table "message_logs", force: :cascade do |t|
+    t.text "content"
+    t.integer "delivery_type"
+    t.string "delivery_status"
+    t.integer "sent_to_id"
+    t.integer "sent_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "messageable_type"
+    t.bigint "messageable_id"
+    t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
+  end
 
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
@@ -206,6 +235,14 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "user_permissions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "permission"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_permissions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -244,8 +281,12 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
   add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
+  add_foreign_key "inventory_adjustments", "box_items"
+  add_foreign_key "inventory_adjustments", "inventory_tallies"
+  add_foreign_key "inventory_adjustments", "purchases"
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
   add_foreign_key "purchases", "locations"
+  add_foreign_key "user_permissions", "users"
 end

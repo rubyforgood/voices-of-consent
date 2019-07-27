@@ -2,6 +2,9 @@ class User < ApplicationRecord
   has_one_attached :avatar
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  include Messageable
+  has_many :message_logs_sent, class_name: "MessageLog", foreign_key: :sent_by_id, inverse_of: :sent_by, dependent: :nullify
+  has_many :message_logs_received, class_name: "MessageLog", foreign_key: :sent_to_id, inverse_of: :sent_to, dependent: :nullify
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
