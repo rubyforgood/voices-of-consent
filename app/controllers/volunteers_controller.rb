@@ -25,11 +25,13 @@ class VolunteersController < ApplicationController
   # POST /volunteers.json
   def create
     @volunteer = Volunteer.new(volunteer_params)
-    if @volunteer.save && @volunteer.ok_to_email
-      VolunteerMailer.welcome_email(@volunteer).deliver_now
-    end
+
     respond_to do |format|
       if @volunteer.save
+        if @volunteer.ok_to_email
+          VolunteerMailer.welcome_email(@volunteer).deliver_later
+        end
+
         format.html { redirect_to @volunteer, notice: 'Volunteer was successfully created.' }
         format.json { render :show, status: :created, location: @volunteer }
       else
