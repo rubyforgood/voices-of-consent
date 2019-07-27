@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
   resource :user_management, only: %i[show create destroy], controller: :user_management
 
+  post 'box_request_triage', to: "box_request_triage#create"
+  get 'box_request/already_claimed', to: 'box_requests#already_claimed'
+
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html
   root 'home#index'

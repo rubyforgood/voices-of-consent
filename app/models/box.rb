@@ -5,4 +5,16 @@ class Box < ApplicationRecord
   belongs_to :assembled_by, optional: true, class_name: "User", foreign_key: :assembled_by_id, inverse_of: :boxes_as_assembler
   belongs_to :shipped_by, optional: true, class_name: "User", foreign_key: :shipped_by_id, inverse_of: :boxes_as_shipper
   belongs_to :shipping_payment, optional: true, class_name: "Purchase", foreign_key: :shipping_payment_id, inverse_of: :payment_for_shipment
+
+  def has_designer?
+    return !self.designed_by.nil?
+  end
+
+  def has_assembler?
+    return !self.assembled_by.nil?
+  end
+  
+  def has_shipper?
+    return !self.shipped_by.nil?
+  end
 end
