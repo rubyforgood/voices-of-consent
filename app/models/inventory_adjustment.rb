@@ -4,8 +4,6 @@ class InventoryAdjustment < ApplicationRecord
   belongs_to :box_item, optional: true
 
   validates :inventory_tally, presence: true
-  attr_readonly :tally_quantity_start
-  attr_readonly :tally_quantity_end
 
   before_save :adjust_cached_inventory_quantity
 
