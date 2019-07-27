@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BoxRequest, :type => :model do
-  subject(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", email: "jane@email.com", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
+  subject(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
   subject(:box_request) { BoxRequest.new }
 
  it "is valid with valid attributes" do

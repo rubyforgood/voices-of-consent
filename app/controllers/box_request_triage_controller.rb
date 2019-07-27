@@ -30,9 +30,9 @@ class BoxRequestTriageController < ApplicationController
     box_request = requester.box_requests.build
 
     [
-      # :is_interested_in_counseling_services,
-      # :is_interested_in_health_services,
-      # :is_safe,
+      :is_interested_in_counseling_services,
+      :is_interested_in_health_services,
+      :is_safe,
       :question_re_affect,
       :question_re_current_situation,
       :question_re_if_not_self_completed,

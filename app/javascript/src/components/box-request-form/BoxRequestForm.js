@@ -9,6 +9,7 @@ class BoxRequestForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      abuseTypeOptions: ["Emotional", "Physical", "Sexual", "All of the Above"],
       attemptedSubmit: false,
       boxRequest: {
         first_name: '',
@@ -33,11 +34,13 @@ class BoxRequestForm extends React.Component {
         is_interested_in_counseling_services: null,
         is_interested_in_health_services: null,
         is_underage: null,
+        abuse_types: [],
       },
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
+    this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -48,6 +51,21 @@ class BoxRequestForm extends React.Component {
   handleRadioChange(event) {
     let updatedChoice = event.target.id.includes("true") ? true : false;
     this.setState({ boxRequest: { ...this.state.boxRequest, [event.target.name]: updatedChoice} });
+  }
+
+  handleCheckBoxChange(event) {
+    const abuseType = event.target.value;
+    const { abuse_types } = this.state.boxRequest;
+    let updatedTypes = [...abuse_types];
+
+    if (updatedTypes.includes(abuseType)) {
+        const index = updatedTypes.indexOf(5);
+        updatedTypes.splice(index, 1);
+      } else {
+        updatedTypes.push(abuseType);
+      }
+
+    this.setState({ boxRequest: { ...this.state.boxRequest, abuse_types: updatedTypes } });
   }
 
   handleSubmit(event) {
@@ -76,13 +94,14 @@ class BoxRequestForm extends React.Component {
       is_interested_in_counseling_services,
       is_interested_in_health_services,
       is_underage,
+      abuse_types,
     } = this.state.boxRequest;
 
     const requiredFields = [first_name, last_name, email, street_address, city, state, zip, question_re_affect,
       question_re_referral_source, question_re_current_situation, is_safe,
       is_interested_in_counseling_services, is_interested_in_health_services, is_underage];
 
-    return requiredFields.includes(null) || requiredFields.includes('');
+    return requiredFields.includes(null) || requiredFields.includes('') || abuse_types.length === 0;
   }
 
   renderRequiredAlert() {
@@ -93,6 +112,24 @@ class BoxRequestForm extends React.Component {
     );
   }
 
+  renderMissingFieldsAlert() {
+    return (
+      <div class="alert alert-danger required-fields-submit-alert" role="alert">
+        Please fill out all the required fields.
+      </div>
+    );
+  }
+
+  renderAbuseTypes() {
+    const abuseTypes = this.state.abuseTypeOptions.map((type) =>
+      <div class="row form-check">
+        <input class="form-check-input" type="checkbox" value={type} id="abuse_types" onChange={this.handleCheckBoxChange} />
+        <label class="form-check-label" for="abuse_types">{type}</label>
+      </div>
+    );
+
+    return abuseTypes;
+  }
   render() {
     const { boxRequest } = this.state;
 
@@ -118,30 +155,8 @@ class BoxRequestForm extends React.Component {
           { this.state.attemptedSubmit && boxRequest.email == '' ? this.renderRequiredAlert() : null }
 
           <label class="row section-top">Type of abuse you have faced *</label>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" />
-              <label class="form-check-label" for="defaultCheck1">
-                Emotional
-              </label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" />
-              <label class="form-check-label" for="defaultCheck2">
-                Physical
-              </label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" />
-              <label class="form-check-label" for="defaultCheck2">
-                Sexual
-              </label>
-            </div>
-            <div class="row form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" />
-              <label class="form-check-label" for="defaultCheck2">
-                All of the Above
-              </label>
-            </div>
+          { this.state.attemptedSubmit && boxRequest.abuse_types.length === 0 ? this.renderRequiredAlert() : null }
+          { this.renderAbuseTypes() }
 
           <div class="row section-top" >
             <label>Briefly describe your current situation. Is the abuse current? Do you live with your abuser? Do you have kids affected by the abuse? *</label>
@@ -291,10 +306,8 @@ class BoxRequestForm extends React.Component {
               </div>
             </div>
           </div>
-
-          <div class="row">
+          { this.state.attemptedSubmit && this.missingRequiredFields() ? this.renderMissingFieldsAlert() : null }
             <input type="submit" value="SUBMIT- SEND ME A SURVIVOR BOX" />
-          </div>
         </form>
       </div>
     );

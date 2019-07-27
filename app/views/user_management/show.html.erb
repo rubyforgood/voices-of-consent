@@ -1,0 +1,17 @@
+<%= link_to "Invite", new_user_invitation_path, class: "btn btn-primary"%>
+<table class="table">
+  <tr>
+    <th>Email</th>
+    <th>Invited and accepted?</th>
+  </tr>
+  <% User.all.each do |user| %>
+    <tr>
+      <td> <%= user.email %> </td>
+      <td>
+        <% if user.invitation_sent_at? %>
+          <%= user.invitation_accepted? %>
+        <% end %>
+      </td>
+   </tr>
+  <% end %>
+</table>

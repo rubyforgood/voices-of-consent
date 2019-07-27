@@ -4,12 +4,12 @@ RSpec.describe BoxRequestTriageController, type: :controller do
   let(:test_data) {
     {
       city: Faker::Address.city,
-      county: Faker::Address.county,
+      county: Faker::Address.community,
       email: Faker::Internet.email,
       first_name: Faker::Name.first_name,
-      # is_interested_in_counseling_services: nil,
-      # is_interested_in_health_services: nil,
-      # is_safe: nil,
+      is_interested_in_counseling_services: true,
+      is_interested_in_health_services: nil,
+      is_safe: nil,
       is_underage: false,
       last_name: Faker::Name.last_name,
       ok_to_call: true,
@@ -48,12 +48,14 @@ RSpec.describe BoxRequestTriageController, type: :controller do
 
     it "will create a BoxRequest" do
       expected_summary = test_data[:summary]
+      expected_counseling = test_data[:is_interested_in_counseling_services]
 
       post :create, :params => { :boxRequest => test_data.to_json }
 
       box_request = BoxRequest.last
 
       expect(box_request.summary).to eql(expected_summary)
+      expect(box_request.is_interested_in_counseling_services).to eql(expected_counseling)
     end
 
   end
