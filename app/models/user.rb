@@ -4,8 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :boxes_as_designer, class_name: "Box", foreign_key: :designed_by_id, inverse_of: :designed_by, dependent: :nullify
-  has_many :boxes_as_design_reviewer, class_name: "Box", foreign_key: :design_reviewed_by_id, inverse_of: :designed_reviewed_by, dependent: :nullify
-  has_many :boxes_as_assembler, class_name: "Box", foreign_key: :assembled_by_id, inverse_of: :assembled_by, dependent: :nullify
-  has_many :boxes_as_shipper, class_name: "Box", foreign_key: :shipped_by_id, inverse_of: :shipped_by, dependent: :nullify
+  has_many :boxes_as_designer, class_name: "Box", foreign_key: :designed_by_id, inverse_of: :designed_by, dependent: :restrict_with_error
+  has_many :boxes_as_design_reviewer, class_name: "Box", foreign_key: :design_reviewed_by_id, inverse_of: :designed_reviewed_by, dependent: :restrict_with_error
+  has_many :boxes_as_assembler, class_name: "Box", foreign_key: :assembled_by_id, inverse_of: :assembled_by, dependent: :restrict_with_error
+  has_many :boxes_as_shipper, class_name: "Box", foreign_key: :shipped_by_id, inverse_of: :shipped_by, dependent: :restrict_with_error
+  has_many :purchases, foreign_key: :purchased_by_id, inverse_of: :purchased_by, dependent: :restrict_with_error
+  has_many :reimbursed_purchases, class_name: "Purchase", foreign_key: :reimbursed_by_id, inverse_of: :reimbursed_by, dependent: :restrict_with_error
 end
