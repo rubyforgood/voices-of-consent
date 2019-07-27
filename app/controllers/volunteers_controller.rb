@@ -28,7 +28,7 @@ class VolunteersController < ApplicationController
 
     respond_to do |format|
       if @volunteer.save
-        if @volunteer.ok_to_email
+        if @volunteer.ok_to_email?
           VolunteerMailer.welcome_email(@volunteer).deliver_later
         end
 
