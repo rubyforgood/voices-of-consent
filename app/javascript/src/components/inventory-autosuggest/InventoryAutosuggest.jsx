@@ -1,4 +1,5 @@
 import React from 'react'
+import { keyHandler } from '../../utilities';
 
 const InventoryAutosuggest = ({inventoryItems, searchInput, updateSearchInput, addItem}) => {
     const possibleItems = inventoryItems.filter(itemType => {
@@ -6,24 +7,42 @@ const InventoryAutosuggest = ({inventoryItems, searchInput, updateSearchInput, a
       return regex.test(itemType);
     })
     return (
-      <ul>
+      <ul className="inventory-autosuggest">
         {
           possibleItems.length 
             ?
               possibleItems.map((itemType, index) => (
                 <li 
                   key={ index }
+                  tabIndex="0"
+                  className="inventory-autosuggest__item"
                   onClick={ () => {
                     updateSearchInput('')
                     addItem(itemType) 
                   }}
+                  onKeyPress={ keyHandler({
+                    fn: () => {
+                    updateSearchInput('')
+                    addItem(itemType) 
+                  }
+                  }) }
                 >{ itemType }</li>
               ))
-            : <li 
+            : <li
+                className="inventory-autosuggest__item"
+                tabIndex="0"
                 onClick={ () => {
                   updateSearchInput("")
                   addItem(searchInput)
                 }}
+                onKeyPress={
+                   keyHandler({
+                     fn: () => {
+                  updateSearchInput("")
+                  addItem(searchInput)
+                }
+                   })
+                }
               >Add new item...</li>
         }
       </ul>
