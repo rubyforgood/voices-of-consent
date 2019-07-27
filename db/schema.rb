@@ -93,18 +93,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
   end
 
-  create_table "message_logs", force: :cascade do |t|
-    t.string "messagable_type"
-    t.integer "messageable_id"
-    t.string "content"
-    t.integer "sent_to_id"
-    t.integer "send_to_id"
-    t.string "delivery_type"
-    t.boolean "delivery_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
