@@ -1,0 +1,76 @@
+div {
+  color: rgba(26,26,26,.7);
+  font-family: adobe-garamond-pro;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+input[type=text] {
+  background-color: #fafafa;
+  border-radius: 0;
+  margin-right: 10px;
+  &.username {
+    border-color: blue;
+  }
+}
+
+input[type=submit] {
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+  border-radius: 0;
+  color: white;
+  font-family: proxima-nova;
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  padding: 10px 20px 10px 20px;
+}
+
+textarea[type=text] {
+  border-radius: 0;
+  min-height: 100px;
+  background-color: #fafafa;
+}
+
+.container {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.custom-control-label::before,
+.custom-control-label::after{
+    top: 0.2rem;
+    width: 0.8rem;
+    height: 0.7rem;
+    font-size: 12px;
+}
+
+.following-question {
+  font-size: 12px;
+  height: 0.7rem;
+  padding-right: 5px;
+  top: 0.2rem;
+}
+
+.form-check-input,
+.form-check-label {
+    font-size: 12px;
+}
+
+.radio-box {
+  font-size: 12px;
+}
+
+.section-label {
+  margin-bottom: 5px;
+}
+
+.section-top {
+  margin-top: 30px;
+}
+
+.sub-text {
+  font-size: 12px;
+}
