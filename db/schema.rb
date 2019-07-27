@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_213802) do
+ActiveRecord::Schema.define(version: 2019_07_27_200638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "requester_id"
+    t.boolean "is_interested_in_counseling_services"
+    t.boolean "is_interested_in_health_services"
+    t.boolean "is_safe"
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
