@@ -1,0 +1,52 @@
+<%= form_with(model: message_log, local: true) do |form| %>
+  <% if message_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(message_log.errors.count, "error") %> prohibited this message_log from being saved:</h2>
+
+      <ul>
+      <% message_log.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :messageable_type %>
+    <%= form.text_field :messageable_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :messageable_id %>
+    <%= form.number_field :messageable_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :delivery_type %>
+    <%= form.number_field :delivery_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :delivery_status %>
+    <%= form.text_field :delivery_status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sent_to_id %>
+    <%= form.number_field :sent_to_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sent_by_id %>
+    <%= form.number_field :sent_by_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
