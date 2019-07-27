@@ -76,6 +76,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_201201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "requester_id"
+    t.boolean "is_interested_in_counseling_services"
+    t.boolean "is_interested_in_health_services"
+    t.boolean "is_safe"
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
