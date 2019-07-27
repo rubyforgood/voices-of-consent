@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Volunteer < ApplicationRecord
+  include Messageable
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :street_address, presence: true

@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :purchases
+  resources :message_logs
   devise_for :users, controllers: {
     passwords: 'users/passwords', sessions: "users/sessions"
   }
@@ -19,7 +20,8 @@ Rails.application.routes.draw do
   resources :requesters
   resources :meeting_types
   resources :inventory_types
-
+  resources :inventory_adjustments
+  
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
   post 'box_design/mark_as_designed', to: 'box_design#mark_as_designed'
 
   post 'box_request_triage', to: "box_request_triage#create"
+  get 'box_request/already_claimed', to: 'box_requests#already_claimed'
+
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html
   root 'home#index'
