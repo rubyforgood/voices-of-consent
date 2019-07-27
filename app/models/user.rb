@@ -14,4 +14,6 @@ class User < ApplicationRecord
   has_many :boxes_as_shipper, class_name: "Box", foreign_key: :shipped_by_id, inverse_of: :shipped_by, dependent: :restrict_with_error
   has_many :purchases, foreign_key: :purchased_by_id, inverse_of: :purchased_by, dependent: :restrict_with_error
   has_many :reimbursed_purchases, class_name: "Purchase", foreign_key: :reimbursed_by_id, inverse_of: :reimbursed_by, dependent: :restrict_with_error
+
+  belongs_to :volunteer
 end
