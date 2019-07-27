@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_210045) do
+ActiveRecord::Schema.define(version: 2019_07_26_213802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,14 +43,19 @@ ActiveRecord::Schema.define(version: 2019_07_26_210045) do
   end
 
   create_table "box_items", force: :cascade do |t|
-    t.integer "box_id"
-    t.integer "inventory_adjustment_id"
-    t.integer "researched_by_id"
+    t.integer "box_id", null: false
+    t.integer "inventory_adjustment_id", null: false
+    t.integer "researched_by_id", null: false
     t.boolean "added_to_box"
-    t.integer "created_by_id"
-    t.integer "updated_by_id"
+    t.integer "created_by_id", null: false
+    t.integer "updated_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["box_id"], name: "index_box_items_on_box_id"
+    t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
+    t.index ["inventory_adjustment_id"], name: "index_box_items_on_inventory_adjustment_id"
+    t.index ["researched_by_id"], name: "index_box_items_on_researched_by_id"
+    t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
   end
 
   create_table "box_requests", force: :cascade do |t|
@@ -66,8 +71,8 @@ ActiveRecord::Schema.define(version: 2019_07_26_210045) do
   end
 
   create_table "core_box_items", force: :cascade do |t|
-    t.bigint "abuse_type_id"
-    t.bigint "inventory_type_id"
+    t.bigint "abuse_type_id", null: false
+    t.bigint "inventory_type_id", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -100,13 +105,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_210045) do
     t.string "state"
     t.string "zip"
     t.integer "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "inventory_types", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -205,15 +203,14 @@ ActiveRecord::Schema.define(version: 2019_07_26_210045) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
     t.bigint "user_id"
     t.index ["user_id"], name: "index_volunteers_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
+  add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
 end
