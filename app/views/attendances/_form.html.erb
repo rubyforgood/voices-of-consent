@@ -1,0 +1,16 @@
+
+<%= simple_form_for(@attendance, html: { class: 'form-inline' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :meeting %>
+    <%= f.association :user %>
+    <%= f.input :special_duties %>
+    <%= f.input :completed_hours %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

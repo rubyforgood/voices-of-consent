@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Meeting:</strong>
+  <%= @attendance.meeting %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @attendance.user %>
+</p>
+
+<p>
+  <strong>Special duties:</strong>
+  <%= @attendance.special_duties %>
+</p>
+
+<p>
+  <strong>Completed hours:</strong>
+  <%= @attendance.completed_hours %>
+</p>
+
+<%= link_to 'Edit', edit_attendance_path(@attendance) %> |
+<%= link_to 'Back', attendances_path %>
