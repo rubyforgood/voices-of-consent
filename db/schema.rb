@@ -70,6 +70,25 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
+  create_table "boxes", force: :cascade do |t|
+    t.bigint "box_request_id", null: false
+    t.bigint "designed_by_id"
+    t.bigint "design_reviewed_by_id"
+    t.bigint "assembled_by_id"
+    t.bigint "shipped_by_id"
+    t.bigint "shipping_payment_id"
+    t.datetime "shipped_at"
+    t.string "shipment_tracking_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
+    t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
+    t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"
+    t.index ["designed_by_id"], name: "index_boxes_on_designed_by_id"
+    t.index ["shipped_by_id"], name: "index_boxes_on_shipped_by_id"
+    t.index ["shipping_payment_id"], name: "index_boxes_on_shipping_payment_id"
+  end
+
   create_table "core_box_items", force: :cascade do |t|
     t.bigint "abuse_type_id", null: false
     t.bigint "inventory_type_id", null: false
@@ -127,6 +146,20 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_meetings_on_location_id"
     t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "location_id"
+    t.float "total_price"
+    t.bigint "purchased_by_id"
+    t.bigint "reimbursed_by_id"
+    t.string "reimbursement_check_number"
+    t.string "reimbursement_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_purchases_on_location_id"
+    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
+    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
   end
 
   create_table "requesters", force: :cascade do |t|
@@ -208,9 +241,11 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
+  add_foreign_key "purchases", "locations"
 end
