@@ -26,7 +26,7 @@ To run the app locally:
 ```
 $ bundle install
 $ yarn install
-$ heroku local -f Profile.dev
+$ heroku local -f Procfile.dev
 ```
 
 To get the MailCatcher gem's mail server up run:

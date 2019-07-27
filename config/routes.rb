@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :purchases
   devise_for :users, controllers: {
     passwords: 'users/passwords', sessions: "users/sessions"
   }
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :locations
   resources :meetings
+  resources :boxes
   resources :volunteers
   resources :box_requests
   resources :requesters

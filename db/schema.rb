@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_194508) do
+ActiveRecord::Schema.define(version: 2019_07_26_213802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abuse_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -36,6 +42,22 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "box_items", force: :cascade do |t|
+    t.integer "box_id", null: false
+    t.integer "inventory_adjustment_id", null: false
+    t.integer "researched_by_id", null: false
+    t.boolean "added_to_box"
+    t.integer "created_by_id", null: false
+    t.integer "updated_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["box_id"], name: "index_box_items_on_box_id"
+    t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
+    t.index ["inventory_adjustment_id"], name: "index_box_items_on_inventory_adjustment_id"
+    t.index ["researched_by_id"], name: "index_box_items_on_researched_by_id"
+    t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
+  end
+
   create_table "box_requests", force: :cascade do |t|
     t.text "summary"
     t.text "question_re_current_situation"
@@ -48,11 +70,44 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
+  create_table "boxes", force: :cascade do |t|
+    t.bigint "box_request_id", null: false
+    t.bigint "designed_by_id"
+    t.bigint "design_reviewed_by_id"
+    t.bigint "assembled_by_id"
+    t.bigint "shipped_by_id"
+    t.bigint "shipping_payment_id"
+    t.datetime "shipped_at"
+    t.string "shipment_tracking_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
+    t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
+    t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"
+    t.index ["designed_by_id"], name: "index_boxes_on_designed_by_id"
+    t.index ["shipped_by_id"], name: "index_boxes_on_shipped_by_id"
+    t.index ["shipping_payment_id"], name: "index_boxes_on_shipping_payment_id"
+  end
+
+  create_table "core_box_items", force: :cascade do |t|
+    t.bigint "abuse_type_id", null: false
+    t.bigint "inventory_type_id", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abuse_type_id"], name: "index_core_box_items_on_abuse_type_id"
+    t.index ["inventory_type_id"], name: "index_core_box_items_on_inventory_type_id"
+  end
+
   create_table "inventory_tallies", force: :cascade do |t|
     t.string "additional_location_info"
     t.integer "cached_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inventory_type_id"
+    t.bigint "storage_location_id"
+    t.index ["inventory_type_id"], name: "index_inventory_tallies_on_inventory_type_id"
+    t.index ["storage_location_id"], name: "index_inventory_tallies_on_storage_location_id"
   end
 
   create_table "inventory_types", force: :cascade do |t|
@@ -91,6 +146,20 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_meetings_on_location_id"
     t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "location_id"
+    t.float "total_price"
+    t.bigint "purchased_by_id"
+    t.bigint "reimbursed_by_id"
+    t.string "reimbursement_check_number"
+    t.string "reimbursement_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_purchases_on_location_id"
+    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
+    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
   end
 
   create_table "requesters", force: :cascade do |t|
@@ -167,9 +236,16 @@ ActiveRecord::Schema.define(version: 2019_07_26_194508) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_volunteers_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boxes", "box_requests"
+  add_foreign_key "core_box_items", "abuse_types"
+  add_foreign_key "core_box_items", "inventory_types"
+  add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
+  add_foreign_key "purchases", "locations"
 end
