@@ -30,8 +30,15 @@ class VolunteersController < ApplicationController
       message_log = MessageLog.new(sent_to: User.find(@volunteer.user_id), sent_by: User.find(@volunteer.user_id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
       message_log.save
     end
+
     respond_to do |format|
       if @volunteer.save
+        if @volunteer.ok_to_email?
+          VolunteerMailer.welcome_email(@volunteer).deliver_later
+          message_log = MessageLog.new(sent_to: User.find(@volunteer.user_id), sent_by: User.find(@volunteer.user_id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
+          message_log.save
+        end
+
         format.html { redirect_to @volunteer, notice: 'Volunteer was successfully created.' }
         format.json { render :show, status: :created, location: @volunteer }
       else
