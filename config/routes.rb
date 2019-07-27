@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :purchases
   resources :message_logs
   devise_for :users, controllers: {
-    passwords: 'users/passwords', sessions: "users/sessions"
+    passwords: 'users/passwords', sessions: "users/sessions", invitations: "users/invitations"
   }
   devise_scope :users do
     authenticated :user do

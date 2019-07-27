@@ -57,11 +57,6 @@
   </div>
 
   <div class="field">
-    <%= form.label :user %>
-    <%= form.collection_select(:user_id, User.all, :id, :email) %>
-  </div>
-
-  <div class="field">
     <%= form.label :graduation_year %>
     <%= form.number_field :graduation_year %>
   </div>
