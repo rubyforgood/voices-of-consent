@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_213802) do
+ActiveRecord::Schema.define(version: 2019_07_27_145126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,21 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.datetime "updated_at", null: false
     t.index ["abuse_type_id"], name: "index_core_box_items_on_abuse_type_id"
     t.index ["inventory_type_id"], name: "index_core_box_items_on_inventory_type_id"
+  end
+
+  create_table "inventory_adjustments", force: :cascade do |t|
+    t.bigint "inventory_tally_id"
+    t.bigint "purchase_id"
+    t.bigint "box_item_id"
+    t.integer "total_cost"
+    t.integer "tally_quantity_start"
+    t.integer "tally_quantity_end"
+    t.integer "adjustment_quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["box_item_id"], name: "index_inventory_adjustments_on_box_item_id"
+    t.index ["inventory_tally_id"], name: "index_inventory_adjustments_on_inventory_tally_id"
+    t.index ["purchase_id"], name: "index_inventory_adjustments_on_purchase_id"
   end
 
   create_table "inventory_tallies", force: :cascade do |t|
@@ -244,6 +259,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
   add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
+  add_foreign_key "inventory_adjustments", "box_items"
+  add_foreign_key "inventory_adjustments", "inventory_tallies"
+  add_foreign_key "inventory_adjustments", "purchases"
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
