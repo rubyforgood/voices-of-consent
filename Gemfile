@@ -68,3 +68,4 @@ gem 'pundit', '~> 2.0'
 gem 'twilio-ruby', '~> 5.25'
 
 gem 'acts-as-taggable-on', '~> 6.0'
+gem 'simple_form'
