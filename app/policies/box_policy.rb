@@ -28,6 +28,6 @@ class BoxPolicy
   end
 
   def can_design?
-    !!Permission.find_by(user: user, role: 'box designer')
+    !!UserPermission.find_by(user: user, permission: Permission::BOX_DESIGNER)
   end
 end

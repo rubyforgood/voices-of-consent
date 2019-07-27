@@ -9,7 +9,7 @@ RSpec.describe BoxPolicy do
       refute policy.can_design?
     end
     it 'allows a user with the design permission' do
-      Permission.create!(user: user, role: 'box designer')
+      UserPermission.create!(user: user, permission: Permission::BOX_DESIGNER)
       policy = BoxPolicy.new(user, Box.new)
       assert policy.can_design?
     end
@@ -25,7 +25,7 @@ RSpec.describe BoxPolicy do
     end
 
     it 'will resolve to user-designed or undesigned boxes the design permission' do
-      Permission.create!(user: user, role: 'box designer')
+      UserPermission.create!(user: user, permission: Permission::BOX_DESIGNER)
       expect(Box).to receive(:all).and_return(scope_mock)
       result = [Box.new]
       expect(scope_mock).to receive(:where).with(designed_by_id: [user, nil]).and_return(result)

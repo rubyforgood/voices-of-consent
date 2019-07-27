@@ -162,18 +162,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
   end
 
-  create_table "permissions", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_permissions_on_user_id"
-  end
-
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
@@ -212,6 +203,14 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "user_permissions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "permission"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_permissions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -255,6 +254,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_213802) do
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
-  add_foreign_key "permissions", "users"
   add_foreign_key "purchases", "locations"
+  add_foreign_key "user_permissions", "users"
 end
