@@ -24,7 +24,7 @@ class VolunteersController < ApplicationController
   # POST /volunteers
   # POST /volunteers.json
   def create
-    @volunteer = Volunteer.new(volunteer_params)
+    @volunteer = Volunteer.new(volunteer_params.merge(user: current_user))
 
     respond_to do |format|
       if @volunteer.save
