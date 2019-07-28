@@ -63,6 +63,7 @@ class BoxRequestsController < ApplicationController
 
   # /box_requests/1/already_claimed
   def already_claimed
+    render layout: false
   end
 
   private
