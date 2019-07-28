@@ -39,7 +39,7 @@ RSpec.describe BoxRequestTriageController, type: :controller do
 
       expected_email = test_data[:email]
 
-      post :create, :params => { :boxRequest => test_data.to_json }
+      post :create, :params => { :boxRequest => test_data }
 
       requester = Requester.last
 
@@ -50,13 +50,12 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       expected_summary = test_data[:summary]
       expected_counseling = test_data[:is_interested_in_counseling_services]
 
-      post :create, :params => { :boxRequest => test_data.to_json }
+      post :create, :params => { :boxRequest => test_data }
 
       box_request = BoxRequest.last
 
       expect(box_request.summary).to eql(expected_summary)
       expect(box_request.is_interested_in_counseling_services).to eql(expected_counseling)
     end
-
   end
 end

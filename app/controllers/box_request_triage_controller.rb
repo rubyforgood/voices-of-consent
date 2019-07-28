@@ -1,7 +1,7 @@
 class BoxRequestTriageController < ApplicationController
 
   def create
-    if request_params.empty?
+    if params[:boxRequest].nil? || request_params.empty?
       head :unprocessable_entity
       return
     end
