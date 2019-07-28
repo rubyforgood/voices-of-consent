@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_221539) do
+ActiveRecord::Schema.define(version: 2019_07_28_144032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_221539) do
     t.boolean "is_interested_in_counseling_services"
     t.boolean "is_interested_in_health_services"
     t.boolean "is_safe"
+    t.bigint "reviewed_by_id"
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
+    t.index ["reviewed_by_id"], name: "index_box_requests_on_reviewed_by_id"
   end
 
   create_table "boxes", force: :cascade do |t|
@@ -316,6 +318,7 @@ ActiveRecord::Schema.define(version: 2019_07_27_221539) do
   add_foreign_key "attendances", "users"
   add_foreign_key "box_request_abuse_types", "abuse_types"
   add_foreign_key "box_request_abuse_types", "box_requests"
+  add_foreign_key "box_requests", "users", column: "reviewed_by_id"
   add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"

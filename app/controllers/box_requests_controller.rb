@@ -5,6 +5,10 @@ class BoxRequestsController < ApplicationController
   # GET /box_requests.json
   def index
     @box_requests = BoxRequest.all
+
+    if (sort_attr = params[:sort_by])
+      @box_requests = @box_requests.order(sort_attr)
+    end
   end
 
   # GET /box_requests/1

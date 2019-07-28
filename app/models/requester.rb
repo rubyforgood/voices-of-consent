@@ -13,4 +13,8 @@ class Requester < ApplicationRecord
   validates :underage, inclusion: { in: [ true, false ] }
 
   has_many :box_requests
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end
