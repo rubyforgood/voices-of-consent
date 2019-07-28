@@ -54,6 +54,27 @@ class BoxPolicy
     !!UserPermission.find_by(user: user, permission: Permission::REQUEST_REVIEWER)
   end
 
+  class AssemblyScope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      if BoxPolicy.new(user, scope).can_design?
+        scope.where(designed_by_id: [user, nil])
+      else
+        scope.none
+      end
+    end
+  end
+
+  def can_assemble?
+    !!UserPermission.find_by(user: user, permission: Permission::BOX_ASSEMBLER)
+  end
+
   class ShipmentScope
     attr_reader :user, :scope
 

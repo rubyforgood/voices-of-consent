@@ -1,0 +1,137 @@
+$primary_dark: #c18189;
+$primary_light: #fedddd;
+$primary_highlight-dark: #b49194;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+#react-root {
+    // Arbitrary. Temp value.
+    min-height: 300px;
+}
+
+main {
+  min-height: 100%;
+  > * {
+      width: 50%;
+      margin: 0 auto;
+  }
+}
+
+.box-assembly__header {
+  text-align: center;
+  margin: 25px auto;
+}
+
+.box-assembly {
+  .text-box {
+    text-align: center;
+  
+    p {
+        margin: 5px 0;
+    }
+  }
+
+  .next-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $primary_light;
+    height: 80px;
+
+    button {
+        height: 60px;
+        border-radius: 15px;
+        border: 5px solid $primary_dark;
+        padding: 10px 15px;
+        vertical-align: middle;
+        line-height: 30px;
+        position: relative;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            border-radius: inherit;
+            background: linear-gradient(to right, $primary_dark, $primary_light);
+        }
+
+        &.active {
+            &:hover, &:focus, &:active {
+                background: #b49194;
+            }
+
+        }
+    }
+}
+
+}
+
+
+.box-assembly__item-checker {
+  margin: 25px auto;
+  padding: 10px 5px;
+  background: $primary_light;
+
+  .item-checker {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      width: 100%;
+
+      .item-checker__count {
+          flex: 0 1 34px;
+          height: 34px;
+          min-width: 0;
+          border-radius: 5px;
+          border: none;
+          background: $primary_dark;
+          color: $primary_light;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .item-checker__check-button {
+          flex: 0 1 34px;
+          height: 34px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: none;
+          background: $primary_dark;
+          color: $primary_light;
+          border-radius: 1px;
+
+          &:hover, &:focus, &:active {
+              background: #b49194;
+          }
+      }
+
+      .item-checker__name {
+          flex: 1;
+          height: 34px;
+          padding: 0 10px;
+          margin: 0 5px;
+          line-height: 34px;
+          vertical-align: middle;
+          border-radius: 5px;
+          background: white;
+      }
+
+
+  }
+}

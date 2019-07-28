@@ -2,14 +2,30 @@
 
 <h1>Box Requests</h1>
 
-<table>
+<form>
+  <%= select_tag :sort_by, {
+    review: "Review Stage",
+    design: "Design Stage",
+    packing: "Packing Stage",
+    shipping: "Shipping Stage",
+  }.map { |attribute, label|
+    "<option value=#{attribute.to_s.inspect}>#{label}</option>"
+  }.join.html_safe %>
+
+  <button>Sort this list</button>
+</form>
+
+<table class="table box-requests-table">
   <thead>
     <tr>
       <th>Summary</th>
-      <th>Current Situation</th>
-      <th>Referral Source</th>
-      <th>Not Self Completed</th>
       <th colspan="3"></th>
+      <th></th>
+      <th>Reviewed by</th>
+      <th>Designed by</th>
+      <th>Assembled by</th>
+      <th>Shipped by</th>
+      <th>Followup sent?</th>
     </tr>
   </thead>
 
@@ -22,9 +38,14 @@
         <td><%= box_request.question_re_if_not_self_completed %></td>
         <td><%= link_to 'Show', box_request %></td>
         <td><%= link_to 'Review', edit_box_request_path(box_request) %></td>
+        <td><%= box_request.id %></td>
+        <td><%= box_request.reviewer_name %></td>
+        <td><%= box_request.designer_name %></td>
+        <td><%= box_request.assembler_name %></td>
+        <td><%= box_request.shipper_name %></td>
+        <td><%= box_request.followup_sent? %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
