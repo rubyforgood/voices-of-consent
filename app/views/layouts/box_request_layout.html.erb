@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'shared/head' %>
+  </head>
+
+  <body>
+    
+    <div class="img-header">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/voc_logo.jpg">
+    </div>  
+    <div class="container" id="react-root">
+      <%= yield :title %>
+      <%= yield :breadcrumbs %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
