@@ -15,4 +15,8 @@ class Volunteer < ApplicationRecord
   validates :underage, inclusion: { in: [true, false] }
 
   belongs_to :user
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end
