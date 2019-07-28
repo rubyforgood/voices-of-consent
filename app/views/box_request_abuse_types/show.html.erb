@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Box request:</strong>
+  <%= @box_request_abuse_type.box_request %>
+</p>
+
+<p>
+  <strong>Abuse type:</strong>
+  <%= @box_request_abuse_type.abuse_type %>
+</p>
+
+<%= link_to 'Edit', edit_box_request_abuse_type_path(@box_request_abuse_type) %> |
+<%= link_to 'Back', box_request_abuse_types_path %>

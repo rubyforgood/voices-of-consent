@@ -69,6 +69,6 @@ class InventoryAdjustmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_adjustment_params
-      params.fetch(:inventory_adjustment, {})
+      params.require(:inventory_adjustment).permit(:inventory_tally_id, :purchase_id, :box_item_id, :total_cost, :tally_quantity_start, :tally_quantity_end, :adjustment_quantity)
     end
 end

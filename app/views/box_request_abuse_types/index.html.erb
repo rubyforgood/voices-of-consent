@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Box Request Abuse Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Box request</th>
+      <th>Abuse type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @box_request_abuse_types.each do |box_request_abuse_type| %>
+      <tr>
+        <td><%= box_request_abuse_type.box_request %></td>
+        <td><%= box_request_abuse_type.abuse_type %></td>
+        <td><%= link_to 'Show', box_request_abuse_type %></td>
+        <td><%= link_to 'Edit', edit_box_request_abuse_type_path(box_request_abuse_type) %></td>
+        <td><%= link_to 'Destroy', box_request_abuse_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Box Request Abuse Type', new_box_request_abuse_type_path %>

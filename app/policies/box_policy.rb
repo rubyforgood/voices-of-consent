@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ## BoxPolicy
 # This defines permission and scopes for box permissions
 # We may want to break these policies out into different objects, especially if we double-down on form objects for each of the controllers
@@ -44,13 +46,32 @@ class BoxPolicy
     def resolve
       if BoxPolicy.new(user, scope).can_review_box_request?
         scope.where(requester_id: [user, nil])
-      else
-        scope.none
       end
     end
   end
 
   def can_review_box_request?
     !!UserPermission.find_by(user: user, permission: Permission::REQUEST_REVIEWER)
+  end
+
+  class ShipmentScope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      if BoxPolicy.new(user, scope).can_ship?
+        scope.where(shipped_by_id: [user, nil])
+      else
+        scope.none
+      end
+    end
+  end
+
+  def can_ship?
+    !!UserPermission.find_by(user: user, permission: Permission::SHIPPER)
   end
 end

@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2019_07_27_153024) do
-
+ActiveRecord::Schema.define(version: 2019_07_27_221539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +42,17 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "meeting_id"
+    t.bigint "user_id"
+    t.string "special_duties"
+    t.boolean "completed_hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id"], name: "index_attendances_on_meeting_id"
+    t.index ["user_id"], name: "index_attendances_on_user_id"
+  end
+
   create_table "box_items", force: :cascade do |t|
     t.integer "box_id", null: false
     t.integer "inventory_adjustment_id", null: false
@@ -60,6 +69,15 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
   end
 
+  create_table "box_request_abuse_types", force: :cascade do |t|
+    t.bigint "box_request_id"
+    t.bigint "abuse_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abuse_type_id"], name: "index_box_request_abuse_types_on_abuse_type_id"
+    t.index ["box_request_id"], name: "index_box_request_abuse_types_on_box_request_id"
+  end
+
   create_table "box_requests", force: :cascade do |t|
     t.text "summary"
     t.text "question_re_current_situation"
@@ -69,6 +87,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "requester_id"
+    t.boolean "is_interested_in_counseling_services"
+    t.boolean "is_interested_in_health_services"
+    t.boolean "is_safe"
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
   end
 
@@ -145,6 +166,13 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inventory_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "meeting_types", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -165,20 +193,6 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["meeting_type_id"], name: "index_meetings_on_meeting_type_id"
   end
 
-  create_table "purchases", force: :cascade do |t|
-    t.bigint "location_id"
-    t.float "total_price"
-    t.bigint "purchased_by_id"
-    t.bigint "reimbursed_by_id"
-    t.string "reimbursement_check_number"
-    t.string "reimbursement_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["location_id"], name: "index_purchases_on_location_id"
-    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
-    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
-  end
-  
   create_table "message_logs", force: :cascade do |t|
     t.text "content"
     t.integer "delivery_type"
@@ -192,9 +206,24 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "location_id"
+    t.float "total_price"
+    t.bigint "purchased_by_id"
+    t.bigint "reimbursed_by_id"
+    t.string "reimbursement_check_number"
+    t.string "reimbursement_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_purchases_on_location_id"
+    t.index ["purchased_by_id"], name: "index_purchases_on_purchased_by_id"
+    t.index ["reimbursed_by_id"], name: "index_purchases_on_reimbursed_by_id"
+  end
+
   create_table "requesters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.string "email"
     t.string "street_address"
     t.string "city"
     t.string "state"
@@ -251,7 +280,19 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invitations_count"], name: "index_users_on_invitations_count"
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -278,6 +319,10 @@ ActiveRecord::Schema.define(version: 2019_07_27_153024) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attendances", "meetings"
+  add_foreign_key "attendances", "users"
+  add_foreign_key "box_request_abuse_types", "abuse_types"
+  add_foreign_key "box_request_abuse_types", "box_requests"
   add_foreign_key "boxes", "box_requests"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"

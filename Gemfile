@@ -32,6 +32,9 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails", "~> 3.8"
+  gem "pry-byebug"
+  gem "faker"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -61,8 +64,11 @@ gem 'webpacker', '~> 4.x'
 
 # auth
 gem 'devise', '~> 4.6'
+gem 'devise_invitable', '~> 2.0.0'
+
 gem 'pundit', '~> 2.0'
 
 gem 'twilio-ruby', '~> 5.25'
 
 gem 'acts-as-taggable-on', '~> 6.0'
+gem 'simple_form'
