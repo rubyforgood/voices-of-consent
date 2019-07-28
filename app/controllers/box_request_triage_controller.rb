@@ -6,9 +6,10 @@ class BoxRequestTriageController < ApplicationController
       return
     end
 
-    @payload = JSON.parse(request_params[:boxRequest]).with_indifferent_access
+    # Rails.logger.warn request_params
+    @payload = request_params
     requester = Requester.new
-    #TODO some of the existing fields (is_interested_in_counseling_services, is_interested_in_health_services, question_re_affect, question_re_current_situation, question_re_if_not_self_completed, question_re_referral_source) are not in our db for the time being
+
     [:first_name,
      :last_name,
      :email,
@@ -49,6 +50,6 @@ class BoxRequestTriageController < ApplicationController
   private
 
   def request_params
-    params.permit(:boxRequest)
+    params.require(:boxRequest)
   end
 end
