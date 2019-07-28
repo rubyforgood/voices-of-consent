@@ -2,7 +2,9 @@ class BoxShipmentController < ApplicationController
   before_action :authenticate_user!
 
   def claim
-    @box = box_claim_scope.find(params[:box_id])
+    @box = Box.includes(:box_request).find_by_id(params[:box_id])
+    @requester = @box.box_request.requester
+    #box_claim_scope.find(params[:box_id])
     @box.shipped_by = current_user
     @box.save!
   end
