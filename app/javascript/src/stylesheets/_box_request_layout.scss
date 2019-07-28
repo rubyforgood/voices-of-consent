@@ -1,0 +1,16 @@
+.img-header {
+    display: flex;
+    justify-content: center;
+    img {
+        width: 720px;
+        height: auto;
+    }
+}
+
+
+.box-request-container {
+    background-color: white;
+    max-width: 720px;
+    display: flex;
+    justify-content: center;
+}

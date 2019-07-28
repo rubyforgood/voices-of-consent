@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :inventory_types
   resources :inventory_adjustments
 
+
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
@@ -35,6 +36,9 @@ Rails.application.routes.draw do
 
   post 'box_request_triage', to: "box_request_triage#create"
   get 'box_request/already_claimed', to: 'box_requests#already_claimed'
+
+  get 'box_shipment/claim/:box_id', to: 'box_shipment#claim'
+  post 'box_shipment/mark_as_shipped', to: 'box_shipment#mark_as_shipped'
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html

@@ -30,4 +30,24 @@ class BoxPolicy
   def can_design?
     !!UserPermission.find_by(user: user, permission: Permission::BOX_DESIGNER)
   end
+
+  class ShipmentScope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user, @scope = user, scope
+    end
+
+    def resolve
+      if BoxPolicy.new(user, scope).can_ship?
+        scope.where(shipped_by_id: [user, nil])
+      else
+        scope.none
+      end
+    end
+  end
+
+  def can_ship?
+    !!UserPermission.find_by(user: user, permission: Permission::SHIPPER)
+  end
 end
