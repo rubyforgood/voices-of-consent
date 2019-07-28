@@ -69,6 +69,6 @@ class InventoryTalliesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_tally_params
-      params.fetch(:inventory_tally, {})
+      params.require(:inventory_tally).permit(:additional_location_info, :cached_quantity, :inventory_type_id, :storage_location_id)
     end
 end

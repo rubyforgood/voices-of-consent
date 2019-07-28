@@ -1,4 +1,14 @@
 <p id="notice"><%= notice %></p>
 
+<p>
+  <strong>Name:</strong>
+  <%= @inventory_type.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @inventory_type.description %>
+</p>
+
 <%= link_to 'Edit', edit_inventory_type_path(@inventory_type) %> |
 <%= link_to 'Back', inventory_types_path %>
