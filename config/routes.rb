@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   post 'box_request_triage', to: "box_request_triage#create"
   get 'box_request/already_claimed', to: 'box_requests#already_claimed'
+  post 'box_request/claim', to: "box_request#claim"
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html

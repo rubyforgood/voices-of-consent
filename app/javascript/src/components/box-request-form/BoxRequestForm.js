@@ -130,6 +130,12 @@ class BoxRequestForm extends React.Component {
 
     return abuseTypes;
   }
+
+  sendBoxRequestReceivedEmail() {
+    // todo: create an ajax call here to hit rails route
+    // that sends the box request received email
+  }
+
   render() {
     const { boxRequest } = this.state;
 

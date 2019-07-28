@@ -61,8 +61,14 @@ class BoxRequestsController < ApplicationController
     end
   end
 
-  # /box_requests/1/already_claimed
+  # /box_requests/already_claimed
   def already_claimed
+  end
+
+  # /box_requests/1/claim
+  def claim_request_review
+    # todo: if no reviewer exists, set the reviewer and redirect to show
+    # if reviewer exists, redirect to already claimed
   end
 
   private
