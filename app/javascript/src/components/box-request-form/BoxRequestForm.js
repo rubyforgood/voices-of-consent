@@ -73,20 +73,23 @@ class BoxRequestForm extends React.Component {
     event.preventDefault();
 
     if (this.missingRequiredFields()) {
-      // don't allow submit
+      console.log('Missing fields.')
+      return;
     }
-    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    const token = document.getElementsByName('csrf-token')[0].content;
+
     window.fetch(location.origin + '/box_request_triage', {
-      method: 'post',
+      method: 'POST',
       credentials: 'same-origin',
       headers: {
        'Content-Type': 'application/json',
-       'X-CSRF-Token': csrf
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
       },
       body: JSON.stringify(this.state)
     });
-    // console.log(this.state);
-    console.log(JSON.stringify(this.state.boxRequest));
   }
 
   missingRequiredFields() {
