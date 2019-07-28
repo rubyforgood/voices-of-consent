@@ -25,7 +25,6 @@ class BoxRequestForm extends React.Component {
         ok_to_text: null,
         ok_to_call: null,
         ok_to_mail: null,
-        summary: '',
         question_re_affect: '',
         question_re_referral_source: '',
         question_re_current_situation: '',
@@ -73,9 +72,23 @@ class BoxRequestForm extends React.Component {
     event.preventDefault();
 
     if (this.missingRequiredFields()) {
-      // don't allow submit
+      console.log('Missing fields.')
+      return;
     }
-    console.log(this.state);
+
+    const token = document.getElementsByName('csrf-token')[0].content;
+
+    window.fetch(location.origin + '/box_request_triage', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+       'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
+      },
+      body: JSON.stringify(this.state)
+    });
   }
 
   missingRequiredFields() {
@@ -87,6 +100,10 @@ class BoxRequestForm extends React.Component {
       city,
       state,
       zip,
+      ok_to_mail,
+      ok_to_call,
+      ok_to_text,
+      ok_to_email,
       question_re_affect,
       question_re_referral_source,
       question_re_current_situation,
@@ -98,8 +115,8 @@ class BoxRequestForm extends React.Component {
     } = this.state.boxRequest;
 
     const requiredFields = [first_name, last_name, email, street_address, city, state, zip, question_re_affect,
-      question_re_referral_source, question_re_current_situation, is_safe,
-      is_interested_in_counseling_services, is_interested_in_health_services, is_underage];
+      question_re_referral_source, question_re_current_situation, is_safe, ok_to_mail, ok_to_call, ok_to_text,
+      ok_to_email, is_interested_in_counseling_services, is_interested_in_health_services, is_underage];
 
     return requiredFields.includes(null) || requiredFields.includes('') || abuse_types.length === 0;
   }
@@ -158,6 +175,18 @@ class BoxRequestForm extends React.Component {
             <input type="text" class="form-control" name="email" value={boxRequest.email} onChange={this.handleChange} />
           </div>
           { this.state.attemptedSubmit && boxRequest.email == '' ? this.renderRequiredAlert() : null }
+          <div class="row">
+            <label class="following-question">Okay to email *?</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="ok_to_email" id="ok_to_email_true" onChange={this.handleRadioChange} />
+              <label class="form-check-label" for="ok_to_email">yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="ok_to_email" id="ok_to_email_false" onChange={this.handleRadioChange} />
+              <label class="form-check-label" for="ok_to_email_false">no</label>
+            </div>
+          </div>
+          { this.state.attemptedSubmit && boxRequest.ok_to_email == null ? this.renderRequiredAlert() : null }
 
           <label class="row section-top">Type of abuse you have faced *</label>
           { this.state.attemptedSubmit && boxRequest.abuse_types.length === 0 ? this.renderRequiredAlert() : null }
@@ -284,12 +313,24 @@ class BoxRequestForm extends React.Component {
               </label>
             </div>
           </div>
+          <div class="row">
+            <label class="following-question">Okay to mail *?</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="ok_to_mail" id="ok_to_mail_true" onChange={this.handleRadioChange} />
+              <label class="form-check-label" for="ok_to_mail">yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="ok_to_mail" id="ok_to_mail_false" onChange={this.handleRadioChange} />
+              <label class="form-check-label" for="ok_to_mail_false">no</label>
+            </div>
+          </div>
+          { this.state.attemptedSubmit && boxRequest.ok_to_mail == null ? this.renderRequiredAlert() : null }
 
           <div class="row section-top">
             <label class="section-label">Phone</label>
             <input type="text" class="form-control" name="phone" value={boxRequest.phone} onChange={this.handleChange} />
             <div class="col-md-3">
-              <label class="following-question">Okay to call?</label>
+              <label class="following-question">Okay to call? *</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_true" onChange={this.handleRadioChange} />
                 <label class="form-check-label" for="ok_to_call">yes</label>
@@ -300,7 +341,7 @@ class BoxRequestForm extends React.Component {
               </div>
             </div>
             <div class="col-md-3">
-              <label class="following-question">Okay to text?</label>
+              <label class="following-question">Okay to text? *</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_text" id="ok_to_text_true" onChange={this.handleRadioChange} />
                 <label class="form-check-label" for="ok_to_text_true">yes</label>
@@ -309,8 +350,15 @@ class BoxRequestForm extends React.Component {
                 <input class="form-check-input" type="radio" name="ok_to_text" id="ok_to_text_false" onChange={this.handleRadioChange} />
                 <label class="form-check-label" for="ok_to_text_false">no</label>
               </div>
-            </div>
+              </div>
           </div>
+          { this.state.attemptedSubmit && (boxRequest.ok_to_text == null || boxRequest.ok_to_call == null) ? this.renderRequiredAlert() : null }
+
+          <div class="row section-top">
+            <label>Are you requesting this box for someone else? If so, please briefly explain. </label>
+            <input type="text" class="form-control" name="question_re_if_not_self_completed" value={boxRequest.question_re_if_not_self_completed} onChange={this.handleChange} />
+          </div>
+
           { this.state.attemptedSubmit && this.missingRequiredFields() ? this.renderMissingFieldsAlert() : null }
             <input type="submit" value="SUBMIT- SEND ME A SURVIVOR BOX" />
         </form>

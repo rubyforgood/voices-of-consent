@@ -41,9 +41,18 @@ body {
 a.nav-icon {
     border-right: solid 2px rgb(170, 150, 153);
     padding: 0 1em;
+    max-height: 80px;
     flex: 1 0 auto;
 
     &.home-nav-icon {
         flex-grow: 2.75;
     }
+
+    img {
+      max-height: 80px;
+    }
+}
+
+body {
+  padding-top: 100px;
 }
