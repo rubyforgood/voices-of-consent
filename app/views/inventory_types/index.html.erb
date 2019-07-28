@@ -5,6 +5,8 @@
 <table>
   <thead>
     <tr>
+      <th>Name</th>
+      <th>Description</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,6 +14,8 @@
   <tbody>
     <% @inventory_types.each do |inventory_type| %>
       <tr>
+        <td><%= inventory_type.name %></td>
+        <td><%= inventory_type.description %></td>
         <td><%= link_to 'Show', inventory_type %></td>
         <td><%= link_to 'Edit', edit_inventory_type_path(inventory_type) %></td>
         <td><%= link_to 'Destroy', inventory_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>

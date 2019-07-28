@@ -1,47 +1,31 @@
-<%= form_with(model: purchase, local: true) do |form| %>
-  <% if purchase.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
 
-      <ul>
-      <% purchase.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= simple_form_for(@purchase,
+  :defaults => {
+    :label_html => { :class => "col-4" },
+    :input_html => { :class => "col-8" },
+    :wrapper_html => { :class => "row" },
+    :submit_html => { :class => "btn, btn-info"},
+    :html => { :class => "form-inline" }
+  }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs container">
+      <%= f.association :location %>
+      <%= f.input :total_price %>
+      <%= f.association :purchased_by %>
+      <%= f.association :reimbursed_by %>
+      <%= f.input :reimbursement_check_number %>
+      <%= f.input :reimbursement_status %>
+  </div>
+
+  <div class="form-group row mb-0" style="margin: 2rem 0">
+    <div class="col-12 offset-4" style="padding-left: 0 !important;">
+      <%= f.button :submit, class: "btn-primary" %>
+
+      <button class="btn btn-outline-secondary">
+        <%= link_to "Back", :back %>
+      </button>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :location_id %>
-    <%= form.text_field :location_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :total_price %>
-    <%= form.text_field :total_price %>
-  </div>
-
-  <div class="field">
-    <%= form.label :purchased_by_id %>
-    <%= form.text_field :purchased_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :reimbursed_by_id %>
-    <%= form.text_field :reimbursed_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :reimbursement_check_number %>
-    <%= form.text_field :reimbursement_check_number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :reimbursement_status %>
-    <%= form.text_field :reimbursement_status %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

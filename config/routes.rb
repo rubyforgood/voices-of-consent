@@ -1,9 +1,14 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :purchases
+  resources :inventory_adjustments
+  resources :inventory_tallies
+  resources :inventory_types
+  resources :locations
+  resources :meeting_types
   resources :attendances
   resources :box_request_abuse_types
-  resources :purchases
   resources :message_logs
   devise_for :users, controllers: {
     passwords: 'users/passwords', sessions: "users/sessions", invitations: "users/invitations"
@@ -14,14 +19,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :locations
   resources :meetings
   resources :boxes
   resources :volunteers
   resources :box_requests
   resources :requesters, only: [:new]
-  resources :inventory_types
-  resources :inventory_adjustments
 
   get 'login_demo/index'
   get 'contact', to: 'home#contact'

@@ -1,2 +1,2 @@
-json.extract! inventory_tally, :id, :created_at, :updated_at
+json.extract! inventory_tally, :id, :additional_location_info, :cached_quantity, :inventory_type_id, :storage_location_id, :created_at, :updated_at
 json.url inventory_tally_url(inventory_tally, format: :json)
