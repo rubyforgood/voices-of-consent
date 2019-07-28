@@ -16,6 +16,7 @@ body {
     background: url(https://ui.icontact.com/assets/themes/spring-flowers/spring_flowers_background.jpg) pink;
     display: flex;
     flex-direction: column;
+    padding-top: 80px;
 }
 
 .container {
@@ -30,6 +31,8 @@ body {
     width: 100%;
     height: 80px;
     color: #ddd;
+    background-color: #eee;
+    z-index: 3;
 
     display: flex;
     align-items: center;
@@ -53,6 +56,6 @@ a.nav-icon {
     }
 }
 
-body {
-  padding-top: 100px;
+footer {
+    background-color: #eee;
 }
