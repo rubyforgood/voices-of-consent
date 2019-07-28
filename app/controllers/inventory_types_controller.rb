@@ -1,4 +1,5 @@
-class InventoryTypesController < ApplicationController
+class InventoryTypesController < ApplicationControllee
+  before_action :authenticate_user!
   before_action :set_inventory_type, only: [:show, :edit, :update, :destroy]
 
   # GET /inventory_types
