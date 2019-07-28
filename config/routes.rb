@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   resources :volunteers
   resources :box_requests
   resources :requesters, only: [:new]
-  resources :meeting_types
   resources :inventory_types
   resources :inventory_adjustments
 
