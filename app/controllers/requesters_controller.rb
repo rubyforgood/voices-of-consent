@@ -1,5 +1,6 @@
 class RequestersController < ApplicationController
   before_action :set_requester, only: [:show, :edit, :update, :destroy]
+  layout "box_request_layout"
 
   # GET /requesters
   # GET /requesters.json

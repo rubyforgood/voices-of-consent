@@ -1,5 +1,6 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+@import "box_request_layout";
 
 * {
     margin: 0;
@@ -12,7 +13,7 @@ html, body {
 }
 
 body {
-    background: url(https://ui.icontact.com/assets/themes/spring-flowers/spring_flowers_background.jpg);
+    background: url(https://ui.icontact.com/assets/themes/spring-flowers/spring_flowers_background.jpg) pink;
     display: flex;
     flex-direction: column;
 }
