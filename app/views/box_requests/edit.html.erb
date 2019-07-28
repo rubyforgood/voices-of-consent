@@ -1,4 +1,27 @@
-<h1>Editing Box Request</h1>
+<h2>Review Box Request</h2>
+<p>
+  <strong>Current situation:</strong>
+  <br>
+  <%= @box_request.question_re_current_situation %>
+</p>
+
+<p>
+  <strong>How abuse affects life:</strong>
+  <br>
+  <%= @box_request.question_re_affect %>
+</p>
+
+<p>
+  <strong>Referral source:</strong>
+  <br>
+  <%= @box_request.question_re_referral_source %>
+</p>
+
+<p>
+  <strong>Not self completed:</strong>
+  <br>
+  <%= @box_request.question_re_if_not_self_completed %>
+</p>
 
 <%= render 'form', box_request: @box_request %>
 

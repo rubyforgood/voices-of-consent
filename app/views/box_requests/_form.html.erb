@@ -12,29 +12,17 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :summary %>
+    <strong><%= form.label :summary %></strong>
+    <br>
     <%= form.text_area :summary %>
   </div>
 
-  <div class="field">
-    <%= form.label :question_re_current_situation %>
-    <%= form.text_area :question_re_current_situation %>
+   <div class="field">
+    <strong><%= form.label :tags %></strong>
+    <br>
+    <%= form.text_field :tag_list, value: form.object.tag_list.to_s %>
   </div>
 
-  <div class="field">
-    <%= form.label :question_re_affect %>
-    <%= form.text_area :question_re_affect %>
-  </div>
-
-  <div class="field">
-    <%= form.label :question_re_referral_source %>
-    <%= form.text_area :question_re_referral_source %>
-  </div>
-
-  <div class="field">
-    <%= form.label :question_re_if_not_self_completed %>
-    <%= form.text_area :question_re_if_not_self_completed %>
-  </div>
 
   <div class="actions">
     <%= form.submit %>

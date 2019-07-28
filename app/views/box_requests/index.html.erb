@@ -6,10 +6,9 @@
   <thead>
     <tr>
       <th>Summary</th>
-      <th>Question re current situation</th>
-      <th>Question re affect</th>
-      <th>Question re referral source</th>
-      <th>Question re if not self completed</th>
+      <th>Current Situation</th>
+      <th>Referral Source</th>
+      <th>Not Self Completed</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -19,17 +18,13 @@
       <tr>
         <td><%= box_request.summary %></td>
         <td><%= box_request.question_re_current_situation %></td>
-        <td><%= box_request.question_re_affect %></td>
         <td><%= box_request.question_re_referral_source %></td>
         <td><%= box_request.question_re_if_not_self_completed %></td>
         <td><%= link_to 'Show', box_request %></td>
-        <td><%= link_to 'Edit', edit_box_request_path(box_request) %></td>
-        <td><%= link_to 'Destroy', box_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Review', edit_box_request_path(box_request) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Box Request', new_box_request_path %>

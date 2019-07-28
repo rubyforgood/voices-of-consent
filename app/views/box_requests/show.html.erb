@@ -1,29 +1,43 @@
+<h2>Box Request</h2>
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Summary:</strong>
-  <%= @box_request.summary %>
-</p>
-
-<p>
-  <strong>Question re current situation:</strong>
+  <strong>Current situation:</strong>
+  <br>
   <%= @box_request.question_re_current_situation %>
 </p>
 
 <p>
-  <strong>Question re affect:</strong>
+  <strong>How abuse affects life:</strong>
+  <br>
   <%= @box_request.question_re_affect %>
 </p>
 
 <p>
-  <strong>Question re referral source:</strong>
+  <strong>Referral source:</strong>
+  <br>
   <%= @box_request.question_re_referral_source %>
 </p>
 
 <p>
-  <strong>Question re if not self completed:</strong>
+  <strong>Not self completed:</strong>
+  <br>
   <%= @box_request.question_re_if_not_self_completed %>
 </p>
 
-<%= link_to 'Edit', edit_box_request_path(@box_request) %> |
+<p>
+  <strong>Summary:</strong>
+  <br>
+  <%= @box_request.summary %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <br>
+  <%= @box_request.tag_list %>
+</p>
+
+
+<%= link_to 'Review', edit_box_request_path(@box_request) %> |
 <%= link_to 'Back', box_requests_path %>

@@ -5,17 +5,19 @@
 # But for now, I'm putting everything in BoxPolicy until that gets to unwieldy or someone suggests it's time to switch
 
 class BoxPolicy
-  attr_reader :user, :box
+  attr_reader :user, :subject
 
-  def initialize(user, box)
-    @user, @box = user, box
+  def initialize(user, subject = nil)
+    @user = user
+    @subject = subject
   end
 
   class DesignScope
     attr_reader :user, :scope
 
     def initialize(user, scope)
-      @user, @scope = user, scope
+      @user = user
+      @scope = scope
     end
 
     def resolve
@@ -29,5 +31,26 @@ class BoxPolicy
 
   def can_design?
     !!UserPermission.find_by(user: user, permission: Permission::BOX_DESIGNER)
+  end
+
+  class ReviewScope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      if BoxPolicy.new(user, scope).can_review_box_request?
+        scope.where(requester_id: [user, nil])
+      else
+        scope.none
+      end
+    end
+  end
+
+  def can_review_box_request?
+    !!UserPermission.find_by(user: user, permission: Permission::REQUEST_REVIEWER)
   end
 end

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :purchases
   resources :message_logs
   devise_for :users, controllers: {
-    passwords: 'users/passwords', sessions: "users/sessions"
+    passwords: 'users/passwords', sessions: 'users/sessions'
   }
   devise_scope :users do
     authenticated :user do
