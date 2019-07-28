@@ -6,7 +6,6 @@ class BoxRequestTriageController < ApplicationController
       return
     end
 
-    # Rails.logger.warn request_params
     @payload = request_params
     requester = Requester.new
 
@@ -17,15 +16,25 @@ class BoxRequestTriageController < ApplicationController
      :street_address,
      :city,
      :state,
-     :zip,
-     :ok_to_email,
-     :ok_to_text,
-     :ok_to_call,
-     :ok_to_mail].each do |requester_attribute|
-      requester.update(requester_attribute => @payload[requester_attribute])
+     :zip
+     ].each do |requester_attribute|
+      requester.assign_attributes(requester_attribute => @payload[requester_attribute])
     end
 
+    #making is_underage to underage
     requester.underage = @payload[:is_underage]
+
+    #nil checking these four
+    [:ok_to_email,
+     :ok_to_text,
+     :ok_to_call,
+     :ok_to_mail
+    ].each do |requester_attribute|
+      value = @payload[requester_attribute]
+      value = false if value.nil?
+      requester.assign_attributes(requester_attribute => value)
+    end
+
     requester.save!
 
     box_request = requester.box_requests.build
@@ -40,7 +49,7 @@ class BoxRequestTriageController < ApplicationController
       :question_re_referral_source,
       :summary,
     ].each do |box_request_attribute|
-      box_request.update(box_request_attribute => @payload[box_request_attribute])
+      box_request.assign_attributes(box_request_attribute => @payload[box_request_attribute])
     end
 
     box_request.save!
@@ -52,4 +61,5 @@ class BoxRequestTriageController < ApplicationController
   def request_params
     params.require(:boxRequest)
   end
+
 end
