@@ -1,0 +1,19 @@
+
+<%= simple_form_for(@inventory_adjustment, html: { class: 'form-inline' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :inventory_tally %>
+    <%= f.association :purchase %>
+    <%= f.association :box_item %>
+    <%= f.input :total_cost %>
+    <%= f.input :tally_quantity_start, readonly:true %>
+    <%= f.input :tally_quantity_end, readonly:true %>
+    <%= f.input :adjustment_quantity %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

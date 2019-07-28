@@ -11,6 +11,7 @@ gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'sidekiq'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
@@ -29,8 +30,10 @@ gem 'aws-sdk-s3', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'rspec-rails', '~> 3.8'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem "rspec-rails", "~> 3.8"
+  gem "pry-byebug"
+  gem "faker"
 end
 
 group :development do
@@ -40,7 +43,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'mailcatcher'
 end
 
 group :test do
@@ -61,8 +63,11 @@ gem 'webpacker', '~> 4.x'
 
 # auth
 gem 'devise', '~> 4.6'
+gem 'devise_invitable', '~> 2.0.0'
+
 gem 'pundit', '~> 2.0'
 
 gem 'twilio-ruby', '~> 5.25'
 
 gem 'acts-as-taggable-on', '~> 6.0'
+gem 'simple_form'

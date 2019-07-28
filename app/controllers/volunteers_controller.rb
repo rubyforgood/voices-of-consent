@@ -24,10 +24,16 @@ class VolunteersController < ApplicationController
   # POST /volunteers
   # POST /volunteers.json
   def create
-    @volunteer = Volunteer.new(volunteer_params)
+    @volunteer = Volunteer.new(volunteer_params.merge(user: current_user))
 
     respond_to do |format|
       if @volunteer.save
+        if @volunteer.ok_to_email?
+          VolunteerMailer.welcome_email(@volunteer).deliver_later
+          message_log = MessageLog.new(sent_to: User.find(@volunteer.user_id), sent_by: User.find(@volunteer.user_id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
+          message_log.save
+        end
+
         format.html { redirect_to @volunteer, notice: 'Volunteer was successfully created.' }
         format.json { render :show, status: :created, location: @volunteer }
       else
@@ -69,6 +75,6 @@ class VolunteersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def volunteer_params
-      params.require(:volunteer).permit(:first_name, :last_name, :street_address, :city, :state, :zip, :county, :phone, :university_location_id, :graduation_year, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
+      params.require(:volunteer).permit(:first_name, :last_name, :user_id, :street_address, :city, :state, :zip, :county, :phone, :university_location_id, :graduation_year, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
     end
 end
