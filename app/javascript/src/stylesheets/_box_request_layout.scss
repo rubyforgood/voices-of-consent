@@ -7,10 +7,14 @@
     }
 }
 
+.box-request-layout-container {
+    align-self: center;
+}
 
 .box-request-container {
     background-color: white;
     max-width: 720px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
