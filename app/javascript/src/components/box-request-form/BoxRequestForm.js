@@ -134,7 +134,12 @@ class BoxRequestForm extends React.Component {
     const { boxRequest } = this.state;
 
     return (
-      <div class="container">
+      <div class="box-request-container">
+        <div class="box-info">If you are interested in receiving a survivor box, please fill out this quick form below.
+          The more information you provide us with, the better we can help you.
+          All information provided is 100% confidential and only seen by the leaders of our team.
+          The return rate of our survivor boxes is 2-3 weeks due to high demand.
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div class="row section-top section-label">Name *</div>
           { this.state.attemptedSubmit && (boxRequest.first_name == '' || boxRequest.last_name == '') ? this.renderRequiredAlert() : null }
