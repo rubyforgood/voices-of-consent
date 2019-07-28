@@ -44,6 +44,8 @@ class BoxRequestTriageController < ApplicationController
 
     box_request.save!
 
+    # todo: call email action volunteer_mailer#box_request_email
+    # and pass the box_request ID / object 
   end
 
   private
