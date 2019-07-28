@@ -1,4 +1,5 @@
 class VolunteersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_volunteer, only: [:show, :edit, :update, :destroy]
 
   # GET /volunteers

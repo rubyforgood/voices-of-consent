@@ -16,4 +16,5 @@ class User < ApplicationRecord
   has_many :reimbursed_purchases, class_name: "Purchase", foreign_key: :reimbursed_by_id, inverse_of: :reimbursed_by, dependent: :restrict_with_error
 
   has_one :volunteer
+  delegate :name, to: :volunteer
 end

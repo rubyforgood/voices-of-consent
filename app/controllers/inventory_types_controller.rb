@@ -1,4 +1,5 @@
-class InventoryTypesController < ApplicationController
+class InventoryTypesController < ApplicationControllee
+  before_action :authenticate_user!
   before_action :set_inventory_type, only: [:show, :edit, :update, :destroy]
 
   # GET /inventory_types
@@ -69,6 +70,6 @@ class InventoryTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_type_params
-      params.fetch(:inventory_type, {})
+      params.require(:inventory_type).permit(:name, :description)
     end
 end
