@@ -3,4 +3,3 @@
 import startApp from 'box_request_form'
 
 document.addEventListener('DOMContentLoaded', startApp)
-document.addEventListener('turbolinks:load', startApp)
