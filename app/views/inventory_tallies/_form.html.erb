@@ -1,17 +1,29 @@
-<%= form_with(model: inventory_tally, local: true) do |form| %>
-  <% if inventory_tally.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(inventory_tally.errors.count, "error") %> prohibited this inventory_tally from being saved:</h2>
 
-      <ul>
-      <% inventory_tally.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= simple_form_for(@inventory_tally,
+  :defaults => {
+    :label_html => { :class => "col-4" },
+    :input_html => { :class => "col-8" },
+    :wrapper_html => { :class => "row" },
+    :submit_html => { :class => "btn, btn-info"},
+    :html => { :class => "form-inline" }
+  }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs container">
+      <%= f.input :additional_location_info %>
+      <%= f.input :cached_quantity %>
+      <%= f.association :inventory_type %>
+      <%= f.association :storage_location %>
+  </div>
+
+  <div class="form-group row mb-0" style="margin: 2rem 0">
+    <div class="col-12 offset-4" style="padding-left: 0 !important;">
+      <%= f.button :submit, class: "btn-primary" %>
+
+      <button class="btn btn-outline-secondary">
+        <%= link_to "Back", :back %>
+      </button>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

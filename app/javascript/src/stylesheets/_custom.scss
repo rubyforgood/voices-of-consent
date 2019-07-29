@@ -9,6 +9,11 @@ body {
   padding-top: 56px;
 }
 
+.box-info {
+  font-weight: bold;
+  padding: 25px 25px 10px 25px;
+}
+
 .carousel-item {
   height: 65vh;
   min-height: 300px;
@@ -23,3 +28,12 @@ body {
   margin-bottom: 30px;
 }
 
+.box-requests-table {
+  thead tr {
+    background: white;
+  }
+  tbody tr {
+    &:nth-child(2n) { background: rgb(254, 240, 243) }
+    &:nth-child(2n+1) { background: rgb(235, 235, 235) }
+  }
+}

@@ -1,0 +1,32 @@
+
+<%= simple_form_for(@inventory_adjustment,
+  :defaults => {
+    :label_html => { :class => "col-4" },
+    :input_html => { :class => "col-8" },
+    :wrapper_html => { :class => "row" },
+    :submit_html => { :class => "btn, btn-info"},
+    :html => { :class => "form-inline" }
+  }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs container">
+      <%= f.association :inventory_tally %>
+      <%= f.association :purchase %>
+      <%= f.association :box_item %>
+      <%= f.input :total_cost %>
+      <%= f.input :tally_quantity_start %>
+      <%= f.input :tally_quantity_end %>
+      <%= f.input :adjustment_quantity %>
+  </div>
+
+  <div class="form-group row mb-0" style="margin: 2rem 0">
+    <div class="col-12 offset-4" style="padding-left: 0 !important;">
+      <%= f.button :submit, class: "btn-primary" %>
+
+      <button class="btn btn-outline-secondary">
+        <%= link_to "Back", :back %>
+      </button>
+    </div>
+  </div>
+<% end %>

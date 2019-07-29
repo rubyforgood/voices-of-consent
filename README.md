@@ -17,11 +17,31 @@ To get started developing on your machine, you'll need something like the follow
 * yarn 1.16
 * bundler 2.0.2
 * heroku 7.26.2
+* redis >= 4.0
 
 To run the app locally:
+
+- Ensure Redis is running (`brew services start redis` on macOS or `redis-server` to run it as a one-off process)
 
 ```
 $ bundle install
 $ yarn install
 $ heroku local -f Procfile.dev
+```
+
+```
+Mailcatcher cannot be bundled, for that reason we must use:
+$ gem install mailcatcher
+
+To get the MailCatcher gem's mail server up run:
+$ mailcatcher
+Go to http://localhost:1080/
+Send mail through smtp://localhost:1025
+```
+
+To get the MailCatcher gem's mail server up run:
+```
+$ mailcatcher
+Go to http://localhost:1080/
+Send mail through smtp://localhost:1025
 ```

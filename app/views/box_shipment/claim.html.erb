@@ -1,0 +1,49 @@
+<br>
+<br>
+<br>
+<h1>Box Shipment Claim Form</h1>
+<hr>
+<%= form_with(model: @box, local: true) do |form| %>
+<h2>Shipping Label</h2>
+    <%= @requester.first_name %> <br>
+    <%= @requester.street_address %> <br>
+    <%= @requester.city %><br>
+    <%= @requester.state %><br>
+    <%= @requester.zip %><br>
+<hr>
+<h2>Receipt</h2>
+  <% if @box.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@box.errors.count, "error") %> prohibited this box_shipment from being saved:</h2>
+
+      <ul>
+      <% @box.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :shipping_vendor %>
+    <%= form.select :shipping_vendor, ['USPS', 'FedEx', 'UPS'] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :shipment_date %>
+    <%= form.date_field :shipment_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :shipment_tracking_number %>
+    <%= form.text_area :shipment_tracking_number %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+  <button>Upload Photo Receipt</button>
+<% end %>
+

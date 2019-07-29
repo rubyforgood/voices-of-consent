@@ -1,0 +1,2 @@
+class AbuseType < ApplicationRecord
+end

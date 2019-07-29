@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Boxes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Box request</th>
+      <th>Designed by</th>
+      <th>Design reviewed by</th>
+      <th>Assembled by</th>
+      <th>Shipped by</th>
+      <th>Shipping payment</th>
+      <th>Shipped at</th>
+      <th>Shipment tracking number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @boxes.each do |box| %>
+      <tr>
+        <td><%= box.box_request %></td>
+        <td><%= box.designed_by %></td>
+        <td><%= box.design_reviewed_by %></td>
+        <td><%= box.assembled_by %></td>
+        <td><%= box.shipped_by %></td>
+        <td><%= box.shipping_payment %></td>
+        <td><%= box.shipped_at %></td>
+        <td><%= box.shipment_tracking_number %></td>
+        <td><%= link_to 'Show', box %></td>
+        <td><%= link_to 'Edit', edit_box_path(box) %></td>
+        <td><%= link_to 'Destroy', box, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Box', new_box_path %>

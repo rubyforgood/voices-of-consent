@@ -5,6 +5,10 @@ class BoxRequestsController < ApplicationController
   # GET /box_requests.json
   def index
     @box_requests = BoxRequest.all
+
+    if (sort_attr = params[:sort_by])
+      @box_requests = @box_requests.order(sort_attr)
+    end
   end
 
   # GET /box_requests/1
@@ -59,6 +63,11 @@ class BoxRequestsController < ApplicationController
       format.html { redirect_to box_requests_url, notice: 'Box request was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # /box_requests/1/already_claimed
+  def already_claimed
+    render layout: false
   end
 
   private

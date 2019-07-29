@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Inventory tally:</strong>
+  <%= @inventory_adjustment.inventory_tally %>
+</p>
+
+<p>
+  <strong>Purchase:</strong>
+  <%= @inventory_adjustment.purchase %>
+</p>
+
+<p>
+  <strong>Box item:</strong>
+  <%= @inventory_adjustment.box_item %>
+</p>
+
+<p>
+  <strong>Total cost:</strong>
+  <%= @inventory_adjustment.total_cost %>
+</p>
+
+<p>
+  <strong>Tally quantity start:</strong>
+  <%= @inventory_adjustment.tally_quantity_start %>
+</p>
+
+<p>
+  <strong>Tally quantity end:</strong>
+  <%= @inventory_adjustment.tally_quantity_end %>
+</p>
+
+<p>
+  <strong>Adjustment quantity:</strong>
+  <%= @inventory_adjustment.adjustment_quantity %>
+</p>
+
+<%= link_to 'Edit', edit_inventory_adjustment_path(@inventory_adjustment) %> |
+<%= link_to 'Back', inventory_adjustments_path %>

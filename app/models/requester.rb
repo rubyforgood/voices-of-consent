@@ -1,7 +1,7 @@
 class Requester < ApplicationRecord
+  include Messageable
   validates :first_name, presence:true
   validates :last_name, presence:true
-  validates :email, presence:true
   validates :street_address, presence:true
   validates :city, presence:true
   validates :state, presence:true
@@ -13,4 +13,8 @@ class Requester < ApplicationRecord
   validates :underage, inclusion: { in: [ true, false ] }
 
   has_many :box_requests
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end

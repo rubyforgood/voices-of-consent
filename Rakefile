@@ -4,3 +4,6 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+Rake::Task["test"].clear
+task :test => :spec

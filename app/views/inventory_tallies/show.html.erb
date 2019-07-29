@@ -1,4 +1,24 @@
 <p id="notice"><%= notice %></p>
 
+<p>
+  <strong>Additional location info:</strong>
+  <%= @inventory_tally.additional_location_info %>
+</p>
+
+<p>
+  <strong>Cached quantity:</strong>
+  <%= @inventory_tally.cached_quantity %>
+</p>
+
+<p>
+  <strong>Inventory type:</strong>
+  <%= @inventory_tally.inventory_type %>
+</p>
+
+<p>
+  <strong>Storage location:</strong>
+  <%= @inventory_tally.storage_location %>
+</p>
+
 <%= link_to 'Edit', edit_inventory_tally_path(@inventory_tally) %> |
 <%= link_to 'Back', inventory_tallies_path %>
