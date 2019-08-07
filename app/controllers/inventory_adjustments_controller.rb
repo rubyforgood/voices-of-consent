@@ -1,5 +1,4 @@
 class InventoryAdjustmentsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_inventory_adjustment, only: [:show, :edit, :update, :destroy]
 
   # GET /inventory_adjustments

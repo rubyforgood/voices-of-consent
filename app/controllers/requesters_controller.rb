@@ -1,6 +1,6 @@
 class RequestersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:new]
   before_action :set_requester, only: [:show, :edit, :update, :destroy]
-  layout "box_request_layout"
 
   # GET /requesters
   # GET /requesters.json
@@ -16,6 +16,7 @@ class RequestersController < ApplicationController
   # GET /requesters/new
   def new
     @requester = Requester.new
+    render :new, layout: 'box_request_layout'
   end
 
   # GET /requesters/1/edit

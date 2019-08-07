@@ -1,9 +1,8 @@
 class BoxDesignController < ApplicationController
-  before_action :authenticate_user!
 
   def new
   end
-  
+
   def claim
     @box = box_claim_scope.find(params[:box_id])
     @box.designed_by = current_user
