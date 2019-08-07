@@ -1,0 +1,59 @@
+$nav-background: #eee;
+$nav-color: #ddd;
+$nav-text-color: #888;
+
+.app-nav {
+  background-color: $nav-background;
+  color: $nav-color;
+
+  align-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+
+  height: 80px;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+
+  z-index: 3;
+
+  .nav-icon {
+    border-right: solid 2px rgb(170, 150, 153);
+    flex: 1 0 auto;
+    max-height: 80px;
+    padding: 0 1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+      color: $nav-text-color;
+    }
+
+    img {
+      max-height: 40px;
+    }
+
+    &.home-nav-icon {
+      flex-grow: 2.75;
+
+      img {
+        max-height: 80px;
+      }
+    }
+  }
+
+  .nav-item {
+    max-height: 80px;
+
+    .nav-link {
+      line-height: 65px;
+    }
+  }
+}
+
