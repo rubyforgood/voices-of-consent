@@ -1,4 +1,4 @@
-<%= simple_form_for(@box_request, local: true, validate: true, remote: true) do |form| %>
+<%= simple_form_for(@box_request, local: true, validate: true) do |form| %>
   <% if @box_request.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@box_request.errors.count, "error") %> prohibited this box_request from being saved:</h2>
@@ -12,17 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= form.input :summary %>
-  </div>
-
-   <div class="field">
-    <strong><%= form.label :tags %></strong>
+    <%= form.input :tag_list, as: :text, value: form.object.tag_list.to_s %>
     <br>
-    <%= form.text_field :tag_list, value: form.object.tag_list.to_s %>
   </div>
 
+  <div class="field">
+    <%= form.input :summary, as: :text, input_html: {rows: 6} %>
+  </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.button :submit, class: "btn btn-primary" %>
   </div>
 <% end %>
