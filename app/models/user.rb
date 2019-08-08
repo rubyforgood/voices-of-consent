@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   include Messageable
 
+  has_one :volunteer
+  has_one :user_permission
+
   has_many :message_logs_sent, class_name: "MessageLog", foreign_key: :sent_by_id, inverse_of: :sent_by, dependent: :nullify
   has_many :message_logs_received, class_name: "MessageLog", foreign_key: :sent_to_id, inverse_of: :sent_to, dependent: :nullify
   has_many :boxes_as_designer, class_name: "Box", foreign_key: :designed_by_id, inverse_of: :designed_by, dependent: :restrict_with_error
