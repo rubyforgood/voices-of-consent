@@ -1,10 +1,10 @@
-<%= form_with(model: box_request, local: true) do |form| %>
-  <% if box_request.errors.any? %>
+<%= simple_form_for(@box_request, local: true, validate: true, remote: true) do |form| %>
+  <% if @box_request.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(box_request.errors.count, "error") %> prohibited this box_request from being saved:</h2>
+      <h2><%= pluralize(@box_request.errors.count, "error") %> prohibited this box_request from being saved:</h2>
 
       <ul>
-      <% box_request.errors.full_messages.each do |message| %>
+      <% @box_request.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,9 +12,7 @@
   <% end %>
 
   <div class="field">
-    <strong><%= form.label :summary %></strong>
-    <br>
-    <%= form.text_area :summary %>
+    <%= form.input :summary %>
   </div>
 
    <div class="field">
