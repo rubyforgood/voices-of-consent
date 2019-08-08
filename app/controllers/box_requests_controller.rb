@@ -34,7 +34,7 @@ class BoxRequestsController < ApplicationController
 
     respond_to do |format|
       if @box_request.save
-        format.html { redirect_to @box_request, notice: 'Box request was successfully created.' }
+        format.html { redirect_to box_requests_path, notice: 'Box request was successfully created.' }
         format.json { render :show, status: :created, location: @box_request }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class BoxRequestsController < ApplicationController
   def update
     respond_to do |format|
       if @box_request.update(box_request_params)
-        format.html { redirect_to @box_request, notice: 'Box request was successfully updated.' }
+        format.html { redirect_to box_requests_path, notice: 'Box request was successfully updated.' }
         format.json { render :show, status: :ok, location: @box_request }
       else
         format.html { render :edit }
