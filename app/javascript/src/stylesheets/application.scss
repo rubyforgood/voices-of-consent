@@ -22,3 +22,28 @@ body {
     background-color: white;
     height: 100%;
 }
+.app-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 80px;
+    color: #ddd;
+
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+a.nav-icon {
+    border-right: solid 2px rgb(170, 150, 153);
+    padding: 0 1em;
+    flex: 1 0 auto;
+
+    &.home-nav-icon {
+        flex-grow: 2.75;
+    }
+}
