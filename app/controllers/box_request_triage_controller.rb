@@ -54,6 +54,7 @@ class BoxRequestTriageController < ApplicationController
 
     box_request.save!
 
+    head :found, location: box_request_thank_you_path(format: :json)
   end
 
   private

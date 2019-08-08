@@ -1,17 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :purchases
-  resources :inventory_adjustments
-  resources :inventory_tallies
-  resources :inventory_types
-  resources :locations
-  resources :meeting_types
-  resources :attendances
-  resources :box_request_abuse_types
-  resources :message_logs
   devise_for :users, controllers: {
-    passwords: 'users/passwords', sessions: "users/sessions", invitations: "users/invitations"
+      passwords: 'users/passwords', sessions: "users/sessions", invitations: "users/invitations"
   }
   devise_scope :users do
     authenticated :user do
@@ -19,15 +10,32 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :meetings
-  resources :boxes
-  resources :volunteers
+  resources :attendances
+  resources :box_request_abuse_types
   resources :box_requests
-  resources :requesters, only: [:new]
+  resources :boxes
+  resources :inventory_adjustments
+  resources :inventory_tallies
+  resources :inventory_types
+  resources :locations
+  resources :meeting_types
+  resources :meetings
+  resources :message_logs
+  resources :purchases
+  resource :user_management, only: %i[show create destroy], controller: :user_management
+  resources :volunteers
 
   get 'login_demo/index'
   get 'contact', to: 'home#contact'
   get 'admin', to: 'home#admin'
+
+  # resources :requesters, only: %i[new thank_you], controller: :requesters
+
+  get 'requesters/new', to: 'requesters#new'
+  get 'requesters/thank_you', to: 'requesters#thank_you', as: 'box_request_thank_you'
+
+  post 'box_request_triage', to: "box_request_triage#create"
+  get 'box_request/already_claimed', to: 'box_requests#already_claimed'
 
   get 'box_design/new', to: 'box_design#new'
   get 'box_design/claim/:box_id', to: 'box_design#claim'
@@ -36,11 +44,6 @@ Rails.application.routes.draw do
   get 'box_assembly/new', to: 'box_assembly#new'
   get 'box_assembly/claim/:box_id', to: 'box_assembly#claim'
   post 'box_assembly/mark_as_assembled/:box_id', to: 'box_assembly#mark_as_assemblyed'
-
-  resource :user_management, only: %i[show create destroy], controller: :user_management
-
-  post 'box_request_triage', to: "box_request_triage#create"
-  get 'box_request/already_claimed', to: 'box_requests#already_claimed'
 
   get 'box_shipment/claim/:box_id', to: 'box_shipment#claim'
   post 'box_shipment/mark_as_shipped', to: 'box_shipment#mark_as_shipped'
