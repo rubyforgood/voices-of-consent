@@ -25,6 +25,8 @@ class BoxRequestsController < ApplicationController
   # GET /box_requests/1/edit
   def edit
     @box_request = request_review_scope.find(params[:id])
+    # Prepare JSON for autocomplete and chips
+    @tags_json = @box_request.to_json(only: :tag_list)
   end
 
   # POST /box_requests
