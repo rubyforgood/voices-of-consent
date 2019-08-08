@@ -1,5 +1,4 @@
 class BoxesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_box, only: [:show, :edit, :update, :destroy]
 
   # GET /boxes

@@ -1,5 +1,4 @@
 class BoxShipmentController < ApplicationController
-  before_action :authenticate_user!
 
   def claim
     @box = Box.includes(:box_request).find_by_id(params[:box_id])
