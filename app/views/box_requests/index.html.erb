@@ -31,7 +31,14 @@
     <% @box_requests.each do |box_request| %>
       <tr>
         <td><%= box_request.id %></td>
-        <td><%= box_request.reviewer_name %></td>
+        <td>
+          <%= box_request.reviewer_name %>
+          <% if box_request.reviewed_by == current_user %>
+            <%= link_to("review", edit_box_request_path(box_request)) %>
+          <% elsif !box_request.reviewed_by_id.present? %>
+            <%= link_to("claim", edit_box_request_path(box_request)) %>
+          <% end %>
+        </td>
         <td><%= box_request.designer_name %></td>
         <td><%= box_request.assembler_name %></td>
         <td><%= box_request.shipper_name %></td>
@@ -40,3 +47,4 @@
     <% end %>
   </tbody>
 </table>
+<br>

@@ -30,7 +30,7 @@
       <tr>
         <td><%= volunteer.first_name %></td>
         <td><%= volunteer.last_name %></td>
-        <td><%= User.find(volunteer.user_id).email %></td>
+        <td><%= volunteer.user&.email %></td>
         <td><%= volunteer.street_address %></td>
         <td><%= volunteer.city %></td>
         <td><%= volunteer.state %></td>
