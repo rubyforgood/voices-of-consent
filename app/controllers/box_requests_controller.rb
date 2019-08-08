@@ -83,7 +83,13 @@ class BoxRequestsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def box_request_params
-    params.require(:box_request).permit(:summary, :question_re_current_situation, :question_re_affect, :question_re_referral_source, :question_re_if_not_self_completed, :tag_list)
+    params.require(:box_request).permit(:question_re_current_situation,
+                                        :question_re_affect,
+                                        :question_re_referral_source,
+                                        :question_re_if_not_self_completed,
+                                        :summary,
+                                        :reviwed_by_id,
+                                        :tag_list)
   end
 
   def request_review_scope
