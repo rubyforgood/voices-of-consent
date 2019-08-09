@@ -4,33 +4,39 @@ Voices of Consent is a nonprofit organization whose mission is to provide healin
 
 Please check out https://www.voicesofconsent.org/what-we-do as well as the rest of the website to learn more about this organization.
 
-
-
-## Starting Development
+# Setting Up Development
 
 This is a Ruby on Rails 5.2 application with React + Webpack included.
 
-To get started developing on your machine, you'll need the following tools installed (version numbers are from @abachman's computer at or around July 2019):
+To get started developing on your machine, you'll need the following tools installed:
 
-* ruby 2.6.3
-* node 10.14
-* yarn 1.16
-* bundler 2.0.2
-* heroku 7.26.2
-* redis 4.0
-* postgres 9.5
-* mailcatcher 0.7.1
+* ruby 2.6
+* node 10+
+* yarn 1.16+
+* bundler 2+
 
-To run the app locally after setting up services (see below):
+Some choices for how to run services in your development environment:
+* [Heroku Command Line Interface](https://devcenter.heroku.com/categories/command-line)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) to use the docker-compose steps or you will need to install these services individually on your development host:
+    * Redis 4+
+    * PostgreSQL 9.5+
+    * Mailcatcher 0.7.1
+
+## Running the App!
+
+First, set up Local Services (see the **Starting Local Services** section below).
+
+Then to run the app locally,
 
 ```
 $ bundle install
 $ yarn install
 $ cp config/development.yml.example config/development.yml
+$ rake db:setup
 $ heroku local -f Procfile.dev
 ```
 
-### Starting local services
+## Starting Local Services
 
 Ensure Redis is running. `brew services start redis` on macOS or `redis-server` to run it as a one-off process.
 
