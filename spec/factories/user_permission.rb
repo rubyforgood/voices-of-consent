@@ -3,7 +3,7 @@ FactoryBot.define do
     user
 
     trait :can_ship do
-        permission { Permission::SHIPPER }
+      permission { Permission::SHIPPER }
     end
   end
 end
