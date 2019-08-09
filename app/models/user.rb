@@ -5,9 +5,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  has_one :user_permission
-  has_one :volunteer
+  belongs_to :volunteer
+
   has_one_attached :avatar
+  has_many :user_permissions
 
   has_many :box_items_as_creator, class_name: "BoxItem", foreign_key: :created_by_id, inverse_of: :created_by, dependent: :restrict_with_error
   has_many :box_items_as_updater, class_name: "BoxItem", foreign_key: :updated_by_id, inverse_of: :updated_by, dependent: :restrict_with_error
@@ -22,4 +23,10 @@ class User < ApplicationRecord
   has_many :reimbursed_purchases, class_name: "Purchase", foreign_key: :reimbursed_by_id, inverse_of: :reimbursed_by, dependent: :restrict_with_error
 
   delegate :name, to: :volunteer
+
+  def grant_all_permissions!
+    Permission::AVAILABLE_PERMISSIONS.values.each do |permission|
+      UserPermission.where(user: self, permission: permission).first_or_create!
+    end
+  end
 end
