@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_28_155132) do
+ActiveRecord::Schema.define(version: 2019_08_07_023956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,16 +55,16 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
 
   create_table "box_items", force: :cascade do |t|
     t.integer "box_id", null: false
-    t.integer "inventory_adjustment_id", null: false
-    t.integer "researched_by_id", null: false
+    t.integer "researched_by_id"
     t.boolean "added_to_box"
     t.integer "created_by_id", null: false
     t.integer "updated_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inventory_type_id", null: false
     t.index ["box_id"], name: "index_box_items_on_box_id"
     t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
-    t.index ["inventory_adjustment_id"], name: "index_box_items_on_inventory_adjustment_id"
+    t.index ["inventory_type_id"], name: "index_box_items_on_inventory_type_id"
     t.index ["researched_by_id"], name: "index_box_items_on_researched_by_id"
     t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
   end
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
     t.string "city"
     t.string "state"
     t.string "zip"
-    t.integer "type"
+    t.integer "location_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
