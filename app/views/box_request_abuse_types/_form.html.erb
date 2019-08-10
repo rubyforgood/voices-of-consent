@@ -1,10 +1,10 @@
-<%= form_with(model: box_request_abuse_type, local: true) do |form| %>
+<%= simple_form_for(@box_request_abuse_type) do |form| %>
   <% if box_request_abuse_type.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(box_request_abuse_type.errors.count, "error") %> prohibited this box_request_abuse_type from being saved:</h2>
+      <h2><%= pluralize(@box_request_abuse_type.errors.count, "error") %> prohibited this box_request_abuse_type from being saved:</h2>
 
       <ul>
-      <% box_request_abuse_type.errors.full_messages.each do |message| %>
+      <% @box_request_abuse_type.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,13 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :box_request_id %>
-    <%= form.text_field :box_request_id %>
+    <%= form.association :box_request, label_method: :id, value_method: :id, include_blank: false %>
   </div>
 
   <div class="field">
-    <%= form.label :abuse_type_id %>
-    <%= form.text_field :abuse_type_id %>
+    <%= form.association :abuse_type, label_method: :name, value_method: :id, include_blank: false %>
   </div>
 
   <div class="actions">

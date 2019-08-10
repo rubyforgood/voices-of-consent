@@ -10,9 +10,9 @@ RSpec.describe "box_request_abuse_types/new", type: :view do
 
     assert_select "form[action=?][method=?]", box_request_abuse_types_path, "post" do
 
-      assert_select "input[name=?]", "box_request_abuse_type[box_request_id]"
+      assert_select "select[name=?]", "box_request_abuse_type[box_request_id]"
 
-      assert_select "input[name=?]", "box_request_abuse_type[abuse_type_id]"
+      assert_select "select[name=?]", "box_request_abuse_type[abuse_type_id]"
     end
   end
 end
