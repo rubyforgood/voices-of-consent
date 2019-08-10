@@ -11,6 +11,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs container">
+      <%= f.input :location_type, as: :select, collection: Location.location_types, label: "Location type" %>
       <%= f.input :name %>
       <%= f.input :street_address %>
       <%= f.input :city %>
