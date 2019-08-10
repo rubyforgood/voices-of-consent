@@ -8,8 +8,6 @@ RSpec.describe "inventory_adjustments/index", type: :view do
         :purchase => nil,
         :box_item => nil,
         :total_cost => 2,
-        :tally_quantity_start => 3,
-        :tally_quantity_end => 4,
         :adjustment_quantity => 5
       ),
       InventoryAdjustment.create!(
@@ -17,8 +15,6 @@ RSpec.describe "inventory_adjustments/index", type: :view do
         :purchase => nil,
         :box_item => nil,
         :total_cost => 2,
-        :tally_quantity_start => 3,
-        :tally_quantity_end => 4,
         :adjustment_quantity => 5
       )
     ])
@@ -30,8 +26,6 @@ RSpec.describe "inventory_adjustments/index", type: :view do
     assert_select "tr>td", :text => nil.to_s, :count => 2
     assert_select "tr>td", :text => nil.to_s, :count => 2
     assert_select "tr>td", :text => 2.to_s, :count => 2
-    assert_select "tr>td", :text => 3.to_s, :count => 2
-    assert_select "tr>td", :text => 4.to_s, :count => 2
     assert_select "tr>td", :text => 5.to_s, :count => 2
   end
 end
