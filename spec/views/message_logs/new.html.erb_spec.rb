@@ -29,9 +29,9 @@ RSpec.describe "message_logs/new", type: :view do
 
       assert_select "input[name=?]", "message_log[delivery_status]"
 
-      assert_select "input[name=?]", "message_log[sent_to_id]"
+      assert_select "select[name=?]", "message_log[sent_to_id]"
 
-      assert_select "input[name=?]", "message_log[sent_by_id]"
+      assert_select "select[name=?]", "message_log[sent_by_id]"
     end
   end
 end

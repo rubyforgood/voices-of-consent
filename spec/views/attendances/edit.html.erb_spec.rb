@@ -10,9 +10,9 @@ RSpec.describe "attendances/edit", type: :view do
 
     assert_select "form[action=?][method=?]", attendance_path(@attendance), "post" do
 
-      assert_select "input[name=?]", "attendance[meeting_id]"
+      assert_select "select[name=?]", "attendance[meeting_id]"
 
-      assert_select "input[name=?]", "attendance[user_id]"
+      assert_select "select[name=?]", "attendance[user_id]"
 
       assert_select "input[name=?]", "attendance[special_duties]"
 
