@@ -59,5 +59,7 @@ You only need this if you're interested in working on emails in the development 
 When writing tests for rspec tests within the spec/request directory, you can use Warden::Test:Helpers
 which give you access to the ```login_as(user, :scope => :user)``` method, as well as the ```logout``` method.
 You use FactoryBot.create(:user) before the login_as method and pass it in as the required resource variable.
+BE SURE to include the line ```after { Warden.test_reset! } ``` after the before do block with the login_as method
+within it. This allows for any unexpected state data of the user from hanging around and causing errors.
 
 Additional testing for front_end specs should make use of Capybara ```sign_in/sign_out``` Capybara methods.
