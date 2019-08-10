@@ -2,6 +2,8 @@ version: '3.7'
 services:
   db:
     image: postgres:11.4
+    environment:
+      - POSTGRES_USER=${USER}
   redis:
     image: redis:latest
   mailcatcher:
