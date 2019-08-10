@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "box_request_abuse_types/edit", type: :view do
   before(:each) do
-    @box_request_abuse_type = assign(:box_request_abuse_type, BoxRequestAbuseType.create!(
-      :box_request => nil,
-      :abuse_type => nil
-    ))
+    @box_request_abuse_type = create(:box_request_abuse_type)
   end
 
   it "renders the edit box_request_abuse_type form" do

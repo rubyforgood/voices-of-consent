@@ -2,24 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "locations/index", type: :view do
   before(:each) do
-    assign(:locations, [
-      Location.create!(
-        :name => "Name",
-        :street_address => "Street Address",
-        :city => "City",
-        :state => "State",
-        :zip => "Zip",
-        :type => 2
-      ),
-      Location.create!(
-        :name => "Name",
-        :street_address => "Street Address",
-        :city => "City",
-        :state => "State",
-        :zip => "Zip",
-        :type => 2
-      )
-    ])
+    @locations = create_list(:location, 2, name: "Name")
   end
 
   it "renders a list of locations" do

@@ -2,12 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_tallies/edit", type: :view do
   before(:each) do
-    @inventory_tally = assign(:inventory_tally, InventoryTally.create!(
-      :additional_location_info => "MyString",
-      :cached_quantity => 1,
-      :inventory_type => nil,
-      :storage_location => nil
-    ))
+    @inventory_tally = create(:inventory_tally)
   end
 
   it "renders the edit inventory_tally form" do

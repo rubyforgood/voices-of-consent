@@ -2,26 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_adjustments/index", type: :view do
   before(:each) do
-    assign(:inventory_adjustments, [
-      InventoryAdjustment.create!(
-        :inventory_tally => nil,
-        :purchase => nil,
-        :box_item => nil,
-        :total_cost => 2,
-        :tally_quantity_start => 3,
-        :tally_quantity_end => 4,
-        :adjustment_quantity => 5
-      ),
-      InventoryAdjustment.create!(
-        :inventory_tally => nil,
-        :purchase => nil,
-        :box_item => nil,
-        :total_cost => 2,
-        :tally_quantity_start => 3,
-        :tally_quantity_end => 4,
-        :adjustment_quantity => 5
-      )
-    ])
+    @inventory_adjustments = create_list(:inventory_adjustment, 2)
   end
 
   it "renders a list of inventory_adjustments" do

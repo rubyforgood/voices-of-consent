@@ -2,12 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "attendances/edit", type: :view do
   before(:each) do
-    @attendance = assign(:attendance, Attendance.create!(
-      :meeting => nil,
-      :user => nil,
-      :special_duties => "MyString",
-      :completed_hours => false
-    ))
+    @attendance = create(:attendance)
   end
 
   it "renders the edit attendance form" do

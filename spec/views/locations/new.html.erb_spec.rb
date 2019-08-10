@@ -2,14 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "locations/new", type: :view do
   before(:each) do
-    assign(:location, Location.new(
-      :name => "MyString",
-      :street_address => "MyString",
-      :city => "MyString",
-      :state => "MyString",
-      :zip => "MyString",
-      :type => 1
-    ))
+    create(:location)
   end
 
   it "renders new location form" do

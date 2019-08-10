@@ -1,5 +1,5 @@
 FactoryBot.define do
-    factory :user do
+    factory :user, aliases: [:sent_by, :sent_to] do
       volunteer
       email { Faker::Internet.email }
 

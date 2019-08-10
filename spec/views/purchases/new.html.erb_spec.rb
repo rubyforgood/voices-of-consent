@@ -2,14 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "purchases/new", type: :view do
   before(:each) do
-    assign(:purchase, Purchase.new(
-      :location => nil,
+    create(:purchase,
       :total_price => 1.5,
       :purchased_by => nil,
       :reimbursed_by => nil,
       :reimbursement_check_number => "MyString",
       :reimbursement_status => "MyString"
-    ))
+    )
   end
 
   it "renders new purchase form" do

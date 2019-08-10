@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_types/new", type: :view do
   before(:each) do
-    assign(:inventory_type, InventoryType.new(
-      :name => "MyString",
-      :description => "MyString"
-    ))
+    create(:inventory_type)
   end
 
   it "renders new inventory_type form" do

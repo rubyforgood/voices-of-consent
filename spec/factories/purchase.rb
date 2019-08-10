@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :purchase do
-    location { nil }
+    location
     total_price { 1.5 }
     purchased_by { nil }
     reimbursed_by { nil }

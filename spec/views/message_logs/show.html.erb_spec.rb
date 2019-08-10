@@ -2,15 +2,16 @@ require 'rails_helper'
 
 RSpec.describe "message_logs/show", type: :view do
   before(:each) do
-    @message_log = assign(:message_log, MessageLog.create!(
-      :messageable_type => "BoxRequest",
-      :messageable_id => 2,
-      :content => "MyText",
-      :delivery_type => 3,
-      :delivery_status => "Delivery Status",
-      :sent_to_id => 4,
-      :sent_by_id => 5
-    ))
+    messageable = create(:box_request)
+    @message_log = create(:message_log,
+                          messageable_type: "BoxRequest",
+                          messageable_id: messageable.id,
+                          content: "MyText",
+                          delivery_type: 3,
+                          delivery_status: "Delivery Status",
+                          sent_to_id: 4,
+                          sent_by_id: 5
+    )
   end
 
   it "renders attributes in <p>" do

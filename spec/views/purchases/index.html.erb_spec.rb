@@ -2,24 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "purchases/index", type: :view do
   before(:each) do
-    assign(:purchases, [
-      Purchase.create!(
-        :location => nil,
-        :total_price => 2.5,
-        :purchased_by => nil,
-        :reimbursed_by => nil,
-        :reimbursement_check_number => "Reimbursement Check Number",
-        :reimbursement_status => "Reimbursement Status"
-      ),
-      Purchase.create!(
-        :location => nil,
-        :total_price => 2.5,
-        :purchased_by => nil,
-        :reimbursed_by => nil,
-        :reimbursement_check_number => "Reimbursement Check Number",
-        :reimbursement_status => "Reimbursement Status"
-      )
-    ])
+    @purchases = create_list(:purchase, 2)
   end
 
   it "renders a list of purchases" do

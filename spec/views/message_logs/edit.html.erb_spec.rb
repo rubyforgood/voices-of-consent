@@ -2,15 +2,16 @@ require 'rails_helper'
 
 RSpec.describe "message_logs/edit", type: :view do
   before(:each) do
-    @message_log = assign(:message_log, MessageLog.create!(
-      :messageable_type => "MyString",
-      :messageable_id => 1,
-      :content => "MyText",
-      :delivery_type => 1,
-      :delivery_status => "MyString",
-      :sent_to_id => 1,
-      :sent_by_id => 1
-    ))
+    messageable = create(:box_request)
+    @message_log = create(:message_log,
+                          messageable_type: "BoxRequest",
+                          messageable_id: messageable.id,
+                          content: "MyText",
+                          delivery_type: 3,
+                          delivery_status: "Delivery Status",
+                          sent_to_id: 4,
+                          sent_by_id: 5
+    )
   end
 
   it "renders the edit message_log form" do

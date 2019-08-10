@@ -2,14 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "locations/edit", type: :view do
   before(:each) do
-    @location = assign(:location, Location.create!(
-      :name => "MyString",
-      :street_address => "MyString",
-      :city => "MyString",
-      :state => "MyString",
-      :zip => "MyString",
-      :type => 1
-    ))
+    @location = create(:location)
   end
 
   it "renders the edit location form" do

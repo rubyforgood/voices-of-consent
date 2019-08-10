@@ -2,16 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "box_request_abuse_types/index", type: :view do
   before(:each) do
-    assign(:box_request_abuse_types, [
-      BoxRequestAbuseType.create!(
-        :box_request => nil,
-        :abuse_type => nil
-      ),
-      BoxRequestAbuseType.create!(
-        :box_request => nil,
-        :abuse_type => nil
-      )
-    ])
+    @box_request_abuse_types = create_list(:box_request_abuse_type, 2)
   end
 
   it "renders a list of box_request_abuse_types" do

@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "locations/show", type: :view do
   before(:each) do
-    @location = assign(:location, Location.create!(
+    @location = create(:location,
       :name => "Name",
       :street_address => "Street Address",
       :city => "City",
       :state => "State",
       :zip => "Zip",
-      :type => 2
-    ))
+      :location_type => 2
+    )
   end
 
   it "renders attributes in <p>" do

@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "box_request_abuse_types/new", type: :view do
   before(:each) do
-    assign(:box_request_abuse_type, BoxRequestAbuseType.new(
-      :box_request => nil,
-      :abuse_type => nil
-    ))
+    @box_request_abuse_type = create(:box_request_abuse_type)
   end
 
   it "renders new box_request_abuse_type form" do

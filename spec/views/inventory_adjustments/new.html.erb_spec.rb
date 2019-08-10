@@ -2,15 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_adjustments/new", type: :view do
   before(:each) do
-    assign(:inventory_adjustment, InventoryAdjustment.new(
-      :inventory_tally => nil,
-      :purchase => nil,
-      :box_item => nil,
-      :total_cost => 1,
-      :tally_quantity_start => 1,
-      :tally_quantity_end => 1,
-      :adjustment_quantity => 1
-    ))
+    create(:inventory_adjustment)
   end
 
   it "renders new inventory_adjustment form" do
