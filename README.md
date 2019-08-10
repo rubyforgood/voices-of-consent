@@ -51,3 +51,13 @@ Send mail through smtp://localhost:1025
 ```
 
 You only need this if you're interested in working on emails in the development environment.
+
+
+
+
+### Testing
+When writing tests for rspec tests within the spec/request directory, you can use Warden::Test:Helpers
+which give you access to the ```login_as(user, :scope => :user)``` method, as well as the ```logout`` method.
+You use FactoryBot.create(:user) before the login_as method and pass it in as the required resource variable.
+
+Additional testing for front_end specs should make use of Capybara ```sign_in/sign_out``` Capybara methods.

@@ -39,6 +39,16 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # include warden test helpers for each test. Warden test helpers will allow us
+  # to easily simulate logging in as a user with the appropriate permissions.
+  # The use of warden test helpers also allows us to easily create a user using
+  # FactoryBot, and then simply logging in as that user under the scope: user.
+  # the below method demonstrates this, and can be used in a before do block.
+  # EX :   user = FactoryBot.create(:user)
+  #        login_as(user, :scope => :user)
+  config.include Warden::Test::Helpers
+
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
