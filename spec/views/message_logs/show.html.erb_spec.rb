@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "message_logs/show", type: :view do
   before(:each) do
     @message_log = assign(:message_log, MessageLog.create!(
-      :messageable_type => "messageable Type",
+      :messageable_type => "BoxRequest",
       :messageable_id => 2,
       :content => "MyText",
       :delivery_type => 3,

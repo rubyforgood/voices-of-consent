@@ -5,13 +5,11 @@ RSpec.describe "inventory_tallies/index", type: :view do
     assign(:inventory_tallies, [
       InventoryTally.create!(
         :additional_location_info => "Additional Location Info",
-        :cached_quantity => 2,
         :inventory_type => nil,
         :storage_location => nil
       ),
       InventoryTally.create!(
         :additional_location_info => "Additional Location Info",
-        :cached_quantity => 2,
         :inventory_type => nil,
         :storage_location => nil
       )

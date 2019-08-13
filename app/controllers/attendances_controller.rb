@@ -1,5 +1,4 @@
 class AttendancesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_attendance, only: [:show, :edit, :update, :destroy]
 
   # GET /attendances

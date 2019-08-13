@@ -3,7 +3,7 @@ class BoxRequest < ApplicationRecord
   acts_as_taggable
 
   belongs_to :requester
-  belongs_to :reviewed_by, class_name: 'User', optional: true
+  belongs_to :reviewed_by, optional: true, class_name: "User", foreign_key: :reviewed_by_id, inverse_of: :box_requests_as_reviewer
   has_one :box
 
   validates :requester, presence: true
