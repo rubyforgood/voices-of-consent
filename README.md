@@ -26,7 +26,7 @@ To run the app locally after setting up services (see below):
 ```
 $ bundle install
 $ yarn install
-$ cp config/development.yml.example config/development.yml
+$ rake dev:setup
 $ heroku local -f Procfile.dev
 ```
 
