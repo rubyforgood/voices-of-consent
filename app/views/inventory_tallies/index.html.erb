@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Additional location info</th>
-      <th>Cached quantity</th>
       <th>Inventory type</th>
       <th>Storage location</th>
       <th colspan="3"></th>
@@ -17,7 +16,6 @@
     <% @inventory_tallies.each do |inventory_tally| %>
       <tr>
         <td><%= inventory_tally.additional_location_info %></td>
-        <td><%= inventory_tally.cached_quantity %></td>
         <td><%= inventory_tally.inventory_type %></td>
         <td><%= inventory_tally.storage_location %></td>
         <td><%= link_to 'Show', inventory_tally %></td>

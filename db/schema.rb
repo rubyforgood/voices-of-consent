@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_09_191704) do
+ActiveRecord::Schema.define(version: 2019_08_10_162817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,8 +129,6 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.bigint "purchase_id"
     t.bigint "box_item_id"
     t.integer "total_cost"
-    t.integer "tally_quantity_start"
-    t.integer "tally_quantity_end"
     t.integer "adjustment_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -141,7 +139,6 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
 
   create_table "inventory_tallies", force: :cascade do |t|
     t.string "additional_location_info"
-    t.integer "cached_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "inventory_type_id"

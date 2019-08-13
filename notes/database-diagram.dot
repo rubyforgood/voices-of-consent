@@ -206,7 +206,6 @@ digraph G {
                     storage_location_id (location)\n
                     additional_location_info:string\n
                     file_upload\n
-                    cached_quantity (not editable by user)\n
                     }"]
     InventoryAdjustment [
                 shape=record;
@@ -215,9 +214,7 @@ digraph G {
                     purchase_id (optional)\n
                     total_cost (optional)\n
                     box_item_id (optional)\n
-                    tally_quantity_start:int (not editable by user)\n
-                    tally_quantity_end:int (not editable by user)\n
-                    adjustment_quantity:int (positive or negative count, which \nchanges inventory_tally#cached_quantity)\n
+                    adjustment_quantity:int (positive or negative count)\n
 
                     }"]
     User [
