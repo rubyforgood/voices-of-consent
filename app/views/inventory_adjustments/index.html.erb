@@ -9,8 +9,6 @@
       <th>Purchase</th>
       <th>Box item</th>
       <th>Total cost</th>
-      <th>Tally quantity start</th>
-      <th>Tally quantity end</th>
       <th>Adjustment quantity</th>
       <th colspan="3"></th>
     </tr>
@@ -23,8 +21,6 @@
         <td><%= inventory_adjustment.purchase %></td>
         <td><%= inventory_adjustment.box_item %></td>
         <td><%= inventory_adjustment.total_cost %></td>
-        <td><%= inventory_adjustment.tally_quantity_start %></td>
-        <td><%= inventory_adjustment.tally_quantity_end %></td>
         <td><%= inventory_adjustment.adjustment_quantity %></td>
         <td><%= link_to 'Show', inventory_adjustment %></td>
         <td><%= link_to 'Edit', edit_inventory_adjustment_path(inventory_adjustment) %></td>
