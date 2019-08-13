@@ -31,8 +31,7 @@ Then to run the app locally,
 ```
 $ bundle install
 $ yarn install
-$ cp config/development.yml.example config/development.yml
-$ rake db:setup
+$ rake dev:setup
 $ heroku local -f Procfile.dev
 ```
 

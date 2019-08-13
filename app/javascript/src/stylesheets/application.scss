@@ -20,8 +20,10 @@ body {
 }
 
 .container {
-    background-color: white;
-    height: 100%;
+    background-color: white;    
+    flex: 1;
+    margin-bottom: 170px;
+
 }
 .app-nav {
     position: fixed;
@@ -58,4 +60,7 @@ a.nav-icon {
 
 footer {
     background-color: #eee;
+    position: fixed; 
+    width: 100%; 
+    bottom: 0
 }
