@@ -1,4 +1,5 @@
 class BoxRequestTriageController < ApplicationController
+  skip_before_action :authenticate_user!, only: :create
 
   def create
     if params[:boxRequest].nil? || request_params.empty?
