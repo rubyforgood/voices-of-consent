@@ -55,7 +55,8 @@ class BoxRequestTriageController < ApplicationController
 
     box_request.save!
 
-    head :found, location: box_request_thank_you_path(format: :json)
+    render json: { "redirect_url": box_request_thank_you_path },
+           status: 200
   end
 
   private
