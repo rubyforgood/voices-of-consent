@@ -32,7 +32,7 @@ RSpec.describe BoxRequestTriageController, type: :controller do
     it "will complain if no data is submitted" do
       post :create
 
-      expect(response.success?).to be_falsey
+      expect(response.successful?).to be_falsey
     end
 
     it "will save an email address" do
