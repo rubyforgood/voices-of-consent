@@ -1,4 +1,5 @@
 class BoxRequestTriageController < ApplicationController
+  skip_before_action :authenticate_user!, only: :create
 
   def create
     if params[:boxRequest].nil? || request_params.empty?
@@ -54,6 +55,8 @@ class BoxRequestTriageController < ApplicationController
 
     box_request.save!
 
+    render json: { "redirect_url": box_request_thank_you_path },
+           status: 200
   end
 
   private

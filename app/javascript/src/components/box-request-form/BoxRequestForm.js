@@ -88,6 +88,12 @@ class BoxRequestForm extends React.Component {
         'X-CSRF-Token': token
       },
       body: JSON.stringify(this.state)
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      window.location.href = data.redirect_url;
     });
   }
 
