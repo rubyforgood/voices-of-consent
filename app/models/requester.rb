@@ -1,5 +1,8 @@
 class Requester < ApplicationRecord
   include Messageable
+
+  has_many :box_requests
+
   validates :first_name, presence:true
   validates :last_name, presence:true
   validates :street_address, presence:true
@@ -11,8 +14,6 @@ class Requester < ApplicationRecord
   validates :ok_to_call, inclusion: { in: [ true, false ] }
   validates :ok_to_mail, inclusion: { in: [ true, false ] }
   validates :underage, inclusion: { in: [ true, false ] }
-
-  has_many :box_requests
 
   def name
     [first_name, last_name].join(' ')

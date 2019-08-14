@@ -1,5 +1,4 @@
 class MessageLogsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_message_log, only: [:show, :edit, :update, :destroy]
 
   # GET /message_logs

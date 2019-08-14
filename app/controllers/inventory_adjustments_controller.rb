@@ -1,5 +1,4 @@
 class InventoryAdjustmentsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_inventory_adjustment, only: [:show, :edit, :update, :destroy]
 
   # GET /inventory_adjustments
@@ -70,6 +69,10 @@ class InventoryAdjustmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_adjustment_params
-      params.require(:inventory_adjustment).permit(:inventory_tally_id, :purchase_id, :box_item_id, :total_cost, :tally_quantity_start, :tally_quantity_end, :adjustment_quantity)
+      params.require(:inventory_adjustment).permit(:inventory_tally_id,
+                                                   :purchase_id,
+                                                   :box_item_id,
+                                                   :total_cost,
+                                                   :adjustment_quantity)
     end
 end

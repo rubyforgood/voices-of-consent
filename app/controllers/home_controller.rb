@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
-before_action :authenticate_user!, only: [:admin]
-
+  skip_before_action :authenticate_user!, only: [:contact]
 
   def index
   end

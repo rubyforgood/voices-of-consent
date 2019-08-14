@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_28_155132) do
+ActiveRecord::Schema.define(version: 2019_08_10_162817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,16 +55,16 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
 
   create_table "box_items", force: :cascade do |t|
     t.integer "box_id", null: false
-    t.integer "inventory_adjustment_id", null: false
-    t.integer "researched_by_id", null: false
+    t.integer "researched_by_id"
     t.boolean "added_to_box"
     t.integer "created_by_id", null: false
     t.integer "updated_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inventory_type_id", null: false
     t.index ["box_id"], name: "index_box_items_on_box_id"
     t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
-    t.index ["inventory_adjustment_id"], name: "index_box_items_on_inventory_adjustment_id"
+    t.index ["inventory_type_id"], name: "index_box_items_on_inventory_type_id"
     t.index ["researched_by_id"], name: "index_box_items_on_researched_by_id"
     t.index ["updated_by_id"], name: "index_box_items_on_updated_by_id"
   end
@@ -129,8 +129,6 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
     t.bigint "purchase_id"
     t.bigint "box_item_id"
     t.integer "total_cost"
-    t.integer "tally_quantity_start"
-    t.integer "tally_quantity_end"
     t.integer "adjustment_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -141,7 +139,6 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
 
   create_table "inventory_tallies", force: :cascade do |t|
     t.string "additional_location_info"
-    t.integer "cached_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "inventory_type_id"
@@ -163,7 +160,7 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
     t.string "city"
     t.string "state"
     t.string "zip"
-    t.integer "type"
+    t.integer "location_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -283,12 +280,14 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.bigint "volunteer_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["volunteer_id"], name: "index_users_on_volunteer_id"
   end
 
   create_table "volunteers", force: :cascade do |t|
@@ -309,8 +308,6 @@ ActiveRecord::Schema.define(version: 2019_07_28_155132) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_volunteers_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -7,8 +7,6 @@ RSpec.describe "inventory_adjustments/show", type: :view do
       :purchase => nil,
       :box_item => nil,
       :total_cost => 2,
-      :tally_quantity_start => 3,
-      :tally_quantity_end => 4,
       :adjustment_quantity => 5
     ))
   end
@@ -19,8 +17,6 @@ RSpec.describe "inventory_adjustments/show", type: :view do
     expect(rendered).to match(//)
     expect(rendered).to match(//)
     expect(rendered).to match(/2/)
-    expect(rendered).to match(/3/)
-    expect(rendered).to match(/4/)
     expect(rendered).to match(/5/)
   end
 end

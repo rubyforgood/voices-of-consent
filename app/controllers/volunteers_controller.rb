@@ -1,5 +1,4 @@
 class VolunteersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_volunteer, only: [:show, :edit, :update, :destroy]
 
   # GET /volunteers
@@ -76,6 +75,20 @@ class VolunteersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def volunteer_params
-      params.require(:volunteer).permit(:first_name, :last_name, :user_id, :street_address, :city, :state, :zip, :county, :phone, :university_location_id, :graduation_year, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
+      params.require(:volunteer).permit(:first_name,
+                                        :last_name,
+                                        :street_address,
+                                        :city,
+                                        :state,
+                                        :zip,
+                                        :county,
+                                        :phone,
+                                        :university_location_id,
+                                        :graduation_year,
+                                        :ok_to_email,
+                                        :ok_to_text,
+                                        :ok_to_call,
+                                        :ok_to_mail,
+                                        :underage)
     end
 end
