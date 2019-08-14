@@ -1,36 +1,42 @@
 <nav class="app-nav">
   <a class="nav-icon home-nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" alt="icon" />
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
   </a>
   <a class="nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" alt="icon" />
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
     <span>Status</span>
   </a>
   <a class="nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" alt="icon">
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
     <span>Review</span>
   </a>
   <a class="nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" alt="icon">
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
     <span>Design</span>
   </a>
   <a class="nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" alt="icon">
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
     <span>Packing</span>
   </a>
   <a class="nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" alt="icon">
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
     <span>Shipping</span>
   </a>
   <div class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Account
+      <% if user_signed_in? %>
+        <img src="http://placekitten.com/120/120" class="avatar" />
+        <%= current_user.email %>
+      <% else %>
+        Account
+      <% end %>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-      <%= link_to 'Admin', admin_path, class: 'dropdown-item' %>
-      <a class="dropdown-item" href="#">Add a Team Member</a>
-      <a class="dropdown-item" href="#">Account Settings</a>
       <% if user_signed_in? %>
+        <%# FIXME: permissions on these! %>
+        <%= link_to 'Admin', admin_path, class: 'dropdown-item' %>
+        <a class="dropdown-item" href="#">Add a Team Member</a>
+        <a class="dropdown-item" href="#">Account Settings</a>
         <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>
       <% else %>
         <%= link_to('Login', new_user_session_path, class: "dropdown-item") %>
@@ -38,3 +44,4 @@
     </div>
   </div>
 </nav>
+<!-- FIXME: do mobile nav here! -->

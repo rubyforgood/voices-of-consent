@@ -1,6 +1,7 @@
 $nav-background: #eee;
 $nav-color: #ddd;
 $nav-text-color: #888;
+$border-color: rgb(170, 150, 153);
 
 .app-nav {
   background-color: $nav-background;
@@ -22,21 +23,32 @@ $nav-text-color: #888;
   z-index: 3;
 
   .nav-icon {
-    border-right: solid 2px rgb(170, 150, 153);
+    border-right: solid 2px $border-color;
     flex: 1 0 auto;
-    max-height: 80px;
-    padding: 0 1em;
+    height: 100%;
+    padding: 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: darken(#eee, 5%);
+      text-decoration: none;
+
+      span {
+        color: darken($nav-text-color, 10%);
+      }
+    }
 
     span {
       color: $nav-text-color;
     }
 
     img {
-      max-height: 40px;
+      height: 40px;
+      min-width: 40px;
     }
 
     &.home-nav-icon {
@@ -49,7 +61,24 @@ $nav-text-color: #888;
   }
 
   .nav-item {
-    max-height: 80px;
+    height: 100%;
+
+    a {
+      color: $nav-text-color;
+
+      &:hover {
+        color: darken($nav-text-color, 10%);
+      }
+    }
+
+    .avatar {
+      border-radius: 20px;
+      border: 2px solid $border-color;
+      display: inline-block;
+      height: 40px;
+      margin-right: 7px;
+      width: 40px;
+    }
 
     .nav-link {
       line-height: 65px;
