@@ -363,7 +363,7 @@ class BoxRequestForm extends React.Component {
               </div>
             </div>
           </div>
-          { this.state.attemptedSubmit && boxRequest.phone_number_entered !== null && (boxRequest.ok_to_text == null || boxRequest.ok_to_call == null) ? this.renderRequiredAlert() : null }
+          { this.state.attemptedSubmit && boxRequest.phone != '' && (boxRequest.ok_to_text == null || boxRequest.ok_to_call == null) ? this.renderRequiredAlert() : null }
 
           <div class="row section-top">
             <label>Are you requesting this box for someone else? If so, please briefly explain. </label>
