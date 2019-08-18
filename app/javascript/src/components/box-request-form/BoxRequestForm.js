@@ -334,7 +334,7 @@ class BoxRequestForm extends React.Component {
 
           <div class="row section-top">
             <label class="section-label">Phone</label>
-            <input type="text" class="form-control" name="phone" value={boxRequest.phone} onChange={this.handleChange} />
+            <input type="text" class="form-control" name="phone" for="phone_number_entered" value={boxRequest.phone} onChange={this.handleChange} />
             <div class="col-6"> 
               <div class="row">
                 <label class="following-question">Okay to call?*</label>
@@ -363,7 +363,7 @@ class BoxRequestForm extends React.Component {
               </div>
             </div>
           </div>
-          { this.state.attemptedSubmit && (boxRequest.ok_to_text == null || boxRequest.ok_to_call == null) ? this.renderRequiredAlert() : null }
+          { this.state.attemptedSubmit && boxRequest.phone_number_entered !== null && (boxRequest.ok_to_text == null || boxRequest.ok_to_call == null) ? this.renderRequiredAlert() : null }
 
           <div class="row section-top">
             <label>Are you requesting this box for someone else? If so, please briefly explain. </label>
