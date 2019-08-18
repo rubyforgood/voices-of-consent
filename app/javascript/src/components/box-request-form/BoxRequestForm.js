@@ -334,10 +334,10 @@ class BoxRequestForm extends React.Component {
 
           <div class="row section-top">
             <label class="section-label">Phone</label>
-            <input type="text" class="form-control" name="phone" for="phone_number_entered" value={boxRequest.phone} onChange={this.handleChange} />
+            <input type="text" class="form-control" name="phone" value={boxRequest.phone} onChange={this.handleChange} />
             <div class="col-6"> 
               <div class="row">
-                <label class="following-question">Okay to call?*</label>
+                <label class="following-question">Okay to call?</label>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_true" onChange={this.handleRadioChange} />
                   <label class="form-check-label" for="ok_to_call">Yes</label>
@@ -351,7 +351,7 @@ class BoxRequestForm extends React.Component {
             </div>
             <div class="col-6"> 
               <div class="row">
-                <label class="following-question">Okay to text?*</label>
+                <label class="following-question">Okay to text?</label>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="ok_to_text" id="ok_to_text_true" onChange={this.handleRadioChange} />
                   <label class="form-check-label" for="ok_to_text_true">Yes</label>
