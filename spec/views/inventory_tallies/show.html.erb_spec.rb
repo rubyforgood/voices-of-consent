@@ -5,8 +5,8 @@ RSpec.describe "inventory_tallies/show", type: :view do
     @inventory_tally = create(:inventory_tally,
       :additional_location_info => "Additional Location Info",
       :cached_quantity => 2,
-      :inventory_type => nil,
-      :storage_location => nil
+      :inventory_type => create(:inventory_type),
+      :storage_location => create(:location)
     )
   end
 

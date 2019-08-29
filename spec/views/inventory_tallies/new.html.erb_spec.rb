@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "inventory_tallies/new", type: :view do
   before(:each) do
-    create(:inventory_tally)
+    @inventory_tally = create(:inventory_tally)
   end
 
   it "renders new inventory_tally form" do
     render
 
-    assert_select "form[action=?][method=?]", inventory_tallies_path, "post" do
+    assert_select "form[action=?][method=?]", inventory_tally_path(@inventory_tally), "post" do
 
       assert_select "input[name=?]", "inventory_tally[additional_location_info]"
 
