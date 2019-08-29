@@ -16,9 +16,21 @@ RSpec.describe Requester, :type => :model do
    expect(r).to_not be_valid
  end
 
- it "requires email" do
-   r = Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false)
-   expect(r).to_not be_valid
+ describe "email" do
+    it "requires email" do
+    r = Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false)
+    expect(r).to_not be_valid
+  end
+
+  it "requires a valid email address" do
+    r = Requester.new(first_name: "Jane", last_name: "Doe", email: "janeemai.com", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false)
+    expect(r).to_not be_valid
+  end
+
+  it "will accept a vaild email address" do
+    r = Requester.new(first_name: "Jane", last_name: "Doe", email: "jane@email.com", phone: 555-555-5555, street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false)
+  end
+
  end
 
  it "requires street_address" do
