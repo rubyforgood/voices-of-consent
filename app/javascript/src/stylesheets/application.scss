@@ -1,29 +1,36 @@
-@import "custom";
-@import "~bootstrap/scss/bootstrap";
-@import "box_request_layout";
+@import 'custom';
+@import '~bootstrap/scss/bootstrap';
+@import 'variables';
+@import 'box_request_layout';
+@import 'navigation';
+
+$body-bg: #ffc0cb;
+$container-bg: #fff;
+$footer-bg: #eee;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 body {
-    background: url(https://ui.icontact.com/assets/themes/spring-flowers/spring_flowers_background.jpg) pink;
-    display: flex;
-    flex-direction: column;
-    padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  background: url('https://ui.icontact.com/assets/themes/spring-flowers/spring_flowers_background.jpg') $body-bg;
+  padding-top: 80px;
 }
 
 .container {
-    background-color: white;    
-    flex: 1;
-    margin-bottom: 170px;
-
+  background-color: $container-bg;
+  flex: 1;
+  margin-bottom: 170px;
+  height: 100%;
 }
 
 .flash-messages {
@@ -31,41 +38,21 @@ body {
 }
 
 .app-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 80px;
-    color: #ddd;
-    background-color: #eee;
-    z-index: 3;
-
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 80px;
+  color: #ddd;
+  background-color: #eee;
+  z-index: 3;
 }
 
-a.nav-icon {
-    border-right: solid 2px rgb(170, 150, 153);
-    padding: 0 1em;
-    max-height: 80px;
-    flex: 1 0 auto;
-
-    &.home-nav-icon {
-        flex-grow: 2.75;
-    }
-
-    img {
-      max-height: 80px;
-    }
-}
 
 footer {
-    background-color: #eee;
-    position: fixed; 
-    width: 100%; 
-    bottom: 0
+  background-color: $footer-bg;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
