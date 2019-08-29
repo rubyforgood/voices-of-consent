@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_10_162817) do
+ActiveRecord::Schema.define(version: 2019_08_17_150307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,6 +195,9 @@ ActiveRecord::Schema.define(version: 2019_08_10_162817) do
     t.datetime "updated_at", null: false
     t.string "messageable_type"
     t.bigint "messageable_id"
+    t.string "subject_line"
+    t.string "message_channel"
+    t.string "message_type"
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
   end
 
