@@ -37,6 +37,7 @@ textarea[type=text] {
 .box-request-container {
   padding-left: 5%;
   padding-right: 5%;
+  margin-bottom: 5%;
 }
 
 .custom-control-label::before,
@@ -57,6 +58,19 @@ textarea[type=text] {
 .form-check-input,
 .form-check-label {
     font-size: 12px;
+}
+
+.form-pagination {
+  margin-left: 30%;
+  margin-top: 20px;
+}
+
+.gray-submit {
+  background-color: gray !important;
+}
+
+.page-link {
+  cursor: pointer;
 }
 
 .radio-box {

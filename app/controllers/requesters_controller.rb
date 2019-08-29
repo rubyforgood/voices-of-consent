@@ -1,5 +1,5 @@
 class RequestersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new]
+  skip_before_action :authenticate_user!, only: [:new, :thank_you]
   before_action :set_requester, only: [:show, :edit, :update, :destroy]
 
   # GET /requesters
@@ -60,6 +60,12 @@ class RequestersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to requesters_url, notice: 'Requester was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def thank_you
+    respond_to do |format|
+      format.html { render :layout => "box_request_layout" }
     end
   end
 

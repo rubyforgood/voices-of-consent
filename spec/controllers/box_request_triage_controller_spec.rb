@@ -32,7 +32,7 @@ RSpec.describe BoxRequestTriageController, type: :controller do
     it "will complain if no data is submitted" do
       post :create
 
-      expect(response.success?).to be_falsey
+      expect(response.successful?).to be_falsey
     end
 
     it "will save an email address" do
@@ -56,6 +56,11 @@ RSpec.describe BoxRequestTriageController, type: :controller do
 
       expect(box_request.summary).to eql(expected_summary)
       expect(box_request.is_interested_in_counseling_services).to eql(expected_counseling)
+    end
+
+    it "returns redirect_url with a succesful submission" do
+      post :create, :params => { :boxRequest => test_data }
+      expect(JSON.parse(response.body)).to include("redirect_url" => box_request_thank_you_path)
     end
   end
 end
