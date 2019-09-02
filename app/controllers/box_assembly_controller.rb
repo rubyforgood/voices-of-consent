@@ -7,11 +7,13 @@ class BoxAssemblyController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
     @box.assembled_by = current_user
     @box.save!
+    @box.assembling!
   end
 
   def mark_as_assembled
     @box = box_claim_scope.where(assembled_by: current_user).find(params[:box_id])
     @box.update(box_design_params)
+    @box.assemble!
   end
 
   private
