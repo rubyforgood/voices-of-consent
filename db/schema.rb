@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_173716) do
+ActiveRecord::Schema.define(version: 2019_09_02_213913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_173716) do
     t.boolean "is_safe"
     t.bigint "reviewed_by_id"
     t.string "aasm_state"
+    t.datetime "reviewed_at"
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
     t.index ["reviewed_by_id"], name: "index_box_requests_on_reviewed_by_id"
   end
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_173716) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "aasm_state"
+    t.datetime "designed_at"
     t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
     t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
     t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"

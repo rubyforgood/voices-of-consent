@@ -12,7 +12,8 @@ class BoxShipmentController < ApplicationController
   def mark_as_shipped
     @box = box_claim_scope.find_by(shipped_by: current_user)
     @box.update(box_shipment_params)
-    @box.ship!
+    @box.shipped_at = DateTime.now
+    @box.ship! #state transition
   end
 
   private

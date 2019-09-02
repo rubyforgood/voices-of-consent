@@ -44,8 +44,8 @@ class BoxRequest < ApplicationRecord
       box.initialize_design
     end
 
-    # def is_reviewed?
-    #   end_review unless reviewed_at.nil?
+    # def is_reviewed
+    #   !reviewed_at.nil?
     # end
 
     def log_status_change

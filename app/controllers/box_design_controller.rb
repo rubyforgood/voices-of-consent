@@ -12,7 +12,8 @@ class BoxDesignController < ApplicationController
   def mark_as_designed
     @box = box_claim_scope.find_by(designed_by: current_user)
     @box.update(box_design_params)
-    @box.design!
+    @box.designed_at = DateTime.now
+    @box.design! #state transition
   end
 
   private

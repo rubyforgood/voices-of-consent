@@ -82,16 +82,15 @@ class Box < ApplicationRecord
     end
 
     def is_designed
-      self.assembled_by_id.nil? 
-      # && !self.designed_at.nil?
+      self.assembled_by_id.nil? && !self.designed_at.nil?
     end
 
      def has_assembler_id
       !self.assembled_by_id.nil?
     end
 
-     def is_assembled(box)
-      self.box_items.pluck(:included).all?
+     def is_assembled
+      box_items.pluck(:added_to_box).all?
     end
 
     def has_shipper_id

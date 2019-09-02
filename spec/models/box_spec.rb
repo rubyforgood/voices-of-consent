@@ -17,12 +17,12 @@ RSpec.describe Box, :type => :model do
 
     before :each do
       box.save
-      box_request_1.reviewed_by_id = user.id;   
-      box_request_1.save
-      box_request_1.review
     end
 
     it "has state design_in_progress after box_request is reviewed" do
+      box_request_1.reviewed_by_id = user.id;   
+      box_request_1.save
+      box_request_1.review
       box_request_1.end_review
       expect(box).to transition_from(:pending_review).to(:design_in_progress).on_event(:initialize_design)
     end
@@ -30,6 +30,7 @@ RSpec.describe Box, :type => :model do
     it "transitions from design_in_progress to designed" do
       box.initialize_design
       box.designed_by_id = 3;
+      box.designed_at = DateTime.now
       box.save
       box.design
       expect(box).to transition_from(:design_in_progress).to(:designed).on_event(:design)
@@ -38,9 +39,10 @@ RSpec.describe Box, :type => :model do
     it "transitions from designed to assembly in progress" do
       box.initialize_design
       box.designed_by_id = 3;
-      box.save
+      box.designed_at = DateTime.now
       box.design
       box.assembled_by_id = 6;
+      box.save
       box.assembling
       expect(box).to transition_from(:designed).to(:assembly_in_progress).on_event(:assembling)
     end
@@ -48,12 +50,40 @@ RSpec.describe Box, :type => :model do
     it "transitons from assembly in progress to assembled" do
       box.initialize_design
       box.designed_by_id = 3;
-      box.save
+      box.designed_at = DateTime.now
       box.design
       box.assembled_by_id = 6;
       box.assembling
       box.assemble
       expect(box).to transition_from(:assembly_in_progress).to(:assembled).on_event(:assemble)
+    end
+
+    it "transitons from assembled to shipping in progress" do
+      box.initialize_design
+      box.designed_by_id = 3;
+      box.designed_at = DateTime.now
+      box.design
+      box.assembled_by_id = 6;
+      box.assembling
+      box.assemble
+      box.shipped_by_id = 8;
+      box.shipping
+      expect(box).to transition_from(:assembled).to(:shipping_in_progress).on_event(:shipping)
+    end
+
+    it "transitons from shipping in progress to shipped" do
+      box.initialize_design
+      box.designed_by_id = 3;
+      box.designed_at = DateTime.now
+      box.design
+      box.assembled_by_id = 6;
+      box.assembling
+      box.assemble
+      box.shipped_by_id = 8;
+      box.shipping
+      box.shipped_at = DateTime.now
+      box.ship
+      expect(box).to transition_from(:shipping_in_progress).to(:shipped).on_event(:ship)
     end
 
   end
