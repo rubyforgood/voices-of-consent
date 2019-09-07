@@ -23,6 +23,7 @@ RSpec.describe Box, :type => :model do
       box_request_1.reviewed_by_id = user.id;   
       box_request_1.save
       box_request_1.review
+      box_request_1.reviewed_at = DateTime.now
       box_request_1.end_review
       expect(box).to transition_from(:pending_review).to(:design_in_progress).on_event(:initialize_design)
     end
