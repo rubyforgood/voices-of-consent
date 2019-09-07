@@ -31,10 +31,15 @@ class BoxRequest < ApplicationRecord
     end
 
     event :end_review, :after => :initialize_design do
-      transitions :from => :review_in_progress, :to => :reviewed
+      transitions :from => :review_in_progress, :to => :reviewed, :guard => :is_reviewed
     end
 
   end
+
+    def is_reviewed
+      self.box &&
+      !self.reviewed_at.nil?
+    end
 
     def check_reviewer
       !reviewed_by_id.nil?
@@ -44,9 +49,6 @@ class BoxRequest < ApplicationRecord
       box.initialize_design
     end
 
-    # def is_reviewed
-    #   !reviewed_at.nil?
-    # end
 
     def log_status_change
       puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{aasm.current_event})"

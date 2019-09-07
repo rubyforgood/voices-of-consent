@@ -99,7 +99,6 @@ describe "state transitions" do
       box_request.question_re_current_situation = "Sweet roll cake pastry cookie."
       box_request.question_re_referral_source = "Ice cream sesame snaps danish marzipan macaroon icing jelly beans."
       box_request.save 
-      @box = Box.create(box_request_id: box_request.id )
     end
 
     it "new box request initializes with state requested" do
@@ -116,6 +115,8 @@ describe "state transitions" do
      it "transitions from review in progress to reviewed" do
       box_request.reviewed_by_id = user.id
       box_request.review
+      @box = Box.create(box_request_id: box_request.id )
+      box_request.reviewed_at = DateTime.now
       box_request.end_review
       expect(box_request).to transition_from(:review_in_progress).to(:reviewed).on_event(:end_review)
     end
@@ -123,6 +124,8 @@ describe "state transitions" do
     it "triggers initial state transition on box model if review is successful" do
         box_request.reviewed_by_id = user.id;
         box_request.review
+        @box = Box.create(box_request_id: box_request.id )
+        box_request.reviewed_at = DateTime.now
         box_request.end_review
         expect(box_request.box).to have_state(:design_in_progress);
     end
