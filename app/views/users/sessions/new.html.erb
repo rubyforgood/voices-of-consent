@@ -1,34 +1,40 @@
-<h2>Log in</h2>
+<%= stylesheet_link_tag 'users' %>
 
-<% if flash.alert %>
-  <div class="flash-messages">
-    <ul>
-      <li><%= flash.alert %></li>
-    </ul>
+<div class="login-container">
+  <div class="title-area">
+    <h2>Log in</h2>
   </div>
-<% end %>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+  <% if flash.alert %>
+    <div class="flash-messages">
+      <ul>
+        <li><%= flash.alert %></li>
+      </ul>
     </div>
   <% end %>
+  <div class="form-area">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "current-password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field check-box">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Log in" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
 
 <%= render "users/shared/links" %>

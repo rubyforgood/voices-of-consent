@@ -1,0 +1,131 @@
+.container {
+  background: none;
+}
+
+.login-container {
+  display: block;
+  width: 70%;
+  background: #eee;
+  height: auto;
+  margin: 0 auto;
+  padding: 26px;
+  border-radius: 6px;
+  margin-top: 110px;
+}
+
+.title-area {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+  border-bottom: solid 1px #b59193;
+  cursor: pointer;
+  -webkit-transition: ease-in-out .2s;
+	-o-transition: ease-in-out .2s;
+	transition: ease-in-out .2s;
+}
+
+.title-area:hover { 
+  width: 60%;
+}
+
+.title-area h2 {
+  text-align: center;
+  color: #000;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.field {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 18px;
+}
+
+.field label {
+  color: #b59193;
+  font-style: italic;
+  margin: 0;
+}
+
+.field input {
+  width: 100%;
+  border-radius: 3px;
+  border: solid 1px #b59193;
+  -webkit-transition: ease-in-out .2s;
+	-o-transition: ease-in-out .2s;
+  transition: ease-in-out .2s;
+  padding-left: 12px;
+  font-size: 13px;
+  height: 30px;
+  color: #b59193;
+  outline: 0;
+}
+
+.field input:focus { 
+  border: solid 1px #b59193;
+  -webkit-box-shadow: -1px 2px 15px 1px rgba(181,145,147,1);;
+  -moz-box-shadow: -1px 2px 15px 1px rgba(181,145,147,1);;
+  box-shadow: -1px 2px 15px 1px rgba(181,145,147,1);;
+}
+
+.actions {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  height: 35px;
+}
+
+.actions input {
+  display: block;
+  margin: 0 auto;
+  width: 30%;
+  height: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #000;
+  -webkit-transition: ease-in-out .2s;
+	-o-transition: ease-in-out .2s;
+  transition: ease-in-out .2s;
+}
+
+.actions input:focus {
+  outline: 0;
+}
+
+.actions input:hover {
+  outline: 0;
+  background: #b59193;
+  color: #fff;
+}
+
+.check-box {
+  display: block;
+  margin: 0 auto;
+  width: 30%;
+}
+
+.check-box input {
+  display: inline-block;
+  width: 20%;
+  height: 18px;
+  cursor: pointer;
+}
+
+.check-box input:focus {
+  box-shadow: none;
+}
+
+.check-box label {
+  display: inline-block;
+  width: 77%;
+  cursor: pointer;
+}
+
+a {
+  display: table;
+  margin: 0 auto;
+  font-size: 14px;
+  margin-top: 16px;
+}
