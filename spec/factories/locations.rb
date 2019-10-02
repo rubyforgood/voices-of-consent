@@ -5,6 +5,5 @@ FactoryBot.define do
     city { "MyString" }
     state { "MyString" }
     zip { "MyString" }
-    type { 1 }
   end
 end
