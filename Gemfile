@@ -63,6 +63,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # ui, see also package.json
 gem 'webpacker', '~> 4.x'
 
+gem 'aasm'
+
 # auth
 gem 'devise', '~> 4.6'
 gem 'devise_invitable', '~> 2.0.0'

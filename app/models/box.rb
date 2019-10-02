@@ -1,4 +1,7 @@
 class Box < ApplicationRecord
+  include AASM
+
+
   belongs_to :box_request
   belongs_to :designed_by, optional: true, class_name: "User", foreign_key: :designed_by_id, inverse_of: :boxes_as_designer
   belongs_to :design_reviewed_by, optional: true, class_name: "User", foreign_key: :design_reviewed_by_id, inverse_of: :boxes_as_design_reviewer
@@ -27,4 +30,80 @@ class Box < ApplicationRecord
   def followup_sent?
     false
   end
+
+  aasm do
+    
+    state :pending_review, :initial => true
+    state :design_in_progress
+    state :designed
+    state :assembly_in_progress
+    state :assembled 
+    state :shipping_in_progress
+    state :shipped
+
+    after_all_transitions :log_status_change
+
+    event :initialize_design, :before => :check_state  do
+      transitions :from => :pending_review, :to => :design_in_progress, :guard => :request_reviewed
+    end
+
+    event :design do
+      transitions :from => :design_in_progress, :to => :designed, :guard => :is_designed
+    end
+
+    event :assembling do
+      transitions :from => :designed, :to => :assembly_in_progress, :guard => :has_assembler_id
+    end
+
+    event :assemble do
+      transitions :from => :assembly_in_progress, :to => :assembled, :guard => :is_assembled
+    end
+
+    event :shipping do
+      transitions :from => :assembled, :to => :shipping_in_progress, :guard => :has_shipper_id
+    end
+
+    event :ship do
+      transitions :from => :shipping_in_progress, :to => :shipped, :guard => :is_shipped
+    end
+
+  end
+
+    def check_state
+      self.aasm_state = 'pending_review'
+    end
+
+    def request_reviewed
+      box_request.aasm_state = 'reviewed'
+    end
+
+    def has_designer_id
+      !self.designed_by_id.nil?
+    end
+
+    def is_designed
+      self.assembled_by_id.nil? && !self.designed_at.nil?
+    end
+
+     def has_assembler_id
+      !self.assembled_by_id.nil?
+    end
+
+     def is_assembled
+      box_items.pluck(:added_to_box).all?
+    end
+
+    def has_shipper_id
+      !self.shipped_by_id.nil?
+    end
+
+    def is_shipped
+      !self.shipped_at.nil?
+    end
+
+    def log_status_change
+      puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{aasm.current_event})"
+    end
+
+
 end

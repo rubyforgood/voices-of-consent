@@ -26,6 +26,10 @@ class BoxesController < ApplicationController
   def create
     @box = Box.new(box_params)
 
+    @box_request = BoxRequest.find(@box.box_request_id);
+    @box_request.reviewed_at = DateTime.now
+    @box_request.end_review
+
     respond_to do |format|
       if @box.save
         format.html { redirect_to @box, notice: 'Box was successfully created.' }

@@ -48,6 +48,7 @@ class BoxRequestsController < ApplicationController
   def update
     respond_to do |format|
       @box_request.reviewed_by_id = current_user.id if @box_request.reviewed_by_id == nil
+      @box_request.review!
 
       if @box_request.update(box_request_params)
         format.html { redirect_to box_requests_path, notice: 'Box request was successfully updated.' }
