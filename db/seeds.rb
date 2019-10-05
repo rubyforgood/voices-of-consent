@@ -1,6 +1,6 @@
 volunteer = Volunteer.where(id: 1). # querying on id allows us to always find or create the "first" volunteer, regardless of the current name, etc
-                      first_or_create!(first_name: '[changme in prod]',
-                                       last_name: "[changme in prod]",
+                      first_or_create!(first_name: '[changme]',
+                                       last_name: "[in prod]",
                                        street_address: "[changme in prod]",
                                        city: "[changme in prod]",
                                        state: "ca",
