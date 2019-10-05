@@ -20,12 +20,12 @@
     <% @message_logs.each do |message_log| %>
       <tr>
         <td><%= message_log.messageable_type %></td>
-        <td><%= message_log.messageable_id %></td>
+        <td><%= message_log.messageable.name %></td>
         <td><%= message_log.content %></td>
         <td><%= message_log.delivery_type %></td>
         <td><%= message_log.delivery_status %></td>
-        <td><%= message_log.sent_to_id %></td>
-        <td><%= message_log.sent_by_id %></td>
+        <td><%= message_log.sent_to.name %></td>
+        <td><%= message_log.sent_by.name %></td>
         <td><%= link_to 'Show', message_log %></td>
         <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
         <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
