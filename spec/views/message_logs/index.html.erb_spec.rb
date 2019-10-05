@@ -2,58 +2,51 @@ require 'rails_helper'
 
 RSpec.describe "message_logs/index", type: :view do
   before(:each) do
-    @purchases = [
+    @messageable_1 = create(:messageable)
+    @messageable_2 = create(:messageable)
+    @volunteer_1 = create(:volunteer)
+    @volunteer_2 = create(:volunteer)
+    @volunteer_3 = create(:volunteer)
+    @volunteer_4 = create(:volunteer)
+    @message_logs = [
       create(
         :message_log,
-        messageable: create(:messageable)
+        messageable: @messageable_1,
+        content: "MyContent 1",
+        delivery_type: "phone",
+        delivery_status: "Delivery Status 1",
+        sent_to: create(:user, volunteer: @volunteer_1),
+        sent_by: create(:user, volunteer: @volunteer_2),
       ),
       create(
         :message_log,
-        location: create(:location, name: "MyTerribleLocation"),
-        total_price: 2.5,
-        purchased_by: create(
-          :user,
-          volunteer: create(
-            :volunteer,
-            first_name: "MyTerrible",
-            last_name: "Name",
-          ),
-        ),
-        reimbursement_check_number: "TerribleReimbursementCheckNumber",
-        reimbursement_status: "TerribleReimbursementStatus",
+        messageable: @messageable_2,
+        content: "MyContent 2",
+        delivery_type: "email",
+        delivery_status: "Delivery Status 2",
+        sent_to: create(:user, volunteer: @volunteer_3),
+        sent_by: create(:user, volunteer: @volunteer_4),
       ),
     ]
-
-    # assign(:message_logs, [
-    #   MessageLog.create!(
-    #     :messageable_type => "BoxRequest",
-    #     :messageable_id => 2,
-    #     :content => "MyText",
-    #     :delivery_type => 3,
-    #     :delivery_status => "Delivery Status",
-    #     :sent_to_id => 4,
-    #     :sent_by_id => 5
-    #   ),
-    #   MessageLog.create!(
-    #     :messageable_type => "BoxRequest",
-    #     :messageable_id => 2,
-    #     :content => "MyText",
-    #     :delivery_type => 3,
-    #     :delivery_status => "Delivery Status",
-    #     :sent_to_id => 4,
-    #     :sent_by_id => 5
-    #   )
-    # ])
   end
 
   it "renders a list of message_logs" do
     render
-    assert_select "tr>td", :text => "BoxRequest".to_s, :count => 2
-    assert_select "tr>td", :text => 2.to_s, :count => 2
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
-    assert_select "tr>td", :text => 3.to_s, :count => 2
-    assert_select "tr>td", :text => "Delivery Status".to_s, :count => 2
-    assert_select "tr>td", :text => 4.to_s, :count => 2
-    assert_select "tr>td", :text => 5.to_s, :count => 2
+
+    assert_select "tr>td", :text => "BoxRequest", :count => 2
+    assert_select "tr>td", :text => @messageable_1.id.to_s, :count => 1
+    assert_select "tr>td", :text => "MyContent 1", :count => 1
+    assert_select "tr>td", :text => "phone", :count => 1
+    assert_select "tr>td", :text => "Delivery Status 1", :count => 1
+    assert_select "tr>td", :text => @volunteer_1.name, :count => 1
+    assert_select "tr>td", :text => @volunteer_2.name, :count => 1
+
+    assert_select "tr>td", :text => "BoxRequest", :count => 2
+    assert_select "tr>td", :text => @messageable_2.id.to_s, :count => 1
+    assert_select "tr>td", :text => "MyContent 2", :count => 1
+    assert_select "tr>td", :text => "email", :count => 1
+    assert_select "tr>td", :text => "Delivery Status 2", :count => 1
+    assert_select "tr>td", :text => @volunteer_3.name, :count => 1
+    assert_select "tr>td", :text => @volunteer_4.name, :count => 1
   end
 end
