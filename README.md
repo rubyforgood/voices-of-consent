@@ -1,8 +1,18 @@
 # The Organization:
 
-Voices of Consent is a nonprofit organization whose mission is to provide healing to victims, bring awareness to sexual assault, transform society’s response to victims, define what consent is. Based in Washington, DC, this nonprofit operates in 48 states to help survivors in the aftermath of a traumatic event by sending survivor boxes to anyone who requests one free of charge. Boxes are personalized and put together to let survivors know they are not alone after an event and can help provide support as they begin the recovery process including information about laws in their state, free health and counseling services in their area, and other tools and resources needed to start the healing journey. Voices of Consent gets the word out to survivors by talking at schools and churches. The boxes are sent to survivors who request them directly or can be picked up at hospitals or police stations.
+Voices of Consent is a nonprofit organization whose goal is to support survivors after a traumatic experience. Locally based, this nonprofit operates in 42 states to help survivors. In the aftermath of a traumatic event, Voices of Consent sends a box to a survivor who requests one.
+
+Survivor Boxes are personalized packages put together to let survivors know they are not alone after an event, that include resources to use as survivors begin the recovery process (including information about laws in their state, free health and counseling services in their area).
+
+Voices of Consent gets the word out to survivors by talking at schools and churches. The boxes are sent to survivors who request them directly, or can be picked up at hospitals or police stations.
 
 Please check out https://www.voicesofconsent.org/what-we-do as well as the rest of the website to learn more about this organization.
+
+# Contributing
+See our CONTRIBUTING.md
+
+# Background
+We've started a few reference documents based on questions we've been asked. Check out the /notes folder in the repo, and please ask questions in the Ruby for Good Slack or on Github so we can improve our references.
 
 # Setting Up Development
 
