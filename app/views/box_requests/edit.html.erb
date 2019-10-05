@@ -1,34 +1,80 @@
 <div class='container'>
-  <span class="text-center"><h2>Review Box Request</h2></span>
+  <span class="text-center page-header"><h1>Review Box Request</h1></span>
   <div class='row'>
-    <div class="col pl-3">
-      <p>
-        <strong>Current situation:</strong>
-        <br>
-        <%= @box_request.question_re_current_situation %>
-      </p>
-
-      <p>
-        <strong>How abuse affects life:</strong>
-        <br>
-        <%= @box_request.question_re_affect %>
-      </p>
-
-      <p>
-        <strong>Referral source:</strong>
-        <br>
-        <%= @box_request.question_re_referral_source %>
-      </p>
-
-      <p>
-        <strong>Not self completed:</strong>
-        <br>
-        <%= @box_request.question_re_if_not_self_completed %>
-      </p>
+    <div class="col pl-4">
+      <h3>REVIEW SUMMARY</h3>
+      <hr>
+      <%= render 'form', box_request: @box_request %>
     </div>
 
-    <div class="col pl-3">
-      <%= render 'form', box_request: @box_request %>
+    <div class="col pl-5">
+      <h3>ORIGINAL RESPONSES</h3>
+      <hr>
+      <div class="row">
+        <div class="col pl-2">
+          <p>
+            <strong>Location:</strong>
+            <br>
+            <%= @box_request.requester.location %>
+          </p>
+
+          <p>
+            <strong>Current situation:</strong>
+            <br>
+            <%= @box_request.question_re_current_situation %>
+          </p>
+
+          <p>
+            <strong>How abuse affects life:</strong>
+            <br>
+            <%= @box_request.question_re_affect %>
+          </p>
+        </div>
+
+        <div class="col-pl-2">
+          <p>
+            <strong>Abuse types:</strong>
+            <br>
+            <%= @box_request.box_request_abuse_types.map(&:abuse_type_name).to_sentence %>
+          </p>
+
+          <p class="<%= 'alert-danger' if @box_request.requester.underage? %>">
+            <strong>Underage?:</strong>
+            <br>
+            <%= @box_request.requester.underage? %>
+          </p>
+
+          <p class="<%= 'alert-danger' if !@box_request.is_safe? %>">
+            <strong>Safe?:</strong>
+            <br>
+            <%= @box_request.is_safe? %>
+          </p>
+
+          <p>
+            <strong>Interested in counseling services?:</strong>
+            <br>
+            <%= @box_request.is_interested_in_counseling_services? %>
+          </p>
+
+          <p>
+            <strong>Interested in health_services?:</strong>
+            <br>
+            <%= @box_request.is_interested_in_health_services? %>
+          </p>
+
+          <p>
+            <strong>Referral source:</strong>
+            <br>
+            <%= @box_request.question_re_referral_source %>
+          </p>
+
+          <p>
+            <strong>Completed by (if not self):</strong>
+            <br>
+            <%= @box_request.question_re_if_not_self_completed %>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
