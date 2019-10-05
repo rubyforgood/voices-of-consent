@@ -35,7 +35,13 @@ Rails.application.routes.draw do
   get 'requesters/thank_you', to: 'requesters#thank_you', as: 'box_request_thank_you'
 
   post 'box_request_triage', to: "box_request_triage#create"
-  get 'box_request/already_claimed', to: 'box_requests#already_claimed'
+  get 'box_requests/:id/claim_review', to: "box_requests#claim_review", as: 'box_request_claim_review'
+  post 'box_requests/:id/claim_review', to: "box_requests#claim_review"
+  get 'box_request/already_claimed', to: 'box_requests#already_claimed', as: 'box_request_already_claimed'
+
+  get 'box_requests/:id/decline_review', to: "box_requests#decline_review", as: 'box_request_decline_review'
+  post 'box_requests/:id/decline_review', to: "box_requests#decline_review"
+  get 'box_requests/thanks_anyway', to: 'box_requests#thanks_anyway', as: 'box_request_thanks_anyway'
 
   get 'box_design/new', to: 'box_design#new'
   get 'box_design/claim/:box_id', to: 'box_design#claim'

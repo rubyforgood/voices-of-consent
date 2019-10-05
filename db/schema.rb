@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_213913) do
+ActiveRecord::Schema.define(version: 2019_10_05_000003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_213913) do
     t.bigint "reviewed_by_id"
     t.string "aasm_state"
     t.datetime "reviewed_at"
+    t.string "review_declined_by_ids", default: [], array: true
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
     t.index ["reviewed_by_id"], name: "index_box_requests_on_reviewed_by_id"
   end
