@@ -197,12 +197,9 @@ ActiveRecord::Schema.define(version: 2019_09_02_213913) do
     t.integer "sent_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "messageable_type"
-    t.bigint "messageable_id"
     t.string "subject_line"
     t.string "message_channel"
     t.string "message_type"
-    t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
   end
 
   create_table "purchases", force: :cascade do |t|
