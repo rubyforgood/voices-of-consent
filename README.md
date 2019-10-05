@@ -24,7 +24,7 @@ Some choices for how to run services in your development environment:
 
 ## Running the App!
 
-First, set up Local Services (see the **Starting Local Services** section below).
+First, set up Local Services (Via Docker or individually installed services as described in the **Starting Local Services** section below.).
 
 Then to run the app locally,
 
@@ -33,6 +33,11 @@ $ bundle install
 $ yarn install
 $ rake dev:setup
 $ heroku local -f Procfile.dev
+# If you chose the Docker route:
+  $ docker-compose start -or- $ docker-compose up
+# Else
+  $ rails s
+$ rspec (to run the test suite)
 ```
 
 ## Starting Local Services
