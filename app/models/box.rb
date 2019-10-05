@@ -11,9 +11,9 @@ class Box < ApplicationRecord
 
   has_many :box_items
 
-  delegate :name, to: :designed_by, prefix: :designer, allow_nil: true
-  delegate :name, to: :assembled_by, prefix: :assembler, allow_nil: true
-  delegate :name, to: :shipped_by, prefix: :shipper, allow_nil: true
+  delegate :first_name, to: :designed_by, prefix: :designer, allow_nil: true
+  delegate :first_name, to: :assembled_by, prefix: :assembler, allow_nil: true
+  delegate :first_name, to: :shipped_by, prefix: :shipper, allow_nil: true
 
   def has_designer?
     return !self.designed_by.nil?
@@ -22,7 +22,7 @@ class Box < ApplicationRecord
   def has_assembler?
     return !self.assembled_by.nil?
   end
-  
+
   def has_shipper?
     return !self.shipped_by.nil?
   end
@@ -32,12 +32,12 @@ class Box < ApplicationRecord
   end
 
   aasm do
-    
+
     state :pending_review, :initial => true
     state :design_in_progress
     state :designed
     state :assembly_in_progress
-    state :assembled 
+    state :assembled
     state :shipping_in_progress
     state :shipped
 

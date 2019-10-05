@@ -4,7 +4,7 @@ class BoxRequestsController < ApplicationController
   # GET /box_requests
   # GET /box_requests.json
   def index
-    @box_requests = BoxRequest.all
+    @box_requests = BoxRequest.order(created_at: :desc)
 
     if params[:filter_by].present?
       (filter_attr = params[:filter_by])
@@ -49,7 +49,11 @@ class BoxRequestsController < ApplicationController
   def update
     respond_to do |format|
       @box_request.reviewed_by_id = current_user.id if @box_request.reviewed_by_id == nil
-      @box_request.review!
+      if @box_request.aasm_state == "requested"
+        @box_request.review!
+      elsif @box_request.aasm_state == "review_in_progress"
+        @box_request.complete_review!
+      end
 
       if @box_request.update(box_request_params)
         format.html { redirect_to box_requests_path, notice: 'Box request was successfully updated.' }
