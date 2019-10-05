@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :user_permissions
 
   has_many :box_items_as_creator, class_name: "BoxItem", foreign_key: :created_by_id, inverse_of: :created_by, dependent: :restrict_with_error
+  has_many :box_items_as_researcher, class_name: "BoxItem", foreign_key: :created_by_id, inverse_of: :created_by, dependent: :restrict_with_error
   has_many :box_items_as_updater, class_name: "BoxItem", foreign_key: :updated_by_id, inverse_of: :updated_by, dependent: :restrict_with_error
   has_many :box_requests_as_reviewer, class_name: "BoxRequest", foreign_key: :reviewed_by_id, inverse_of: :reviewed_by, dependent: :restrict_with_error
   has_many :boxes_as_designer, class_name: "Box", foreign_key: :designed_by_id, inverse_of: :designed_by, dependent: :restrict_with_error
