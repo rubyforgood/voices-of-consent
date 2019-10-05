@@ -2,37 +2,38 @@
 
 <h1>Message Logs</h1>
 <div class="table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">messageable type</th>
-        <th scope="col">messageable</th>
-        <th scope="col">Content</th>
-        <th scope="col">Delivery type</th>
-        <th scope="col">Delivery status</th>
-        <th scope="col">Sent to</th>
-        <th scope="col">Sent by</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">messageable type</th>
+      <th scope="col">messageable</th>
+      <th scope="col">Content</th>
+      <th scope="col">Delivery type</th>
+      <th scope="col">Delivery status</th>
+      <th scope="col">Sent to</th>
+      <th scope="col">Sent by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <% @message_logs.each do |message_log| %>
-        <tr>
-          <th scope="row"><%= message_log.message_type %></th>
-          <td><%= message_log.id %></td>
-          <td><%= message_log.content %></td>
-          <td><%= message_log.delivery_type %></td>
-          <td><%= message_log.delivery_status %></td>
-          <td><%= message_log.sent_to.email %></td>
-          <td><%= message_log.sent_by.email %></td>
-          <td><%= link_to 'Show', message_log %></td>
-          <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
-          <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <tbody>
+    <% @message_logs.each do |message_log| %>
+      <tr>
+        <th scope="row"><%= message_log.message_type %></th>
+        <td><%= message_log.id %></td>
+        <%# Strip HTML tags and hard carriage returns since content returns as a long HTML string%>
+        <td><%= strip_tags(message_log.content).gsub(/=0D/, "") %></td>
+        <td><%= message_log.delivery_type %></td>
+        <td><%= message_log.delivery_status %></td>
+        <td><%= message_log.sent_to.email %></td>
+        <td><%= message_log.sent_by.email %></td>
+        <td><%= link_to 'Show', message_log %></td>
+        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
+        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
 <br>
 
