@@ -1,39 +1,39 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Message Logs</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>messageable type</th>
-      <th>messageable</th>
-      <th>Content</th>
-      <th>Delivery type</th>
-      <th>Delivery status</th>
-      <th>Sent to</th>
-      <th>Sent by</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @message_logs.each do |message_log| %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= message_log.message_type %></td>
-        <td><%= message_log.id %></td>
-        <td><%= message_log.content %></td>
-        <td><%= message_log.delivery_type %></td>
-        <td><%= message_log.delivery_status %></td>
-        <td><%= message_log.sent_to.email %></td>
-        <td><%= message_log.sent_by.email %></td>
-        <td><%= link_to 'Show', message_log %></td>
-        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
-        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th scope="col">messageable type</th>
+        <th scope="col">messageable</th>
+        <th scope="col">Content</th>
+        <th scope="col">Delivery type</th>
+        <th scope="col">Delivery status</th>
+        <th scope="col">Sent to</th>
+        <th scope="col">Sent by</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @message_logs.each do |message_log| %>
+        <tr>
+          <th scope="row"><%= message_log.message_type %></th>
+          <td><%= message_log.id %></td>
+          <td><%= message_log.content %></td>
+          <td><%= message_log.delivery_type %></td>
+          <td><%= message_log.delivery_status %></td>
+          <td><%= message_log.sent_to.email %></td>
+          <td><%= message_log.sent_by.email %></td>
+          <td><%= link_to 'Show', message_log %></td>
+          <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
+          <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <br>
 
 <%= link_to 'New Message Log', new_message_log_path %>
