@@ -2,18 +2,28 @@
 
 <h1>Box Requests</h1>
 
-<form>
-  <%= select_tag :sort_by, {
-    review: "Review Stage",
-    design: "Design Stage",
-    packing: "Packing Stage",
-    shipping: "Shipping Stage",
-  }.map { |attribute, label|
-    "<option value=#{attribute.to_s.inspect}>#{label}</option>"
-  }.join.html_safe %>
-
-  <button>Sort this list</button>
-</form>
+<%= simple_form_for :box_requests,
+                    html: { class: 'form-inline'},
+                    url: box_requests_path,
+                    method: :get do |f| %>
+  <%= select_tag     "filter_by",
+                       options_for_select(
+                           [:requested,
+                            :review_in_progress,
+                            :reviewed,
+                            :design_in_progress,
+                            :designed,
+                            :assembly_in_progress,
+                            :assembled,
+                            :shipping_in_progress,
+                            :shipped,
+                           ],
+                           selected: params[:filter_by]),
+                       include_blank: "-- Filter options --",
+                       placeholder: "",
+                       class: "form-control" %>
+  <%= f.button :submit, "Filter", class: "form-group btn btn-success button", name: nil %>
+<% end %>
 
 <table class="table box-requests-table">
   <thead>
