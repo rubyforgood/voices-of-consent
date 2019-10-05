@@ -6,8 +6,9 @@ class BoxRequestsController < ApplicationController
   def index
     @box_requests = BoxRequest.all
 
-    if (sort_attr = params[:sort_by])
-      @box_requests = @box_requests.order(sort_attr)
+    if params[:filter_by].present?
+      (filter_attr = params[:filter_by])
+      @box_requests = @box_requests.public_send(filter_attr)
     end
   end
 
