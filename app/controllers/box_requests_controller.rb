@@ -71,8 +71,52 @@ class BoxRequestsController < ApplicationController
     end
   end
 
-  # /box_requests/1/already_claimed
+  def decline_review
+    @box_request = request_review_scope.find(params[:id])
+    if @box_request.reviewed_by_id != current_user.id
+
+      respond_to do |format|
+        if @box_request.decline_review!
+          format.html { redirect_to box_request_thanks_anyway_path }
+          format.json { render :show, status: :ok, location: @box_request }
+        else
+
+          format.html { redirect_to root_path, alert: 'Box request review decline failed.' }
+          format.json { render :show, status: :ok, location: @box_request }
+        end
+      end
+    else
+      redirect_to edit_box_request_path(@box_request), notice: "You previously claimed review of this Box"
+    end
+  end
+
+  def claim_review
+    @box_request = request_review_scope.find(params[:id])
+
+    if !@box_request.reviewed_by_id
+      respond_to do |format|
+        @box_request.reviewed_by_id = current_user.id
+        if @box_request.save
+          @box_request.review!
+          format.html { redirect_to edit_box_request_path(@box_request), notice: 'Box request review was successfully claimed.' }
+          format.json { render :show, status: :ok, location: @box_request }
+        else
+          format.html { render :edit }
+          format.json { render json: @box_request.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to box_request_already_claimed_path
+    end
+  end
+
+  # /box_requests/already_claimed
   def already_claimed
+    render layout: false
+  end
+
+  # /box_requests/thanks_anyway
+  def thanks_anyway
     render layout: false
   end
 
@@ -90,8 +134,10 @@ class BoxRequestsController < ApplicationController
                                         :question_re_referral_source,
                                         :question_re_if_not_self_completed,
                                         :summary,
-                                        :reviwed_by_id,
-                                        :tag_list)
+                                        :reviewed_by_id,
+                                        :tag_list,
+                                        review_declined_by_ids: [],
+    )
   end
 
   def request_review_scope

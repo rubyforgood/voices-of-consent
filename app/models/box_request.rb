@@ -36,7 +36,7 @@ class BoxRequest < ApplicationRecord
       transitions :from => :requested, :to => :review_in_progress, :guard => :check_reviewer
     end
 
-    event :end_review, :after => :initialize_design do
+    event :end_review, :after => :complete_review! do
       transitions :from => :review_in_progress, :to => :reviewed, :guard => :is_reviewed
     end
 
@@ -49,6 +49,23 @@ class BoxRequest < ApplicationRecord
 
     def check_reviewer
       !reviewed_by_id.nil?
+    end
+
+    def create_associated_box
+      unless box
+        Box.create(box_request: self)
+      end
+    end
+
+    def complete_review!
+      update_attributes(reviewed_at: Time.now)
+      create_associated_box
+      initialize_design
+    end
+
+    def decline_review!
+      self.review_declined_by_ids << current_user.id
+      self.save!
     end
 
     def initialize_design

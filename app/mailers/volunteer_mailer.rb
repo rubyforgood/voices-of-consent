@@ -4,8 +4,9 @@ class VolunteerMailer < ApplicationMailer
         mail(to: User.find(@volunteer.user_id).email, subject: 'Welcome to Voices of Consent!')
     end
 
-    def box_request_email(volunteer)
+    def box_request_email(volunteer, box_request_id)
         @volunteer = volunteer
+        @box_request = BoxRequest.find(box_request_id)
         mail(to: User.find(@volunteer.user_id).email, subject: 'A Box Request has been sent')
     end
 
