@@ -20,4 +20,8 @@ class Requester < ApplicationRecord
   def name
     [first_name, last_name].join(' ')
   end
+
+  def location
+    [city, state].join(', ')
+  end
 end
