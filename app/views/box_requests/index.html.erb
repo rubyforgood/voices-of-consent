@@ -6,6 +6,10 @@
                     html: { class: 'form-inline'},
                     url: box_requests_path,
                     method: :get do |f| %>
+
+  <span class="results">
+    <%= @box_requests.length %> box requests
+  </span>
   <%= select_tag     "filter_by",
                        options_for_select(
                            [:requested,
@@ -22,37 +26,74 @@
                        include_blank: "-- Filter options --",
                        placeholder: "",
                        class: "form-control" %>
-  <%= f.button :submit, "Filter", class: "form-group btn btn-success button", name: nil %>
+  <%= f.button :submit, "Filter", class: "form-group btn btn-success button pull-left", name: nil %>
 <% end %>
 
 <table class="table box-requests-table">
   <thead>
     <tr>
-      <th></th>
-      <th>Reviewed by</th>
-      <th>Designed by</th>
-      <th>Assembled by</th>
-      <th>Shipped by</th>
-      <th>Followup sent?</th>
+      <th>Name</th>
+      <th>Review</th>
+      <th>Design</th>
+      <th>Package</th>
+      <th>Ship</th>
+      <th>Followup</th>
     </tr>
   </thead>
 
   <tbody>
     <% @box_requests.each do |box_request| %>
+      <% box = box_request.box %>
       <tr>
-        <td><%= box_request.id %></td>
+        <td><%= box_request.name %></td>
         <td>
-          <%= box_request.reviewer_name %>
-          <% if box_request.reviewed_by == current_user %>
-            <%= link_to("review", edit_box_request_path(box_request)) %>
+          <%= box_request.reviewer_first_name %>
+          <% if box_request.review_declined_by_ids.include?(current_user.id) %>
+            (Declined)
           <% elsif !box_request.reviewed_by_id.present? %>
-            <%= link_to("claim", edit_box_request_path(box_request)) %>
+            <%= link_to("claim review", edit_box_request_path(box_request), class: "btn form-group btn-default button") %>
+          <% elsif box_request.reviewed_by == current_user && !box_request.is_reviewed %>
+            <%= link_to("review", edit_box_request_path(box_request), class: "btn form-group btn-default button") %>
           <% end %>
         </td>
-        <td><%= box_request.designer_name %></td>
-        <td><%= box_request.assembler_name %></td>
-        <td><%= box_request.shipper_name %></td>
-        <td><%= box_request.followup_sent? %></td>
+        <td>
+          <%= box_request.designer_first_name %>
+          <% if box %>
+            <% if box_request.reviewed? && !box.designed_by_id.present? %>
+              <%= link_to("Design now", box_design_new_path(box), class: "btn btn-default") %>
+              <%= link_to("Design later", box_design_new_path(box), class: "btn btn-default") %>
+            <% elsif box.designed_by == current_user && !box.is_designed %>
+              <%= link_to("design", box_design_new_path(box), class: "btn btn-default") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%= box_request.assembler_first_name %>
+          <% if box %>
+            <% if box.designed? && !box.assembled_by_id.present? %>
+              <%= link_to("claim packaging (TBD)", box_assembly_new_path(box), class: "btn btn-default") %>
+            <% elsif box.assembled_by == current_user && !box.is_assembled %>
+              <%= link_to("package", box_assembly_new_path(box), class: "btn btn-default") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%= box_request.shipper_first_name %>
+          <% if box %>
+            <% if box.assembled? && !box.shipped_by_id.present? %>
+              <%= link_to("claim shipping (TBD)", box_shipment_mark_as_shipped_path(box), class: "btn btn-default") %>
+            <% elsif box.shipped_by == current_user && !box.is_shipped %>
+              <%= link_to("mark as shipped", box_shipment_mark_as_shipped_path(box), class: "btn btn-default") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if box %>
+            <% if box.shipped? && !box_request.followup_sent? %>
+              <%= link_to("mark as follwed up (TBD)", root_path, class: "btn btn-default") %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

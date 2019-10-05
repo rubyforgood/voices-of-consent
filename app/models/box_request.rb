@@ -14,7 +14,8 @@ class BoxRequest < ApplicationRecord
   validates :question_re_referral_source, presence: true
   validates :question_re_current_situation, presence: true
 
-  delegate :designer_name, :assembler_name, :shipper_name, :followup_sent?, to: :box, allow_nil: true
+  delegate :first_name, to: :reviewed_by, prefix: :reviewer, allow_nil: true
+  delegate :designer_first_name, :assembler_first_name, :shipper_first_name, :followup_sent?, to: :box, allow_nil: true
   delegate :name, to: :reviewed_by, prefix: :reviewer, allow_nil: true
 
   scope :requested, ->(){ where(reviewed_by_id: nil) }
@@ -42,6 +43,10 @@ class BoxRequest < ApplicationRecord
     end
 
   end
+
+    def name
+      "#{requester.city}, #{requester.state} (#{tag_list.to_sentence})"
+    end
 
     def is_reviewed
       self.box &&
