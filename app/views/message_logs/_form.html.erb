@@ -14,13 +14,21 @@
   <% if action_name == "new" %>
     <div class="field">
       <%= form.label :messageable_type %>
-      <%= form.select :messageable_type , MessageLog::MESSAGEABLE_TYPES, {prompt: "Message Type"} %>
+      <%= form.select :messageable_type , MessageLog::MESSAGEABLE_TYPES, {prompt: "Message Type"}, data: {remote: true, url: new_message_log_path, method: 'get'} %>
     </div>
 
-    <div class="field">
-      <%= form.label :messageable_id %>
-      <%= form.number_field :messageable_id %>
-    </div>
+    <% if messageable_ids != nil %>
+      <div class="field">
+        <%= form.label :messageable_id %>
+        <%= form.select :messageable_id, messageable_ids, {prompt: "Messageable ID"} %>
+      </div>
+    <% else %>
+      <div class="field">
+        <%= form.label :messageable_id %>
+        <%= form.number_field :messageable_id %>
+      </div>
+    <% end %>
+
   <% else %>
     <div class="field">
       <%= form.label :messageable_id %>
