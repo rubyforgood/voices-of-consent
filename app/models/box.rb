@@ -1,6 +1,6 @@
 class Box < ApplicationRecord
   include AASM
-
+  include Messageable
 
   belongs_to :box_request
   belongs_to :designed_by, optional: true, class_name: "User", foreign_key: :designed_by_id, inverse_of: :boxes_as_designer
