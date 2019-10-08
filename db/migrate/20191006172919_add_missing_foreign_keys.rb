@@ -1,6 +1,7 @@
 class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
   def change
     # box_items table
+    add_foreign_key :box_items, :boxes
     add_foreign_key :box_items, :inventory_types
     add_foreign_key :box_items, :users, column: :created_by_id
     add_foreign_key :box_items, :users, column: :researched_by_id
@@ -27,8 +28,13 @@ class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
     add_foreign_key :purchases, :users, column: :purchased_by_id
     add_foreign_key :purchases, :users, column: :reimbursed_by_id
 
+    # taggings
+    add_foreign_key :taggings, :tags
+
     # users
-    add_foreign_key :users, :users, column: :invited_by_id
     add_foreign_key :users, :volunteers, column: :volunteer_id
+
+    #volunteers
+    add_foreign_key :volunteers, :locations, column: :university_location_id
   end
 end

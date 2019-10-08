@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_id"], name: "index_active_storage_attachments_on_record_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -318,11 +319,13 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["university_location_id"], name: "index_volunteers_on_university_location_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "meetings"
   add_foreign_key "attendances", "users"
+  add_foreign_key "box_items", "boxes"
   add_foreign_key "box_items", "inventory_types"
   add_foreign_key "box_items", "users", column: "created_by_id"
   add_foreign_key "box_items", "users", column: "researched_by_id"
@@ -351,7 +354,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
   add_foreign_key "purchases", "locations"
   add_foreign_key "purchases", "users", column: "purchased_by_id"
   add_foreign_key "purchases", "users", column: "reimbursed_by_id"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "user_permissions", "users"
-  add_foreign_key "users", "users", column: "invited_by_id"
   add_foreign_key "users", "volunteers"
+  add_foreign_key "volunteers", "locations", column: "university_location_id"
 end
