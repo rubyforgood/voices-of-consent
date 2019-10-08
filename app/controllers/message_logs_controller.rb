@@ -15,10 +15,6 @@ class MessageLogsController < ApplicationController
   # GET /message_logs/new
   def new
     @message_log = MessageLog.new
-    if params[:messageable_type] != nil
-      @messageable_ids = :messageable_type.all.ids
-      puts @messageable_ids
-    end
   end
 
   # GET /message_logs/1/edit

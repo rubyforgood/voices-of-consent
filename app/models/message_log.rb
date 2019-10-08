@@ -9,6 +9,4 @@ class MessageLog < ApplicationRecord
     email: 2,
     phone: 3,
   }
-
-  MESSAGEABLE_TYPES = [ "User", "Volunteer", "Requester", "Box", "Box Request" ]
 end
