@@ -29,6 +29,11 @@ class MessageLogForm extends React.Component {
   handleChange = (event) => {
     this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } });
   }
+
+  handleSubmit = () => {
+    this.setState({ isFormSubmitting: true })
+    console.log(this.state.message_log)
+  }
   
   // TODO: replace messageable id dropdown with real data once we can fetch it from the db
   render() {
@@ -109,10 +114,7 @@ class MessageLogForm extends React.Component {
           <button
             type="submit"
             value="submit"
-            onClick={() => {
-              // TODO: AJAX Call
-              console.log(this.state.message_log)
-            }}>Submit</button>
+            onClick={this.handleSubmit}>Submit</button>
         </section>
       </main>
     )
