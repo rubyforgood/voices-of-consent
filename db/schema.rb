@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_05_000003) do
+ActiveRecord::Schema.define(version: 2019_10_06_173749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_10_05_000003) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_id"], name: "index_active_storage_attachments_on_record_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -204,6 +205,8 @@ ActiveRecord::Schema.define(version: 2019_10_05_000003) do
     t.string "message_channel"
     t.string "message_type"
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
+    t.index ["sent_by_id"], name: "index_message_logs_on_sent_by_id"
+    t.index ["sent_to_id"], name: "index_message_logs_on_sent_to_id"
   end
 
   create_table "purchases", force: :cascade do |t|
@@ -316,23 +319,43 @@ ActiveRecord::Schema.define(version: 2019_10_05_000003) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["university_location_id"], name: "index_volunteers_on_university_location_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "meetings"
   add_foreign_key "attendances", "users"
+  add_foreign_key "box_items", "boxes"
+  add_foreign_key "box_items", "inventory_types"
+  add_foreign_key "box_items", "users", column: "created_by_id"
+  add_foreign_key "box_items", "users", column: "researched_by_id"
+  add_foreign_key "box_items", "users", column: "updated_by_id"
   add_foreign_key "box_request_abuse_types", "abuse_types"
   add_foreign_key "box_request_abuse_types", "box_requests"
+  add_foreign_key "box_requests", "requesters"
   add_foreign_key "box_requests", "users", column: "reviewed_by_id"
   add_foreign_key "boxes", "box_requests"
+  add_foreign_key "boxes", "purchases", column: "shipping_payment_id"
+  add_foreign_key "boxes", "users", column: "assembled_by_id"
+  add_foreign_key "boxes", "users", column: "design_reviewed_by_id"
+  add_foreign_key "boxes", "users", column: "designed_by_id"
+  add_foreign_key "boxes", "users", column: "shipped_by_id"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
   add_foreign_key "inventory_adjustments", "box_items"
   add_foreign_key "inventory_adjustments", "inventory_tallies"
   add_foreign_key "inventory_adjustments", "purchases"
+  add_foreign_key "inventory_tallies", "inventory_types"
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
+  add_foreign_key "message_logs", "users", column: "sent_by_id"
+  add_foreign_key "message_logs", "users", column: "sent_to_id"
   add_foreign_key "purchases", "locations"
+  add_foreign_key "purchases", "users", column: "purchased_by_id"
+  add_foreign_key "purchases", "users", column: "reimbursed_by_id"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "user_permissions", "users"
+  add_foreign_key "users", "volunteers"
+  add_foreign_key "volunteers", "locations", column: "university_location_id"
 end
