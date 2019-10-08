@@ -16,4 +16,8 @@ user = User.where(volunteer: volunteer).
                              password: 'password',
                              password_confirmation: 'password')
 
+AbuseType::SUPPORTED_ABUSE_TYPES.each do |abuse_type_name|
+  AbuseType.where(name: abuse_type_name).first_or_create!
+end
+
 user.grant_all_permissions! if user.user_permissions.none?
