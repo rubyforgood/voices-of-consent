@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import './MessageLogForm.scss';
-import { type } from 'os';
 
 const MESSAGEABLE_TYPES = [
   {value: "User", display: "User"},
@@ -9,7 +9,15 @@ const MESSAGEABLE_TYPES = [
   {value: "BoxRequest", display: "Box Request"}
 ]
 
-const MessageLogForm = () => {
+class MessageLogForm extends React.component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      messageLog: {
+        messageableType: "",
+        messageableIds: []
+      },
+    }
   
   // TODO: replace messageable id dropdown with real data once we can fetch it from the db
   return (
