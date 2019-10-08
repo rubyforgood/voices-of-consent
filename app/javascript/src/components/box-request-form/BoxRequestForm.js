@@ -184,8 +184,8 @@ class BoxRequestForm extends React.Component {
   renderAbuseTypes() {
     const abuseTypes = this.state.abuseTypeOptions.map((type) =>
       <div class="row form-check">
-        <input class="form-check-input" type="checkbox" value={type} id="abuse_types" onChange={this.handleCheckBoxChange} checked={this.state.boxRequest.abuse_types.includes(type)} />
-        <label class="form-check-label" for="abuse_types">{type}</label>
+        <input class="form-check-input" type="checkbox" value={type} id={type} onChange={this.handleCheckBoxChange} checked={this.state.boxRequest.abuse_types.includes(type)} />
+        <label class="form-check-label" for={type}>{type}</label>
       </div>
     );
 
