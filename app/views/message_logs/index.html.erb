@@ -36,5 +36,7 @@
 </table>
 </div>
 <br>
-
+<div class="d-flex justify-content-center">
+  <%= will_paginate @message_logs, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
 <%= link_to 'New Message Log', new_message_log_path %>
