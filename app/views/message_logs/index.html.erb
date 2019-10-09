@@ -28,8 +28,6 @@
         <td><%= message_log.sent_to.email %></td>
         <td><%= message_log.sent_by.email %></td>
         <td><%= link_to 'Show', message_log %></td>
-        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
-        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
