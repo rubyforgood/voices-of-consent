@@ -62,12 +62,26 @@ class BoxRequestForm extends React.Component {
     const { abuse_types } = this.state.boxRequest;
     let updatedTypes = [...abuse_types];
 
-    if (updatedTypes.includes(abuseType)) {
-        const index = updatedTypes.indexOf(5);
+    if (abuseType === 'All of the Above') {
+      if (updatedTypes.includes(abuseType)) {
+        updatedTypes = [];
+      }
+      else {
+        updatedTypes = this.state.abuseTypeOptions;
+      }
+    }
+    else {
+      if (updatedTypes.includes(abuseType)) {
+        const index = updatedTypes.indexOf(abuseType);
         updatedTypes.splice(index, 1);
+        if (updatedTypes.includes('All of the Above')) {
+          const allIndex = updatedTypes.indexOf('All of the Above');
+          updatedTypes.splice(allIndex, 1);
+        }
       } else {
         updatedTypes.push(abuseType);
       }
+    }
 
     this.setState({ boxRequest: { ...this.state.boxRequest, abuse_types: updatedTypes } });
   }
@@ -82,6 +96,13 @@ class BoxRequestForm extends React.Component {
     }
 
     const token = document.getElementsByName('csrf-token')[0].content;
+
+    const { abuse_types } = this.state.boxRequest;
+    if (abuse_types.includes('All of the Above')) {
+      const allIndex = abuse_types.indexOf('All of the Above');
+      abuse_types.splice(allIndex, 1);
+      this.setState({ boxRequest: { ...this.state.boxRequest, abuse_types: abuse_types } });
+    }
 
     window.fetch(location.origin + '/box_request_triage', {
       method: 'POST',
@@ -163,8 +184,8 @@ class BoxRequestForm extends React.Component {
   renderAbuseTypes() {
     const abuseTypes = this.state.abuseTypeOptions.map((type) =>
       <div class="row form-check">
-        <input class="form-check-input" type="checkbox" value={type} id="abuse_types" onChange={this.handleCheckBoxChange} checked={this.state.boxRequest.abuse_types.includes(type)} />
-        <label class="form-check-label" for="abuse_types">{type}</label>
+        <input class="form-check-input" type="checkbox" value={type} id={type} onChange={this.handleCheckBoxChange} checked={this.state.boxRequest.abuse_types.includes(type)} />
+        <label class="form-check-label" for={type}>{type}</label>
       </div>
     );
 
