@@ -11,7 +11,7 @@ class BoxRequestForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      abuseTypeOptions: ["Emotional", "Physical", "Sexual", "All of the Above"],
+      abuseTypeOptions: ["All of the Above"],
       attemptedSubmit: false,
       step: 0,
       boxRequest: {
@@ -46,6 +46,25 @@ class BoxRequestForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginatePrevious = this.handlePaginatePrevious.bind(this);
     this.handlePaginateForward = this.handlePaginateForward.bind(this);
+  }
+
+  componentDidMount() {
+    const token = document.getElementsByName('csrf-token')[0].content;
+    const { abuseTypeOptions } = this.state;
+
+    fetch('/abuse_types.json', {
+      credentials: 'same-origin',
+      headers: { 'X-CSRF-Token': token },
+    }).then((response) => response.json())
+    .then((data) => {
+      const abuseTypes = data.map(({ name }) => {
+        const abuseTypeName = name.substr(0, 1).toUpperCase() + name.substr(1).toLowerCase();
+
+        return abuseTypeName
+      })
+
+      this.setState({ abuseTypeOptions: [...abuseTypes, ...abuseTypeOptions] })
+    });
   }
 
   handleChange(event) {
@@ -373,21 +392,21 @@ class BoxRequestForm extends React.Component {
         <div class="row section-top">
           <label class="section-label">Phone</label>
           <input type="text" class="form-control" name="phone" value={boxRequest.phone} onChange={this.handleChange} />
-          <div class="col-6"> 
+          <div class="col-6">
             <div class="row">
               <label class="following-question">Okay to call?*</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_true" onChange={this.handleRadioChange} checked={boxRequest.ok_to_call}/>
                 <label class="form-check-label" for="ok_to_call">Yes</label>
               </div>
-              
+
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_false" onChange={this.handleRadioChange} checked={boxRequest.ok_to_call === false}/>
                 <label class="form-check-label" for="ok_to_call_false">No</label>
               </div>
             </div>
           </div>
-          <div class="col-6"> 
+          <div class="col-6">
             <div class="row">
               <label class="following-question">Okay to text?*</label>
               <div class="form-check form-check-inline">
@@ -412,7 +431,7 @@ class BoxRequestForm extends React.Component {
   }
 
   renderProgressBar() {
-    const { first_name, last_name, email, street_address, city, state, zip, ok_to_mail, ok_to_call, ok_to_text, ok_to_email, question_re_affect, 
+    const { first_name, last_name, email, street_address, city, state, zip, ok_to_mail, ok_to_call, ok_to_text, ok_to_email, question_re_affect,
       question_re_referral_source, question_re_current_situation, is_safe, is_interested_in_counseling_services, is_interested_in_health_services, is_underage, abuse_types } = this.state.boxRequest;
 
     const completedFields = [first_name, last_name, email, street_address, city, state, zip, question_re_affect,
