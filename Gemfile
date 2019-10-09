@@ -75,3 +75,5 @@ gem 'twilio-ruby', '~> 5.25'
 
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'simple_form'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
