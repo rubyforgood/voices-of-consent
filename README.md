@@ -43,10 +43,12 @@ $ bundle install
 $ yarn install
 $ rake dev:setup
 $ heroku local -f Procfile.dev
+# if you chose the local route, then you are good to go on:
+  http://localhost:5000
+  $ rspec (to run the test suite)
 # If you chose the Docker route:
   $ docker-compose start -or- $ docker-compose up
-# Else
-  $ rails s
+  http://localhost:3000
 $ rspec (to run the test suite)
 ```
 
