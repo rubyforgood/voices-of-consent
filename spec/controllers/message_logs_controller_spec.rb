@@ -24,6 +24,7 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe MessageLogsController, type: :controller do
+  has_authenticated_user
 
   # This should return the minimal set of attributes required to create a valid
   # MessageLog. As you add validations to MessageLog, be sure to
@@ -48,6 +49,18 @@ RSpec.describe MessageLogsController, type: :controller do
       expect(response).to be_successful
     end
   end
+
+  describe "GET #index page 2 & will_paginate records for second page" do
+    it "shows 2 items on the second page" do
+      FactoryBot.create_list(:message_log, 32)
+      get :index, params: { page: 2 }, session: valid_session
+      expect(response).to be_successful
+      #Only the last two items are rendered on the second page
+      expect(@controller.instance_variable_get(:@message_logs).length).to eq(2)
+      expect(MessageLog.count).to eq(32)
+    end
+  end
+
 
   describe "GET #show" do
     it "returns a success response" do
