@@ -22,7 +22,7 @@
         <th scope="row"><%= message_log.message_type %></th>
         <td><%= message_log.id %></td>
         <%# Strip HTML tags and hard carriage returns since content returns as a long HTML string%>
-        <td><%= strip_tags(message_log.content)&.gsub(/=0D/, "") %></td>
+        <td><%= truncate(strip_tags(message_log.content).gsub(/=0D/, ""), length: 25) %></td>
         <td><%= message_log.delivery_type %></td>
         <td><%= message_log.delivery_status %></td>
         <td><%= message_log.sent_to.email %></td>
