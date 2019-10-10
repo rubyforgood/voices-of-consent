@@ -4,7 +4,7 @@ class MessageLogsController < ApplicationController
   # GET /message_logs
   # GET /message_logs.json
   def index
-    @message_logs = MessageLog.all
+    @message_logs = MessageLog.ordered.paginate(page: params[:page])
   end
 
   # GET /message_logs/1
