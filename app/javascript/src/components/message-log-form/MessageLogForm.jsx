@@ -30,6 +30,29 @@ class MessageLogForm extends React.Component {
     this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } });
   }
 
+  handleMessageableTypeChange = (event) => {
+    this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } });
+
+    const token = document.getElementsByName('csrf-token')[0].content;
+
+    window.fetch(location.origin + `/${event.target.value}s/index`, {
+      method: 'GET',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
+      },
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data)
+    })
+  }
+
   handleSubmit = () => {
     this.setState({ isFormSubmitting: true })
     console.log(this.state.message_log)
@@ -48,7 +71,7 @@ class MessageLogForm extends React.Component {
               <select
                 name="messageable_type"
                 value={message_log.messageable_type}
-                onChange={this.handleChange}>
+                onChange={this.handleMessageableTypeChange}>
                 <option value="" disabled>Select Messageable Type</option>
                 {MESSAGEABLE_TYPES.map((type) => <option key={type.value} value={type.value}>{type.display}</option>)}
               </select>
@@ -66,7 +89,7 @@ class MessageLogForm extends React.Component {
               </select>
             </div>
           </div>
-          <div class="field">
+          <div className="field">
             <label>Content</label>
             <input
               type="text"
@@ -75,7 +98,7 @@ class MessageLogForm extends React.Component {
               value={message_log.content}
               onChange={this.handleChange} />
           </div>
-          <div class="field">
+          <div className="field">
             <label>Delivery Type</label>
             <input
               type="text"
@@ -84,7 +107,7 @@ class MessageLogForm extends React.Component {
               value={message_log.delivery_type}
               onChange={this.handleChange} />
           </div>
-          <div class="field">
+          <div className="field">
             <label>Delivery Status</label>
             <input
               type="text"
@@ -93,7 +116,7 @@ class MessageLogForm extends React.Component {
               value={message_log.delivery_status}
               onChange={this.handleChange} />
           </div>
-          <div class="field">
+          <div className="field">
             <label>Sent To</label>
             <input
               type="text"
@@ -102,7 +125,7 @@ class MessageLogForm extends React.Component {
               value={message_log.sent_to_id}
               onChange={this.handleChange} />
           </div>
-          <div class="field">
+          <div className="field">
             <label>Sent By</label>
             <input
               type="text"
