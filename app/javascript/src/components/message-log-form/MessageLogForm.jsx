@@ -2,10 +2,11 @@ import React from 'react'
 import './MessageLogForm.scss'
 
 const MESSAGEABLE_TYPES = [
-  {value: "users", display: "User"},
-  {value: "volunteers", display: "Volunteer"},
-  {value: "requesters", display: "Requester"},
-  {value: "box_requests", display: "Box Request"}
+  {value: "User", display: "User"},
+  {value: "Volunteer", display: "Volunteer"},
+  {value: "Requester", display: "Requester"},
+  {value: "Box", display: "Box"},
+  {value: "BoxRequest", display: "Box Request"}
 ]
 
 const DELIVERY_TYPES = [
@@ -39,9 +40,15 @@ class MessageLogForm extends React.Component {
 
   handleMessageableTypeChange = (event) => {
     this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } })
+    
+    const camelToSnake = (string) => {
+      return string.replace(/[\w]([A-Z])/g, function (m) {
+        return m[0] + "_" + m[1]
+      }).toLowerCase() + 's'
+    }
 
     const getMessageableIds = async () => {
-      const response = await fetch(`${location.origin}/${event.target.value}.json`)
+      const response = await fetch(`${location.origin}/${camelToSnake(event.target.value)}.json`)
       const myJson = await response.json()
       if (myJson) {
         const messageable_ids = myJson.map(function (type) {
@@ -56,7 +63,6 @@ class MessageLogForm extends React.Component {
 
   handleSubmit = () => {
     this.setState({ isFormSubmitting: true })
-    console.log(this.state.message_log)
 
     const sendMessageLog = async () => {
       const token = document.getElementsByName('csrf-token')[0].content
