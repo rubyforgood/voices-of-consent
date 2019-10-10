@@ -8,6 +8,13 @@ const MESSAGEABLE_TYPES = [
   {value: "box_requests", display: "Box Request"}
 ]
 
+const DELIVERY_TYPES = [
+  {key: 0, value: "text", display: "Text"},
+  {key: 1, value: "autoemail", display: "Autoemail"},
+  {key: 2, value: "email", display: "Email"},
+  {key: 3, value: "phone", display: "Phone"}
+]
+
 class MessageLogForm extends React.Component {
   constructor(props) {
     super(props),
@@ -50,6 +57,30 @@ class MessageLogForm extends React.Component {
   handleSubmit = () => {
     this.setState({ isFormSubmitting: true })
     console.log(this.state.message_log)
+
+    const sendMessageLog = async () => {
+      const token = document.getElementsByName('csrf-token')[0].content
+      const url = `${location.origin}/message_logs`
+      const data = this.state.message_log
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': token
+          }
+        });
+        const json = await response.json()
+        console.log('Success:', JSON.stringify(json))
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
+
+    sendMessageLog()
   }
   
   // TODO: replace messageable id dropdown with real data once we can fetch it from the db
@@ -92,12 +123,13 @@ class MessageLogForm extends React.Component {
           </div>
           <div className="field">
             <label>Delivery Type</label>
-            <input
-              type="text"
-              id="delivery_type"
+            <select
               name="delivery_type"
               value={message_log.delivery_type}
-              onChange={this.handleChange} />
+              onChange={this.handleChange}>
+              <option value="" disabled>Select Delivery Type</option>
+              {DELIVERY_TYPES.map((type) => <option key={type.key} value={type.value}>{type.display}</option>)}
+            </select>
           </div>
           <div className="field">
             <label>Delivery Status</label>
