@@ -51,9 +51,9 @@
           <% if box_request.review_declined_by_ids.include?(current_user.id) %>
             (Declined)
           <% elsif !box_request.reviewed_by_id.present? %>
-            <%= link_to("claim review", edit_box_request_path(box_request), class: "btn form-group btn-default button") %>
+            <%= link_to("claim review", edit_box_request_path(box_request), class: "btn form-group btn-outline-secondary button") %>
           <% elsif box_request.reviewed_by == current_user && !box_request.is_reviewed %>
-            <%= link_to("review", edit_box_request_path(box_request), class: "btn form-group btn-default button") %>
+            <%= link_to("review", edit_box_request_path(box_request), class: "btn form-group btn-outline-secondary button") %>
           <% end %>
         </td>
         <td>
