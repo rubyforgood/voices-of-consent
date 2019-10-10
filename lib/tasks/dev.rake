@@ -5,5 +5,5 @@ namespace :dev do
   end
 
   desc "setup your development environment"
-  task setup: ["config/database.yml", "db:setup"]
+  task setup: ["config/database.yml", "db:setup", "db:seed:dev"]
 end
