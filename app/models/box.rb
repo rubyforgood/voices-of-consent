@@ -21,7 +21,7 @@ class Box < ApplicationRecord
     return !self.designed_by.nil?
   end
 
-  def has_reseacher?
+  def has_researcher?
     return !self.researched_by.nil?
   end
 
