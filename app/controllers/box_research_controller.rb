@@ -1,22 +1,23 @@
-class BoxShipmentController < ApplicationController
+class BoxResearchController < ApplicationController
 
   def new
     @box = box_claim_scope.find(params[:box_id])
-    @requester = @box.box_request.requester
   end
 
   def claim
     @box = box_claim_scope.find(params[:box_id])
 
-    if !@box.shipped_by_id || @box.shipped_by == current_user
+    if !@box.researched_by_id || @box.researched_by == current_user
       respond_to do |format|
-        @box.shipped_by = current_user
+        @box.researched_by = current_user
         if @box.save
-          if @box.aasm_state == "assembled"
-            @box.claim_shipping!
+          if @box.aasm_state == "designed"
+            @box.claim_research!
+          elsif @box.aasm_state == "researched"
+            @box.mark_as_researched!
           end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "assemble"), notice: 'Box design was successfully claimed.' }
+          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "research"), notice: 'Box research was successfully claimed.' }
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
@@ -32,14 +33,16 @@ class BoxShipmentController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
 
     respond_to do |format|
-      @box.shipped_by = current_user if @box.shipped_by_id == nil
+      @box.researched_by = current_user if @box.researched_by_id == nil
 
       if @box.save
-        if @box.aasm_state == "researched"
-          @box.claim_shipping!
-          @box.complete_shipping!
-        elsif @box.aasm_state == "shipping_in_progress"
-          @box.complete_shipping!
+        if @box.aasm_state == "designed"
+          @box.claim_research!
+          @box.complete_research!
+        elsif @box.aasm_state == "research_in_progress"
+          @box.complete_research!
+        elsif @box.aasm_state == "researched"
+          @box.mark_as_researched!
         end
 
         format.html { redirect_to box_requests_path, notice: 'Box design was successfully claimed.' }
@@ -54,12 +57,10 @@ class BoxShipmentController < ApplicationController
 
   private
 
-  def box_shipment_params
+  def box_research_params
     require(:box).permit(
-        :shipped_by_id,
-        :shipped_at,
-        :shipping_payment_id,
-        :shipment_tracking_number,
+        :researched_by_id,
+        :researched_at,
     )
   end
 

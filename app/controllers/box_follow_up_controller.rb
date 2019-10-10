@@ -1,4 +1,4 @@
-class BoxShipmentController < ApplicationController
+class BoxFollowUpController < ApplicationController
 
   def new
     @box = box_claim_scope.find(params[:box_id])
@@ -8,15 +8,15 @@ class BoxShipmentController < ApplicationController
   def claim
     @box = box_claim_scope.find(params[:box_id])
 
-    if !@box.shipped_by_id || @box.shipped_by == current_user
+    if !@box.followed_up_by_id || @box.followed_up_by == current_user
       respond_to do |format|
-        @box.shipped_by = current_user
+        @box.followed_up_by = current_user
         if @box.save
-          if @box.aasm_state == "assembled"
-            @box.claim_shipping!
+          if @box.aasm_state == "shipped"
+            @box.claim_follow_up!
           end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "assemble"), notice: 'Box design was successfully claimed.' }
+          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "follow_up"), notice: 'Box followup was successfully claimed.' }
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
@@ -32,17 +32,17 @@ class BoxShipmentController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
 
     respond_to do |format|
-      @box.shipped_by = current_user if @box.shipped_by_id == nil
+      @box.followed_up_by = current_user if @box.followed_up_by_id == nil
 
       if @box.save
-        if @box.aasm_state == "researched"
-          @box.claim_shipping!
-          @box.complete_shipping!
-        elsif @box.aasm_state == "shipping_in_progress"
-          @box.complete_shipping!
+        if @box.aasm_state == "shipped"
+          @box.claim_follow_up!
+          @box.complete_follow_up!
+        elsif @box.aasm_state == "follow_up_in_progress"
+          @box.complete_follow_up!
         end
 
-        format.html { redirect_to box_requests_path, notice: 'Box design was successfully claimed.' }
+        format.html { redirect_to box_requests_path, notice: 'Box follow up was successfully claimed.' }
         format.json { render :show, status: :ok, location: @box }
       else
         format.html { render :edit }
@@ -56,10 +56,8 @@ class BoxShipmentController < ApplicationController
 
   def box_shipment_params
     require(:box).permit(
-        :shipped_by_id,
-        :shipped_at,
-        :shipping_payment_id,
-        :shipment_tracking_number,
+        :followed_up_by_id,
+        :followed_up_at,
     )
   end
 

@@ -22,19 +22,19 @@
         <th scope="row"><%= message_log.message_type %></th>
         <td><%= message_log.id %></td>
         <%# Strip HTML tags and hard carriage returns since content returns as a long HTML string%>
-        <td><%= strip_tags(message_log.content).gsub(/=0D/, "") %></td>
+        <td><%= truncate(strip_tags(message_log.content).gsub(/=0D/, ""), length: 25) %></td>
         <td><%= message_log.delivery_type %></td>
         <td><%= message_log.delivery_status %></td>
         <td><%= message_log.sent_to.email %></td>
         <td><%= message_log.sent_by.email %></td>
         <td><%= link_to 'Show', message_log %></td>
-        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
-        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 </div>
 <br>
-
+<div class="d-flex justify-content-center">
+  <%= will_paginate @message_logs, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
 <%= link_to 'New Message Log', new_message_log_path %>

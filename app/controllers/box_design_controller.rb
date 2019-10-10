@@ -1,25 +1,64 @@
 class BoxDesignController < ApplicationController
 
   def new
+    @box = box_claim_scope.find(params[:box_id])
   end
 
   def claim
     @box = box_claim_scope.find(params[:box_id])
-    @box.designed_by = current_user
-    @box.save!
+
+    if !@box.designed_by_id || @box.designed_by == current_user
+      respond_to do |format|
+        @box.designed_by = current_user
+        if @box.save
+          if @box.aasm_state == "reviewed"
+            @box.claim_design!
+          end
+
+          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "design"), notice: 'Box design was successfully claimed.' }
+          format.json { render :show, status: :ok, location: @box }
+        else
+          format.html { render :edit }
+          format.json { render json: @box.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to box_request_already_claimed_path
+    end
   end
 
-  def mark_as_designed
-    @box = box_claim_scope.find_by(designed_by: current_user)
-    @box.update(box_design_params)
-    @box.designed_at = DateTime.now
-    @box.design! #state transition
+  def complete
+    @box = box_claim_scope.find(params[:box_id])
+
+    respond_to do |format|
+      @box.designed_by = current_user if !@box.designed_by_id
+
+      if @box.save
+        if @box.aasm_state == "reviewed"
+          @box.claim_design!
+          @box.complete_design!
+        elsif @box.aasm_state == "design_in_progress"
+          @box.complete_design!
+        end
+
+        format.html { redirect_to box_requests_path, notice: 'Box design was successfully claimed.' }
+        format.json { render :show, status: :ok, location: @box }
+      else
+        format.html { render :edit }
+        format.json { render json: @box.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
 
   def box_design_params
-    require(:box)
+    params.require(:box).permit(
+      :designed_by_id,
+      :designed_at,
+      :design_reviewed_by_id,
+      :design_reviewed_at,
+    )
   end
 
   def box_claim_scope

@@ -9,10 +9,18 @@ Voices of Consent gets the word out to survivors by talking at schools and churc
 Please check out https://www.voicesofconsent.org/what-we-do as well as the rest of the website to learn more about this organization.
 
 # Contributing
-See our [CONTRIBUTING.md](https://github.com/rubyforgood/voices-of-consent/blob/develop/CONTRIBUTING.md)
+
+Visit our [CONTRIBUTING.md](https://github.com/rubyforgood/voices-of-consent/blob/develop/CONTRIBUTING.md) file for more information on making your contribution. We look forward to it.
+
 
 # Background
-We've started a few reference documents based on questions we've been asked. Check out the /notes folder in the repo, and please ask questions in the Ruby for Good Slack or on Github so we can improve our references.
+We've started a few reference documents based on questions we've been asked. Make sure you also read our [background.md](notes/background.md), and check out the [database-diagram.png](notes/database-diagram.png) all of which is located in the [/notes](notes) folder in the repo.
+
+Also located in the [/notes](notes) folder is [database-diagram.dot](notes/database-diagram.dot) which is used to create the [database diagram.png](notes/database-diagram.png). If you want to edit this file and generate new versions of the [database-diagram.png](notes/database-diagram.png), visit http://graphviz.it/ and paste the code from your [database-diagram.dot](notes/database-diagram.dot). Make sure you erase all the code on this website and replace it with the entire contents of your .dot file to see your diagram properly.
+
+If you want to know more about how to update the [database-diagram.png](notes/database-diagram.png), please checkout Casey Watts' instructional post on graphviz at https://gist.github.com/caseywatts/be69bf941fa1f8e264bd07de698366a0.
+
+If you have any questions please feel free to reach out in the Ruby for Good Slack or on Github so we can improve our references.
 
 # Setting Up Development
 
@@ -43,10 +51,12 @@ $ bundle install
 $ yarn install
 $ rake dev:setup
 $ heroku local -f Procfile.dev
+# if you chose the local route, then you are good to go on:
+  http://localhost:5000
+  $ rspec (to run the test suite)
 # If you chose the Docker route:
   $ docker-compose start -or- $ docker-compose up
-# Else
-  $ rails s
+  http://localhost:3000
 $ rspec (to run the test suite)
 ```
 
@@ -128,3 +138,6 @@ Send mail through smtp://localhost:1025
 ```
 
 You only need this if you're interested in working on emails in the development environment.
+
+### Re-seeding development database
+To reset your development database with realistic data, run `rake dev:setup`. To add additional fake data during development after you have already run `rake dev:setup`, you can use `rake db:seed:dev`.

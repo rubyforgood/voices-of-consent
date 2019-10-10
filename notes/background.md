@@ -1,10 +1,23 @@
 # Background
+Voices of Consent is a nonprofit organization whose goal is to support survivors after a traumatic event. In the aftermath of a traumatic event, Voices of Consent sends a box to a survivor who requests one.
 
-Voices of Consent accepts requests for Survivor Boxes from the public. 
+Survivor Boxes are personalized packages put together to let survivors know they are not alone after an event, and includes resources to use as survivors begin the recovery process (including information about laws in their state, free health and counseling services in their area). The boxes are sent to survivors who request them directly, or can be picked up at hospitals or police stations.
 
-This app streamlines the process of coordinating many volunteers in different locations and at different points in the lifecycle of a Box Request.
+Please check out [the Voices of Consent website](https://www.voicesofconsent.org/what-we-do) to learn more about this organization.
 
-## Primary workflow of the app (aka phases of Survivor Box creation)
+# Application Purpose
+
+The purpose of this application is to streamline the process of coordinating many volunteers in different locations and at different points in the lifecycle of a request. 
+
+This scope of this application includes: 
+- requesting, designing, packaging, shipping and tracking a box
+- maintaining inventory supplies  
+- creating and managing volunteer roles 
+- managing events
+
+# Application Features
+## Primary Workflow of the Application (aka phases of Survivor Box creation) 
+
   ### 1. BoxRequest creation
   - Someone submits a `BoxRequest` form
     - `/requesters/new`
@@ -22,7 +35,7 @@ This app streamlines the process of coordinating many volunteers in different lo
   - After a similar Claim/Decline email related to new BoxRequests, boxes get "Designed", where a Volunteer with Permission will add `BoxItems` to  a `Box`
   - The Designer will be taken to the Design page (via `BoxDesignController`), where they will select items to add to this person's box from the `Inventory Type` dropdown.
   - Users can also add new on-the-fly `BoxItems` even if there isn't an underlying `Inventory Type`
-  ### TBD. BoxItem Research (resource materials creation)
+#### 2.a. BoxItem Research (resource materials creation)
   - Voices of Consent compiles resource materials specific to each person's BoxRequest data. 
     - This often requires referencing many websites, copy/pasting info into documents, adding some images/styling to make it prettier, and then saving the result as a PDF. 
     - We'd love to support/assist with that process later on, and this is the initial groundwork to add Research as a phase of Box production. 
