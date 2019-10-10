@@ -12,7 +12,7 @@ Please check out https://www.voicesofconsent.org/what-we-do as well as the rest 
 See our CONTRIBUTING.md
 
 # Background
-We've started a few reference documents based on questions we've been asked. Check out the /notes folder in the repo, and please ask questions in the Ruby for Good Slack or on Github so we can improve our references.
+We've started a few reference documents based on questions we've been asked. Check out the https://github.com/rubyforgood/voices-of-consent/tree/develop/notes folder in the repo, and please ask questions in the Ruby for Good Slack or on Github so we can improve our references.
 
 # Setting Up Development
 
