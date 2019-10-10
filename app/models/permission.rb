@@ -5,6 +5,7 @@ module Permission
   REQUEST_REVIEWER = 'reviewer'
   BOX_DESIGNER = 'designer'
   BOX_ASSEMBLER = 'assembler'
+  BOX_ITEM_RESEARCHER = 'researcher'
   TEAM_LEAD = 'team lead'
   SHIPPER = 'shipper'
   REIMBURSER = 'reimburser'
