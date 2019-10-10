@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types'
-import './MessageLogForm.scss';
+import React from 'react'
+import './MessageLogForm.scss'
 
 const MESSAGEABLE_TYPES = [
-  {value: "User", display: "User"},
-  {value: "Volunteer", display: "Volunteer"},
-  {value: "Requester", display: "Requester"},
-  {value: "BoxRequest", display: "Box Request"}
+  {value: "users", display: "User"},
+  {value: "volunteers", display: "Volunteer"},
+  {value: "requesters", display: "Requester"},
+  {value: "box_requests", display: "Box Request"}
 ]
 
 class MessageLogForm extends React.Component {
@@ -14,6 +13,7 @@ class MessageLogForm extends React.Component {
     super(props),
     this.state = {
       isFormSubmitting: false,
+      messageable_ids: [{ value: "", display: "No IDs on this type" }],
       message_log: {
         messageable_type: "",
         messageable_id: "",
@@ -27,30 +27,24 @@ class MessageLogForm extends React.Component {
   }
 
   handleChange = (event) => {
-    this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } });
+    this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } })
   }
 
   handleMessageableTypeChange = (event) => {
-    this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } });
+    this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } })
 
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const getMessageableIds = async () => {
+      const response = await fetch(`${location.origin}/${event.target.value}.json`)
+      const myJson = await response.json()
+      if (myJson) {
+        const messageable_ids = myJson.map(function (type) {
+          return { value: type.id, display: type.id }
+        })
+        this.setState({ messageable_ids: messageable_ids })
+      }
+    }
 
-    window.fetch(location.origin + `/${event.target.value}s/index`, {
-      method: 'GET',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token
-      },
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      console.log(data)
-    })
+    getMessageableIds()
   }
 
   handleSubmit = () => {
@@ -83,9 +77,7 @@ class MessageLogForm extends React.Component {
                 value={message_log.messageable_id}
                 onChange={this.handleChange}>
                 <option value="" disabled>Select Messageable ID</option>
-                <option key="1" value="1">1</option>
-                <option key="2" value="2">2</option>
-                <option key="3" value="3">3</option>
+                {this.state.messageable_ids.map((type_id) => <option key={type_id.value} value={type_id.value}>{type_id.display}</option>)}
               </select>
             </div>
           </div>
