@@ -132,4 +132,4 @@ Send mail through smtp://localhost:1025
 You only need this if you're interested in working on emails in the development environment.
 
 ### Re-seeding development database
-To reset your development database with realistic data, run `rake db:reset db:seed:dev`. To add additional fake data during development, you can use `rake db:seed:dev`.
+To reset your development database with realistic data, run `rake dev:setup`. To add additional fake data during development after you have already run `rake dev:setup`, you can use `rake db:seed:dev`.
