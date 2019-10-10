@@ -9,7 +9,9 @@ Voices of Consent gets the word out to survivors by talking at schools and churc
 Please check out https://www.voicesofconsent.org/what-we-do as well as the rest of the website to learn more about this organization.
 
 # Contributing
-See our [CONTRIBUTING.md](https://github.com/rubyforgood/voices-of-consent/blob/develop/CONTRIBUTING.md)
+
+Visit our [CONTRIBUTING.md](https://github.com/rubyforgood/voices-of-consent/blob/develop/CONTRIBUTING.md) file for more information on making your contribution. We look forward to it.
+
 
 # Background
 We've started a few reference documents based on questions we've been asked. Make sure you also read our [background.md](notes/background.md), and check out the [database-diagram.png](notes/database-diagram.png) all of which is located in the [/notes](notes) folder in the repo.
