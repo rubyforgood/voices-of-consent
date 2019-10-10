@@ -52,7 +52,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  gem 'webdrivers', '~> 4.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -75,3 +75,5 @@ gem 'twilio-ruby', '~> 5.25'
 
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'simple_form'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4'
