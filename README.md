@@ -12,7 +12,13 @@ Please check out https://www.voicesofconsent.org/what-we-do as well as the rest 
 See our CONTRIBUTING.md
 
 # Background
-We've started a few reference documents based on questions we've been asked. Check out the [/notes](notes) folder in the repo, and please ask questions in the Ruby for Good Slack or on Github so we can improve our references.
+We've started a few reference documents based on questions we've been asked. Make sure you also read our [background.md](notes/background.md), and check out the [database-diagram.png](notes/database-diagram.png) all of which is located in the [/notes](notes) folder in the repo.
+
+Also located in the [/notes](notes) folder is [database-diagram.dot](notes/database-diagram.dot) which is used to create the [database diagram.png](notes/database-diagram.png). If you want to edit this file and generate new versions of the [database-diagram.png](notes/database-diagram.png), visit http://graphviz.it/ and paste the code from your [database-diagram.dot](notes/database-diagram.dot). Make sure you erase all the code on this website and replace it with the entire contents of your .dot file to see your diagram properly.
+
+If you want to know more about how to update the [database-diagram.png](notes/database-diagram.png), please checkout Casey Watts' instructional post on graphviz at https://gist.github.com/caseywatts/be69bf941fa1f8e264bd07de698366a0.
+
+If you have any questions please feel free to reach out in the Ruby for Good Slack or on Github so we can improve our references.
 
 # Setting Up Development
 
