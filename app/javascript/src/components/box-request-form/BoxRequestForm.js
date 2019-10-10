@@ -49,22 +49,15 @@ class BoxRequestForm extends React.Component {
   }
 
   componentDidMount() {
-    const token = document.getElementsByName('csrf-token')[0].content;
     const { abuseTypeOptions } = this.state;
 
-    fetch('/abuse_types.json', {
-      credentials: 'same-origin',
-      headers: { 'X-CSRF-Token': token },
-    }).then((response) => response.json())
-    .then((data) => {
-      const abuseTypes = data.map(({ name }) => {
-        const abuseTypeName = name.substr(0, 1).toUpperCase() + name.substr(1).toLowerCase();
+    fetch('/abuse_types.json')
+      .then(response => response.json())
+      .then((data) => {
+        const abuseTypes = data.map(({ name }) => name)
 
-        return abuseTypeName
-      })
-
-      this.setState({ abuseTypeOptions: [...abuseTypes, ...abuseTypeOptions] })
-    });
+        this.setState({ abuseTypeOptions: [...abuseTypes, ...abuseTypeOptions] })
+      });
   }
 
   handleChange(event) {
