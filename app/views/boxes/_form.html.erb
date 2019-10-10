@@ -1,57 +1,18 @@
-<%= form_with(model: box, local: true) do |form| %>
-  <% if box.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(box.errors.count, "error") %> prohibited this box from being saved:</h2>
+<%= simple_form_for(@box, html: { class: 'form-inline' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-      <ul>
-      <% box.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :box_request_id %>
-    <%= form.text_field :box_request_id %>
+  <div class="form-inputs">
+    <%= f.association :box_request %>
+    <%= f.association :designed_by %>
+    <%= f.association :design_reviewed_by %>
+    <%= f.association :shipped_by %>
+    <%= f.association :shipping_payment %>
+    <%= f.input :shipped_at %>
+    <%= f.input :shipment_tracking_number %>
   </div>
 
-  <div class="field">
-    <%= form.label :designed_by_id %>
-    <%= form.text_field :designed_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :design_reviewed_by_id %>
-    <%= form.text_field :design_reviewed_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :assembled_by_id %>
-    <%= form.text_field :assembled_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shipped_by_id %>
-    <%= form.text_field :shipped_by_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shipping_payment_id %>
-    <%= form.text_field :shipping_payment_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shipped_at %>
-    <%= form.datetime_select :shipped_at %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shipment_tracking_number %>
-    <%= form.text_field :shipment_tracking_number %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>
