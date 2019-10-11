@@ -17,6 +17,7 @@ class VolunteerApplicationController < ApplicationController
      :city,
      :state,
      :zip,
+     :county,
      :marketing_vector,
      :why_volunteer
    ].each do |volunteer_attribute|
