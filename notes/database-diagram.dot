@@ -208,7 +208,7 @@ digraph G {
                     purchase_id:references (optional)\n
                     box_item_id:references (optional)\n
                     total_cost:MONEY (optional)\n
-                    adjustment_quantity:int (positive or negative count, which \nchanges inventory_tally#cached_quantity)\n
+                    adjustment_quantity:int (positive or negative count)\n
 
                     }"]
     User [
