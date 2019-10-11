@@ -10,5 +10,6 @@ class Location < ApplicationRecord
     meeting_space: 2,
     video_chat_link: 3,
     distribution_partner: 4,
+    university: 5
   }
 end
