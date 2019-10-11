@@ -16,7 +16,7 @@ class RequestersController < ApplicationController
   # GET /requesters/new
   def new
     @requester = Requester.new
-    render :new, layout: 'box_request_layout'
+    render :new, layout: 'outreach_form_layout'
   end
 
   # GET /requesters/1/edit
@@ -65,7 +65,7 @@ class RequestersController < ApplicationController
 
   def thank_you
     respond_to do |format|
-      format.html { render :layout => "box_request_layout" }
+      format.html { render :layout => "outreach_form_layout" }
     end
   end
 
