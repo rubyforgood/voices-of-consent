@@ -55,6 +55,9 @@ Rails.application.routes.draw do
   get  'box_follow_up/:box_id/decline',            to: "box_follow_up#decline",          as: 'box_follow_up_decline'
   get  'box_follow_up/:box_id/complete',           to: 'box_follow_up#complete',         as: 'box_follow_up_complete'
 
+  post 'volunteer_application',                    to: "volunteer_application#create"
+  get 'volunteers/thank_you',                      to: 'volunteers#thank_you'
+
   resources :attendances
   resources :box_request_abuse_types
   resources :box_requests
