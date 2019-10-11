@@ -25,7 +25,7 @@ class VolunteerApplicationForm extends React.Component {
         ok_to_text: null,
         ok_to_call: null,
         ok_to_mail: null,
-        is_underage: null,
+        is_underage: false, // Volunteers are all over 12 years old
         university_location_id: null,
         graduation_year: null,
       }
@@ -92,11 +92,10 @@ class VolunteerApplicationForm extends React.Component {
       ok_to_text,
       ok_to_call,
       ok_to_mail,
-      is_underage,
     } = this.state.volunteerApplication;
 
     const requiredFields = [first_name, last_name, street_address, city, state, zip, county,
-      marketing_vector, why_volunteer, ok_to_text, ok_to_call, ok_to_mail, is_underage];
+      marketing_vector, why_volunteer, ok_to_text, ok_to_call, ok_to_mail];
 
     return requiredFields.includes(null) || requiredFields.includes('');
   }
@@ -158,20 +157,7 @@ class VolunteerApplicationForm extends React.Component {
         </div>
         { this.state.attemptedSubmit && volunteerApplication.why_volunteer == '' ? this.renderRequiredAlert() : null }
 
-        <label className="row section-top">What is is your age?*</label>
-        { this.state.attemptedSubmit && volunteerApplication.is_underage == null ? this.renderRequiredAlert() : null }
-        <div className="row">
-          <div className="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="is_underage_true" name="is_underage" className="custom-control-input" onChange={this.handleRadioChange} checked={volunteerApplication.is_underage} />
-            <label className="custom-control-label radio-box" htmlFor="is_underage_true">0-12 years old</label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="is_underage_false" name="is_underage" className="custom-control-input" onChange={this.handleRadioChange} checked={volunteerApplication.is_underage === false}/>
-            <label className="custom-control-label radio-box" htmlFor="is_underage_false">13+ years old</label>
-          </div>
-        </div>
+        <input type="hidden" id="is_underage" name="is_underage" value={volunteerApplication.is_underage} onChange={this.handleChange}/>
       </div>
     );
   }
@@ -277,12 +263,12 @@ class VolunteerApplicationForm extends React.Component {
 
   renderProgressBar() {
     const { first_name, last_name, street_address, city, state, zip, county, marketing_vector,
-      why_volunteer, ok_to_text, ok_to_call, ok_to_mail, is_underage } = this.state.volunteerApplication;
+      why_volunteer, ok_to_text, ok_to_call, ok_to_mail} = this.state.volunteerApplication;
 
     const completedFields = [first_name, last_name, street_address, city, state, zip, county, marketing_vector,
-      why_volunteer, ok_to_text, ok_to_call, ok_to_mail, is_underage].filter(n => n === false || n);
+      why_volunteer, ok_to_text, ok_to_call, ok_to_mail].filter(n => n === false || n);
 
-    const percentageComplete = parseInt(completedFields.length / 13 * 100);
+    const percentageComplete = parseInt(completedFields.length / 12 * 100);
 
     return (
       <Progress percent={percentageComplete}  />
