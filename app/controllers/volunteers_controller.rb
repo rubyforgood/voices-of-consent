@@ -1,4 +1,5 @@
 class VolunteersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:thank_you]
   before_action :set_volunteer, only: [:show, :edit, :update, :destroy]
 
   # GET /volunteers
@@ -64,6 +65,12 @@ class VolunteersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to volunteers_url, notice: 'Volunteer was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def thank_you
+    respond_to do |format|
+      format.html { render :layout => "outreach_form_layout" }
     end
   end
 
