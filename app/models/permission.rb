@@ -16,4 +16,6 @@ module Permission
   VOLUNTEER_AT_EVENTS = 'volunteer at events'
   MANAGE_USERS = 'manage users'
   VIEW_MESSAGE_LOGS = 'view message logs'
+  # add new permissions above this line; new constants that are not permissions must go below AVAILABLE_PERMISSIONS=
+  AVAILABLE_PERMISSIONS = self.constants.each_with_object({}) {|c, permissions| permissions[c] = self.const_get(c) }
 end
