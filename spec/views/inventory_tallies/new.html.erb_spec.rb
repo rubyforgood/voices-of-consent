@@ -12,8 +12,6 @@ RSpec.describe "inventory_tallies/new", type: :view do
 
       assert_select "input[name=?]", "inventory_tally[additional_location_info]"
 
-      assert_select "input[name=?]", "inventory_tally[cached_quantity]"
-
       assert_select "select[name=?]", "inventory_tally[inventory_type_id]"
 
       assert_select "select[name=?]", "inventory_tally[storage_location_id]"
