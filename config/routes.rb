@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   resource  :user_management, only: %i[show create destroy], controller: :user_management
   resources :volunteers
   resources :abuse_types, only: %i[index]
+  resources :box_assembly
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html

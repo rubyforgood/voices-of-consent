@@ -8,7 +8,7 @@ RSpec.describe "locations/show", type: :view do
       :city => "City",
       :state => "State",
       :zip => "Zip",
-      :type => 2
+      :location_type => 2
     ))
   end
 
