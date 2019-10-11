@@ -8,7 +8,7 @@ RSpec.describe "locations/new", type: :view do
       :city => "MyString",
       :state => "MyString",
       :zip => "MyString",
-      :type => 1
+      :location_type => 1
     ))
   end
 
@@ -27,7 +27,7 @@ RSpec.describe "locations/new", type: :view do
 
       assert_select "input[name=?]", "location[zip]"
 
-      assert_select "input[name=?]", "location[type]"
+      assert_select "input[name=?]", "location[location_type]"
     end
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe "locations/index", type: :view do
         :city => "City",
         :state => "State",
         :zip => "Zip",
-        :type => 2
+        :location_type => 2
       ),
       Location.create!(
         :name => "Name",
@@ -17,7 +17,7 @@ RSpec.describe "locations/index", type: :view do
         :city => "City",
         :state => "State",
         :zip => "Zip",
-        :type => 2
+        :location_type => 2
       )
     ])
   end
@@ -29,6 +29,6 @@ RSpec.describe "locations/index", type: :view do
     assert_select "tr>td", :text => "City".to_s, :count => 2
     assert_select "tr>td", :text => "State".to_s, :count => 2
     assert_select "tr>td", :text => "Zip".to_s, :count => 2
-    assert_select "tr>td", :text => 2.to_s, :count => 2
+    assert_select "tr>td", :text => 'Type'.to_s, :count => 2
   end
 end
