@@ -80,7 +80,6 @@ RSpec.describe BoxRequest, :type => :model do
 
    box_request.tag_list.add("free_counseling")
    box_request.save
-   box_request.reload
 
    box_request.tag_list.remove("free_counseling")
    box_request.save
@@ -98,7 +97,7 @@ describe "state transitions" do
       box_request.question_re_affect = "Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies."
       box_request.question_re_current_situation = "Sweet roll cake pastry cookie."
       box_request.question_re_referral_source = "Ice cream sesame snaps danish marzipan macaroon icing jelly beans."
-      box_request.save 
+      box_request.save
     end
 
     it "new box request initializes with state requested" do
@@ -107,29 +106,28 @@ describe "state transitions" do
 
     it "transitions from requested to review in progress" do
       box_request.reviewed_by_id = user.id
-
-      box_request.review
-      expect(box_request).to transition_from(:requested).to(:review_in_progress).on_event(:review)
+      box_request.claim_review
+      expect(box_request).to transition_from(:requested).to(:review_in_progress).on_event(:claim_review)
     end
 
      it "transitions from review in progress to reviewed" do
       box_request.reviewed_by_id = user.id
-      box_request.review
-      @box = Box.create(box_request_id: box_request.id )
-      box_request.reviewed_at = DateTime.now
-      box_request.end_review
-      expect(box_request).to transition_from(:review_in_progress).to(:reviewed).on_event(:end_review)
+      box_request.claim_review
+      # box_request.reviewed_at = Time.now
+      # @box = Box.create(box_request_id: box_request.id )
+      box_request.complete_review
+      expect(box_request).to transition_from(:review_in_progress).to(:reviewed).on_event(:complete_review)
     end
 
     it "triggers initial state transition on box model if review is successful" do
-        box_request.reviewed_by_id = user.id;
-        box_request.review
-        @box = Box.create(box_request_id: box_request.id )
-        box_request.reviewed_at = DateTime.now
-        box_request.end_review
-        expect(box_request.box).to have_state(:design_in_progress);
+      box_request.reviewed_by_id = user.id;
+      box_request.claim_review
+      box_request.reviewed_at = Time.now
+      @box = Box.create(box_request_id: box_request.id )
+      box_request.complete_review
+      expect(box_request.box).to have_state(:design_in_progress);
     end
 
 end
 
-end 
+end
