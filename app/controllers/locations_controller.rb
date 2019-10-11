@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
+    @locations = filter_by_location_type || Location.all
   end
 
   # GET /locations/1
@@ -69,6 +69,16 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-      params.require(:location).permit(:name, :street_address, :city, :state, :zip, :type)
+      params.require(:location).permit(:name, :street_address, :city, :state, :zip, :location_type)
+    end
+
+    def filter_params
+      params.permit(:location_type)
+    end
+
+    def filter_by_location_type
+      return unless filter_params&.key?(:location_type)
+
+      Location.where(location_type: filter_params[:location_type])
     end
 end

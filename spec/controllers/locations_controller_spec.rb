@@ -25,42 +25,52 @@ require 'rails_helper'
 
 RSpec.describe LocationsController, type: :controller do
   has_authenticated_user
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # Location. As you add validations to Location, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: 'My College', street_address: '123 Main St',
+      city: 'Testburgh', state: 'PA', zip: 12345, location_type: :university }
   }
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # LocationsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
   describe "GET #index" do
     it "returns a success response" do
       Location.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index
+
       expect(response).to be_successful
+      expect(response.body).to match(/My College/)
+    end
+
+    it "can filter by location_type" do
+      shop_atts = valid_attributes.merge(name: 'My Shop', location_type: :shop)
+      Location.create! shop_atts
+      Location.create! valid_attributes
+      get :index, params: { location_type: :university }
+
+      expect(response).to be_successful
+      expect(response.body).to match(/My College/)
+      expect(response.body).to_not match(/My Shop/)
     end
   end
 
   describe "GET #show" do
     it "returns a success response" do
       location = Location.create! valid_attributes
-      get :show, params: {id: location.to_param}, session: valid_session
+      get :show, params: {id: location.to_param}
       expect(response).to be_successful
     end
   end
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: {}, session: valid_session
+      get :new, params: {}
       expect(response).to be_successful
     end
   end
@@ -68,7 +78,7 @@ RSpec.describe LocationsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       location = Location.create! valid_attributes
-      get :edit, params: {id: location.to_param}, session: valid_session
+      get :edit, params: {id: location.to_param}
       expect(response).to be_successful
     end
   end
@@ -77,19 +87,19 @@ RSpec.describe LocationsController, type: :controller do
     context "with valid params" do
       it "creates a new Location" do
         expect {
-          post :create, params: {location: valid_attributes}, session: valid_session
+          post :create, params: {location: valid_attributes}
         }.to change(Location, :count).by(1)
       end
 
       it "redirects to the created location" do
-        post :create, params: {location: valid_attributes}, session: valid_session
+        post :create, params: {location: valid_attributes}
         expect(response).to redirect_to(Location.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {location: invalid_attributes}, session: valid_session
+        post :create, params: {location: invalid_attributes}
         expect(response).to be_successful
       end
     end
@@ -103,14 +113,14 @@ RSpec.describe LocationsController, type: :controller do
 
       it "updates the requested location" do
         location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: new_attributes}, session: valid_session
+        put :update, params: {id: location.to_param, location: new_attributes}
         location.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the location" do
         location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: valid_attributes}, session: valid_session
+        put :update, params: {id: location.to_param, location: valid_attributes}
         expect(response).to redirect_to(location)
       end
     end
@@ -118,7 +128,7 @@ RSpec.describe LocationsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: invalid_attributes}, session: valid_session
+        put :update, params: {id: location.to_param, location: invalid_attributes}
         expect(response).to be_successful
       end
     end
@@ -128,13 +138,13 @@ RSpec.describe LocationsController, type: :controller do
     it "destroys the requested location" do
       location = Location.create! valid_attributes
       expect {
-        delete :destroy, params: {id: location.to_param}, session: valid_session
+        delete :destroy, params: {id: location.to_param}
       }.to change(Location, :count).by(-1)
     end
 
     it "redirects to the locations list" do
       location = Location.create! valid_attributes
-      delete :destroy, params: {id: location.to_param}, session: valid_session
+      delete :destroy, params: {id: location.to_param}
       expect(response).to redirect_to(locations_url)
     end
   end
