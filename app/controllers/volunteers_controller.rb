@@ -1,5 +1,5 @@
 class VolunteersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:thank_you]
+  skip_before_action :authenticate_user!, only: [:new, :thank_you]
   before_action :set_volunteer, only: [:show, :edit, :update, :destroy]
 
   # GET /volunteers
@@ -16,6 +16,7 @@ class VolunteersController < ApplicationController
   # GET /volunteers/new
   def new
     @volunteer = Volunteer.new
+    render :new, layout: 'outreach_form_layout'
   end
 
   # GET /volunteers/1/edit
