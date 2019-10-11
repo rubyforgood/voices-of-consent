@@ -2,10 +2,8 @@ import React from 'react'
 import './MessageLogForm.scss'
 
 const MESSAGEABLE_TYPES = [
-  {value: "User", display: "User"},
   {value: "Volunteer", display: "Volunteer"},
   {value: "Requester", display: "Requester"},
-  {value: "Box", display: "Box"},
   {value: "BoxRequest", display: "Box Request"}
 ]
 
@@ -40,6 +38,8 @@ class MessageLogForm extends React.Component {
 
   handleMessageableTypeChange = (event) => {
     this.setState({ message_log: { ...this.state.message_log, [event.target.name]: event.target.value } })
+
+    this.setState({ messageable_ids: [{ value: "", display: "No IDs on this type" }] })
     
     const camelToSnake = (string) => {
       return string.replace(/[\w]([A-Z])/g, function (m) {
@@ -48,11 +48,12 @@ class MessageLogForm extends React.Component {
     }
 
     const getMessageableIds = async () => {
-      const response = await fetch(`${location.origin}/${camelToSnake(event.target.value)}.json`)
+      const response = await fetch(`${location.origin}/${camelToSnake(event.target.value)}/all.json`)
+      console.log(response)
       const myJson = await response.json()
       if (myJson) {
         const messageable_ids = myJson.map(function (type) {
-          return { value: type.id, display: type.id }
+          return { value: type.id, display: type.name }
         })
         this.setState({ messageable_ids: messageable_ids })
       }

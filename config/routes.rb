@@ -55,6 +55,11 @@ Rails.application.routes.draw do
   get  'box_follow_up/:box_id/decline',            to: "box_follow_up#decline",          as: 'box_follow_up_decline'
   get  'box_follow_up/:box_id/complete',           to: 'box_follow_up#complete',         as: 'box_follow_up_complete'
 
+  # React Component Selection Lists
+  get 'requesters/all',       to: 'requesters#index_for_selections'
+  get 'volunteers/all',       to: 'volunteers#index_for_selections'
+  get 'box_requests/all',     to: 'box_requests#index_for_selections'
+
   resources :attendances
   resources :box_request_abuse_types
   resources :box_requests

@@ -18,7 +18,7 @@ class Requester < ApplicationRecord
   validates :underage, inclusion: { in: [ true, false ] }
 
   def name
-    [first_name, last_name].join(' ')
+    [city, state, created_at].join(', ')
   end
 
   def location

@@ -7,6 +7,13 @@ class VolunteersController < ApplicationController
     @volunteers = Volunteer.all
   end
 
+  def index_for_selections
+    @volunteers = Volunteer.all.map { |volunteer| { id: volunteer.id, name: volunteer.name } }
+    respond_to do |format|
+      format.json { render json: @volunteers }
+    end
+  end
+
   # GET /volunteers/1
   # GET /volunteers/1.json
   def show
@@ -30,7 +37,7 @@ class VolunteersController < ApplicationController
       if @volunteer.save
         if @volunteer.ok_to_email?
           VolunteerMailer.welcome_email(@volunteer).deliver_later
-          message_log = MessageLog.new(sent_to: User.find(@volunteer.user_id), sent_by: User.find(@volunteer.user_id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
+          message_log = MessageLog.new(sent_to: User.find_by(volunteer_id: @volunteer.id), sent_by: User.find_by(vounteer_id: @volunteer.id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
           message_log.save
         end
 
