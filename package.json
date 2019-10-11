@@ -4,6 +4,7 @@
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "@babel/preset-react": "^7.0.0",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@rails/activestorage": "^6.0.0-alpha",
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.7",
