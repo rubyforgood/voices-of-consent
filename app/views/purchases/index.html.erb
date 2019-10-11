@@ -18,10 +18,10 @@
   <tbody>
     <% @purchases.each do |purchase| %>
       <tr>
-        <td><%= purchase.location %></td>
+        <td><%= purchase.location.name %></td>
         <td><%= purchase.total_price %></td>
-        <td><%= purchase.purchased_by %></td>
-        <td><%= purchase.reimbursed_by %></td>
+        <td><%= purchase.purchased_by&.name %></td>
+        <td><%= purchase.reimbursed_by&.name %></td>
         <td><%= purchase.reimbursement_check_number %></td>
         <td><%= purchase.reimbursement_status %></td>
         <td><%= link_to 'Show', purchase %></td>

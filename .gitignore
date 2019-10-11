@@ -76,3 +76,5 @@ yarn-debug.log*
 .tool-versions
 .rails_routes_rb~
 .rails_routes~
+.eslintrc.js
+.sass-lint.yml

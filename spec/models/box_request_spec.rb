@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe BoxRequest, :type => :model do
   subject(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
   subject(:box_request) { BoxRequest.new }
+  subject(:user) { User.create(id: 4, email: "lorem@ipsum.com", encrypted_password: "5938djamro" ) }
 
  it "is valid with valid attributes" do
    box_request.requester = requester
@@ -86,4 +87,49 @@ RSpec.describe BoxRequest, :type => :model do
    box_request.reload
    expect(box_request.tags).to eq([])
  end
+
+
+
+describe "state transitions" do
+
+    before :each do
+      box_request.requester = requester
+      box_request.summary = "Lorem ipsum text.... Caramels tart sweet pudding pie candy lollipop."
+      box_request.question_re_affect = "Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies."
+      box_request.question_re_current_situation = "Sweet roll cake pastry cookie."
+      box_request.question_re_referral_source = "Ice cream sesame snaps danish marzipan macaroon icing jelly beans."
+      box_request.save 
+    end
+
+    it "new box request initializes with state requested" do
+      expect(box_request).to have_state(:requested)
+    end
+
+    it "transitions from requested to review in progress" do
+      box_request.reviewed_by_id = user.id
+
+      box_request.review
+      expect(box_request).to transition_from(:requested).to(:review_in_progress).on_event(:review)
+    end
+
+     it "transitions from review in progress to reviewed" do
+      box_request.reviewed_by_id = user.id
+      box_request.review
+      @box = Box.create(box_request_id: box_request.id )
+      box_request.reviewed_at = DateTime.now
+      box_request.end_review
+      expect(box_request).to transition_from(:review_in_progress).to(:reviewed).on_event(:end_review)
+    end
+
+    it "triggers initial state transition on box model if review is successful" do
+        box_request.reviewed_by_id = user.id;
+        box_request.review
+        @box = Box.create(box_request_id: box_request.id )
+        box_request.reviewed_at = DateTime.now
+        box_request.end_review
+        expect(box_request.box).to have_state(:design_in_progress);
+    end
+
 end
+
+end 

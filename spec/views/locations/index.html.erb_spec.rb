@@ -12,6 +12,6 @@ RSpec.describe "locations/index", type: :view do
     assert_select "tr>td", :text => "City".to_s, :count => 2
     assert_select "tr>td", :text => "State".to_s, :count => 2
     assert_select "tr>td", :text => "Zip".to_s, :count => 2
-    assert_select "tr>td", :text => 2.to_s, :count => 2
+    assert_select "tr>td", :text => 'Type'.to_s, :count => 2
   end
 end

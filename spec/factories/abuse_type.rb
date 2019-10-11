@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :abuse_type do
-    sequence(:name) { |n| "AbuseType_#{n}" }
+    sequence(:name) { |n| "Abuse Type #{n}" }
   end
 end

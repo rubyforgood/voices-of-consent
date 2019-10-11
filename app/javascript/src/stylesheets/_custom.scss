@@ -9,7 +9,11 @@ body {
   padding-top: 56px;
 }
 
-.box-info {
+footer {
+  z-index: 1
+}
+
+.form-info {
   font-weight: bold;
   padding: 25px 25px 10px 25px;
 }

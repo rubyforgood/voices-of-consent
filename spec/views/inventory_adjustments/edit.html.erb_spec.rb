@@ -18,10 +18,6 @@ RSpec.describe "inventory_adjustments/edit", type: :view do
 
       assert_select "input[name=?]", "inventory_adjustment[total_cost]"
 
-      assert_select "input[name=?]", "inventory_adjustment[tally_quantity_start]"
-
-      assert_select "input[name=?]", "inventory_adjustment[tally_quantity_end]"
-
       assert_select "input[name=?]", "inventory_adjustment[adjustment_quantity]"
     end
   end

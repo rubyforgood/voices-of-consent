@@ -15,9 +15,9 @@ RSpec.describe BoxShipmentController, type: :controller do
     end
   end
 
-  describe "GET #mark_as_shipped" do
+  describe "GET #complete" do
     it "returns http success" do
-      get :mark_as_shipped
+      get :complete
       expect(response).to have_http_status(:success)
     end
   end

@@ -9,22 +9,34 @@ digraph G {
 
 
 
-
     subgraph cluster_c3 {
         color="blue";
         Requester -> BoxRequest [arrowhead=crow];
         BoxRequest -> Box [arrowhead=crow];
         Box -> BoxItem [arrowhead=crow];
-
     }
 
-    subgraph cluster_c2 {
-        InventoryType -> InventoryTally [arrowhead=crow];
-        InventoryTally -> InventoryAdjustment [arrowhead=crow];
-        Purchase;
-        Location;
+
+    subgraph cluster_c0 {
+        AbuseType -> CoreBoxItem [arrowhead=crow];
+        AbuseType -> BoxRequestAbuseType [arrowhead=crow];
         style="dotted"
-        node [color=blue, style=filled, fontcolor=black]
+    }
+
+    subgraph cluster_c5 {
+        Volunteer -> User [arrowhead=invodot];
+        User -> UserPermission [arrowhead=crow];
+        style="dotted"
+    }
+
+    subgraph cluster_c7 {
+            Feedback
+            style="dotted"
+    }
+
+    subgraph cluster_c6 {
+            MessageLog
+            style="dotted"
     }
 
     subgraph cluster_c4 {
@@ -33,17 +45,14 @@ digraph G {
         style="dotted"
     }
 
-    subgraph cluster_c0 {
-        AbuseType -> CoreBoxItem [arrowhead=crow];
-        style="dotted"
-    }
-
-
-    subgraph cluster_c5 {
-        Volunteer -> User [arrowhead=invodot];
-        User -> PermissionRecord [arrowhead=crow];
-        style="dotted"
-    }
+    subgraph cluster_c2 {
+            InventoryType -> InventoryTally [arrowhead=crow];
+            InventoryTally -> InventoryAdjustment [arrowhead=crow];
+            Purchase;
+            Location;
+            style="dotted"
+            node [color=blue, style=filled, fontcolor=black]
+        }
 
 
     //   subgraph cluster_c7 {
@@ -54,13 +63,12 @@ digraph G {
 
     InventoryType -> CoreBoxItem [arrowhead=crow];
     BoxItem -> InventoryAdjustment [arrowhead=invodot];
-    CoreBoxItem -> BoxItem [arrowhead=crow];
-    Purchase -> InventoryAdjustment [arrowhead=invodot];
+    InventoryType -> BoxItem [arrowhead=crow];
+    Purchase -> InventoryAdjustment [arrowhead=crow];
     Purchase -> Box [arrowhead=crow];
     Location -> InventoryTally [arrowhead=crow];
     Location -> Meeting [arrowhead=crow];
     Location -> Purchase [arrowhead=crow];
-    AbuseType -> BoxRequestAbuseType [arrowhead=crow];
     BoxRequest -> BoxRequestAbuseType [arrowhead=crow];
 
     // User -> Person;
@@ -75,50 +83,32 @@ digraph G {
 
 
     //  ******RELATIONS*******
-    Feedback [
-                shape=record;
-                label="{Feedback (polymorphic)|
-                    feedbackable_type (model name)\n
-                    feedbackable_id (record id)\n
-                    content\n
-                    created_by_id (optional)\n
-                    status:\n(e.g. not_reviewed, handled_needs_followup)\n
-                    }"]
-    MessageLog [
-                shape=record;
-                label="{MessageLog (polymporhic)|
-                    messagable_type (model name)\n
-                    messageable_id (record id)\n
-                    content\n
-                    sent_to_id (user)\n
-                    sent_by_id (user)\n
-                    delivery_type (text, autoemail, email, phone)\n
-                    delivery_status\n
-                    }"]
 
     Location [
                 shape=record;
+                fontcolor="black";
                 label="{Location|
                     name\n
                     street_address\n
                     city\n
                     state\n
                     zip\n
-                    type:\n(e.g. storage unit, store,\nmeeting space, zoom link,\ndistribution_partner)\n
+                    location_type:\n(e.g. storage unit, store,\nmeeting space, zoom link,\ndistribution_partner)\n
                     }"]
     Requester [
                 shape=record;
+                fontcolor="black";
                 label="{
                     Requester|
                     first_name\n
                     last_name\n
-                    email\n
                     street_address\n
                     city\n
                     state\n
                     zip\n
                     county\n
                     phone\n
+                    email\n
                     ok_to_email:bool\n
                     ok_to_text:bool\n
                     ok_to_call:bool\n
@@ -127,18 +117,19 @@ digraph G {
                     }"]
     Volunteer [
                 shape=record;
+                fontcolor="black";
                 label="{
                     Volunteer|
+                    user_id\n
                     first_name\n
                     last_name\n
-                    email\n
                     street_address\n
                     city\n
                     state\n
                     zip\n
                     county\n
                     phone\n
-                    university_location_id (location)\n
+                    university_location:references (location)\n
                     graduation_year:int\n
                     ok_to_email:bool\n
                     ok_to_text:bool\n
@@ -166,32 +157,34 @@ digraph G {
                     abuse_type_id\n
                     inventory_type_id\n
                     description\n
-                    file_upload\n
+                    file_uploads\n
                     }"]
     BoxRequest [
                 shape=record;
+                fontcolor="black";
                 label="{BoxRequest|
-                    requester_id\n
-                    reviewed_by_id (user)\n
+                    requester_id:references\n
+                    reviewed_by_id:references (user)\n
                     summary\n
                     tags (acts_as_taggable_on)\n
-                    localized fields:\n
                     question_re_current_situation\n
                     question_re_affect\n
                     question_re_referral_source\n
                     question_re_if_not_self_completed\n
-                    (on form:\nsafe, free_counseling, free_health, underage)
+                    (on form:\nis_safe,\nis_interested_in_counseling_services,\n
+                    is_interested_in_health_services, underage)
                     }"]
     Purchase [
                 shape=record;
                 label="{Purchase|
-                    location_id (DollarGeneral, USPS, etc)\n
-                    total_price\n
-                    receipt_file_upload (optional)\n
-                    purchased_by_id (user)\n
-                    reimbursed_by_id (user)\n
+                    location_id:references (DollarGeneral, USPS, etc)\n
+                    total_price:MONEY\n
+                    receipt_file_upload:file (optional)\n
+                    purchased_by_id:references (user)\n
+                    reimbursed_by_id:references (user)\n
                     reimbursement_check_number (string)\n
-                    reimbursement_status: \n(e.g. not_reimbursed, unreimbursable, reimbursed)\n
+                    reimbursement_status: \n(e.g. not_reimbursed,
+                    unreimbursable, reimbursed)\n
                     }"]
     InventoryType [
                 shape=record;
@@ -201,83 +194,85 @@ digraph G {
                     }"]
     InventoryTally [
                 shape=record;
+                fontcolor="black";
                 label="{InventoryTally|
-                    inventory_type_id\n
-                    storage_location_id (location)\n
+                    inventory_type_id:references\n
+                    storage_location_id:references (location)\n
                     additional_location_info:string\n
-                    file_upload\n
-                    cached_quantity (not editable by user)\n
+                    file_upload:file\n
                     }"]
     InventoryAdjustment [
                 shape=record;
                 label="{InventoryAdjustment|
-                    inventory_tally_id\n
-                    purchase_id (optional)\n
-                    total_cost (optional)\n
-                    box_item_id (optional)\n
-                    tally_quantity_start:int (not editable by user)\n
-                    tally_quantity_end:int (not editable by user)\n
+                    inventory_tally_id:references\n
+                    purchase_id:references (optional)\n
+                    box_item_id:references (optional)\n
+                    total_cost:MONEY (optional)\n
                     adjustment_quantity:int (positive or negative count, which \nchanges inventory_tally#cached_quantity)\n
 
                     }"]
     User [
                 shape=record;
                 label="{User|
-                    volunteer_id\n
                     [devise_fields]
                     }"]
     Box [
                 shape=record;
+                fontcolor="black";
                 label="{Box|
-                    box_request_id\n
-                    designed_by_id (user)\n
-                    design_reviewed_by_id (optional user)\n
-                    assembled_by_id (optional user)\n
-                    shipped_by_id (optional user)\n
-                    shipping_payment_id (purchase)\n
-                    shipped_at\n
+                    box_request_id:references\n
+                    designed_by_id:references (user)\n
+                    design_reviewed_by_id:references (optional user)\n
+                    assembled_by_id:references (optional user)\n
+                    shipped_by_id:references (optional user)\n
+                    shipping_payment_id:references (purchase)\n
+                    shipped_at:datetime\n
                     shipment_tracking_number (optional)\n
                     }"]
     BoxItem [
                 shape=record;
                 label="{BoxItem|
-                    box_id\n
-                    inventory_adjustment_id\n
-                    researched_by_id (optional user)\n
-                    file_upload (for resource packets)\n
+                    box_id:references\n
+                    inventory_type_id:references\n
+                    researched_by_id:references (optional user)\n
+                    file_upload:file (for resource packets)\n
                     added_to_box:bool\n
-                    created_by_id (user)\n
-                    updated_by_id (user)\n
+                    created_by_id:references (user)\n
+                    updated_by_id:references (user)\n
                     }"]
     MeetingType [
                 shape=record;
+                fontcolor="black";
                 label="{MeetingType|
                     name\n(e.g. event, training, leaders_meeting)\n
                     description\n
                     }"]
     Meeting [
                 shape=record;
+                fontcolor="black";
                 label="{Meeting|
-                    meeting_type_id\n
+                    meeting_type_id:references\n
                     title\n
-                    location_id\n
-                    start_time\n
-                    end_time\n
+                    location_id:references\n
+                    start_time:datetime\n
+                    end_time:datetime\n
                     tentative:bool\n
                     }"]
     Attendance [
                 shape=record;
                 label="{Attendance|
-                    meeting_id\n
-                    user_id\n
-                    special_duties\n
+                    meeting_id:references\n
+                    user_id:references\n
+                    special_duties:string\n
                     completed_hours:bool\n
                     }"]
 
-    PermissionRecord [
+    UserPermission [
                 shape=record;
-                label="{PermissionRecord|
-                    user_id\n
+                label="{UserPermission|
+                    user_id:references\n
+                    permission:string\n\n
+                    (permissions:
                     can_be_request_reviewer:bool\n
                     can_be_box_designer:bool\n
                     can_be_box_assembler:bool\n
@@ -291,7 +286,29 @@ digraph G {
                     can_write_thank_you_notes:bool\n
                     can_volunteer_at_events:bool\n
                     can_manage_users:bool\n
-                    can_view_message_logs:bool\n
+                    can_view_message_logs:bool)\n
                     }"]
+
+                     Feedback [
+                shape=record;
+                label="{Feedback (polymorphic)|
+                    feedbackable_type (model name)\n
+                    feedbackable_id (record id)\n
+                    content\n
+                    created_by_id:references (optional)\n
+                    status:\n(e.g. not_reviewed, handled_needs_followup)\n
+                    }"]
+    MessageLog [
+                shape=record;
+                label="{MessageLog (polymporhic)|
+                    messagable_type (model name)\n
+                    messageable_id (record id)\n
+                    content\n
+                    sent_to_id:references (requester???)\n
+                    sent_by_id:references (user)\n
+                    delivery_type (text, autoemail, email, phone)\n
+                    delivery_status\n
+                    }"]
+
 
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_09_191704) do
+ActiveRecord::Schema.define(version: 2019_10_10_204858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_id"], name: "index_active_storage_attachments_on_record_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -91,6 +92,9 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.boolean "is_interested_in_health_services"
     t.boolean "is_safe"
     t.bigint "reviewed_by_id"
+    t.string "aasm_state"
+    t.datetime "reviewed_at"
+    t.string "review_declined_by_ids", default: [], array: true
     t.index ["requester_id"], name: "index_box_requests_on_requester_id"
     t.index ["reviewed_by_id"], name: "index_box_requests_on_reviewed_by_id"
   end
@@ -106,10 +110,25 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.string "shipment_tracking_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "aasm_state"
+    t.datetime "designed_at"
+    t.datetime "design_reviewed_at"
+    t.bigint "researched_by_id"
+    t.datetime "researched_at"
+    t.datetime "assembled_at"
+    t.datetime "followed_up_at"
+    t.bigint "followed_up_by_id"
+    t.string "design_declined_by_ids", default: [], array: true
+    t.string "research_declined_by_ids", default: [], array: true
+    t.string "assembly_declined_by_ids", default: [], array: true
+    t.string "shipping_declined_by_ids", default: [], array: true
+    t.string "followup_declined_by_ids", default: [], array: true
     t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
     t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
     t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"
     t.index ["designed_by_id"], name: "index_boxes_on_designed_by_id"
+    t.index ["followed_up_by_id"], name: "index_boxes_on_followed_up_by_id"
+    t.index ["researched_by_id"], name: "index_boxes_on_researched_by_id"
     t.index ["shipped_by_id"], name: "index_boxes_on_shipped_by_id"
     t.index ["shipping_payment_id"], name: "index_boxes_on_shipping_payment_id"
   end
@@ -129,8 +148,6 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.bigint "purchase_id"
     t.bigint "box_item_id"
     t.integer "total_cost"
-    t.integer "tally_quantity_start"
-    t.integer "tally_quantity_end"
     t.integer "adjustment_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -141,7 +158,6 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
 
   create_table "inventory_tallies", force: :cascade do |t|
     t.string "additional_location_info"
-    t.integer "cached_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "inventory_type_id"
@@ -155,6 +171,7 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "requires_research", default: false, null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -198,7 +215,12 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.datetime "updated_at", null: false
     t.string "messageable_type"
     t.bigint "messageable_id"
+    t.string "subject_line"
+    t.string "message_channel"
+    t.string "message_type"
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
+    t.index ["sent_by_id"], name: "index_message_logs_on_sent_by_id"
+    t.index ["sent_to_id"], name: "index_message_logs_on_sent_to_id"
   end
 
   create_table "purchases", force: :cascade do |t|
@@ -311,23 +333,47 @@ ActiveRecord::Schema.define(version: 2019_08_09_191704) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "marketing_vector"
+    t.text "why_volunteer"
+    t.index ["university_location_id"], name: "index_volunteers_on_university_location_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "meetings"
   add_foreign_key "attendances", "users"
+  add_foreign_key "box_items", "boxes"
+  add_foreign_key "box_items", "inventory_types"
+  add_foreign_key "box_items", "users", column: "created_by_id"
+  add_foreign_key "box_items", "users", column: "researched_by_id"
+  add_foreign_key "box_items", "users", column: "updated_by_id"
   add_foreign_key "box_request_abuse_types", "abuse_types"
   add_foreign_key "box_request_abuse_types", "box_requests"
+  add_foreign_key "box_requests", "requesters"
   add_foreign_key "box_requests", "users", column: "reviewed_by_id"
   add_foreign_key "boxes", "box_requests"
+  add_foreign_key "boxes", "purchases", column: "shipping_payment_id"
+  add_foreign_key "boxes", "users", column: "assembled_by_id"
+  add_foreign_key "boxes", "users", column: "design_reviewed_by_id"
+  add_foreign_key "boxes", "users", column: "designed_by_id"
+  add_foreign_key "boxes", "users", column: "followed_up_by_id"
+  add_foreign_key "boxes", "users", column: "researched_by_id"
+  add_foreign_key "boxes", "users", column: "shipped_by_id"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
   add_foreign_key "inventory_adjustments", "box_items"
   add_foreign_key "inventory_adjustments", "inventory_tallies"
   add_foreign_key "inventory_adjustments", "purchases"
+  add_foreign_key "inventory_tallies", "inventory_types"
   add_foreign_key "inventory_tallies", "locations", column: "storage_location_id"
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
+  add_foreign_key "message_logs", "users", column: "sent_by_id"
+  add_foreign_key "message_logs", "users", column: "sent_to_id"
   add_foreign_key "purchases", "locations"
+  add_foreign_key "purchases", "users", column: "purchased_by_id"
+  add_foreign_key "purchases", "users", column: "reimbursed_by_id"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "user_permissions", "users"
+  add_foreign_key "users", "volunteers"
+  add_foreign_key "volunteers", "locations", column: "university_location_id"
 end

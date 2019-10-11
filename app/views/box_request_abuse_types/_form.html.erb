@@ -1,25 +1,13 @@
-<%= simple_form_for(@box_request_abuse_type) do |form| %>
-  <% if box_request_abuse_type.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@box_request_abuse_type.errors.count, "error") %> prohibited this box_request_abuse_type from being saved:</h2>
+<%= simple_form_for(@box_request_abuse_type, html: { class: 'form-inline' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-      <ul>
-      <% @box_request_abuse_type.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.association :box_request, label_method: :id, value_method: :id, include_blank: false %>
+  <div class="form-inputs">
+    <%= f.association :box_request %>
+    <%= f.association :abuse_type %>
   </div>
 
-  <div class="field">
-    <%= form.association :abuse_type, label_method: :name, value_method: :id, include_blank: false %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>
