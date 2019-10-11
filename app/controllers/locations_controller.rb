@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = filter_by_location_type || Location.all
+    @locations = filter_locations || Location.all
   end
 
   # GET /locations/1
@@ -76,9 +76,7 @@ class LocationsController < ApplicationController
       params.permit(:location_type)
     end
 
-    def filter_by_location_type
-      return unless filter_params&.key?(:location_type)
-
-      Location.where(location_type: filter_params[:location_type])
+    def filter_locations
+      Location.where(filter_params) unless filter_params.empty?
     end
 end
