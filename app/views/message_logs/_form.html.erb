@@ -11,15 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :messageable_type %>
-    <%= form.text_field :messageable_type %>
-  </div>
-
-  <div class="field">
-    <%= form.label :messageable_id %>
-    <%= form.number_field :messageable_id %>
-  </div>
+  <% if action_name != "new" %>
+    <div class="field">
+      <%= form.label :messageable_id %>
+      <%= form.number_field :messageable_id %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :content %>

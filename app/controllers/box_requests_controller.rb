@@ -12,6 +12,14 @@ class BoxRequestsController < ApplicationController
     end
   end
 
+  # GET /box_requests/box_requests.json
+  def index_for_selections
+     @box_requests = BoxRequest.all.map { |box_request| { id: box_request.id, name: box_request.name } }
+     respond_to do |format|
+      format.json { render json: @box_requests }
+     end
+  end
+
   # GET /box_requests/1
   # GET /box_requests/1.json
   def show

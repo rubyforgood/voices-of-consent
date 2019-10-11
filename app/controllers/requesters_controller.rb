@@ -8,6 +8,13 @@ class RequestersController < ApplicationController
     @requesters = Requester.all
   end
 
+  def index_for_selections
+    @requesters = Requester.all.map { |requester| { id: requester.id, name: requester.name } }
+    respond_to do |format|
+      format.json { render json: @requesters }
+    end
+  end
+
   # GET /requesters/1
   # GET /requesters/1.json
   def show

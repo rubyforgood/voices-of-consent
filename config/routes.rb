@@ -58,6 +58,11 @@ Rails.application.routes.draw do
   post 'volunteer_application',                    to: "volunteer_application#create"
   get 'volunteers/thank_you',                      to: 'volunteers#thank_you'
 
+  # React Component Selection Lists
+  get 'requesters/all',       to: 'requesters#index_for_selections'
+  get 'volunteers/all',       to: 'volunteers#index_for_selections'
+  get 'box_requests/all',     to: 'box_requests#index_for_selections'
+
   resources :attendances
   resources :box_request_abuse_types
   resources :box_requests
