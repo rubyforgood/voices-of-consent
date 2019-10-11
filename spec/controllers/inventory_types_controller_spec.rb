@@ -24,6 +24,7 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe InventoryTypesController, type: :controller do
+  has_authenticated_user
 
   # This should return the minimal set of attributes required to create a valid
   # InventoryType. As you add validations to InventoryType, be sure to

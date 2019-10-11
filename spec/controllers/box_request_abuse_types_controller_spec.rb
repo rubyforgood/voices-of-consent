@@ -24,6 +24,7 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe BoxRequestAbuseTypesController, type: :controller do
+  has_authenticated_user
 
   # This should return the minimal set of attributes required to create a valid
   # BoxRequestAbuseType. As you add validations to BoxRequestAbuseType, be sure to
