@@ -2,6 +2,8 @@ class Location < ApplicationRecord
   has_many :inventory_tallies
   has_many :meetings
   has_many :purchases
+  has_many :volunteers, foreign_key: 'university_location_id',
+                        dependent: :nullify
 
   enum location_type: {
     # Example types from ERD

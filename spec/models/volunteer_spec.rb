@@ -67,4 +67,22 @@ RSpec.describe Volunteer, type: :model do
     expected_full_name = "#{volunteer.first_name} #{volunteer.last_name}"
     expect(volunteer.name).to eq(expected_full_name)
   end
+
+  it 'can have a university location' do
+    volunteer = Volunteer.create(valid_attributes)
+    expect(volunteer.university_location).to be_a(Location)
+  end
+
+  it 'does not require a university location' do
+    volunteer = Volunteer.new(valid_attributes.except(:university_location))
+    expect(volunteer).to be_valid
+  end
+
+  it 'validates university_location is a university' do
+    university = valid_attributes[:university_location]
+    university.update!(location_type: :shop)
+    attributes = valid_attributes.merge(university_location: university)
+    volunteer = Volunteer.create(attributes)
+    expect(volunteer).to_not be_valid
+  end
 end

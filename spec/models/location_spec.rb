@@ -19,4 +19,19 @@ RSpec.describe Location, type: :model do
     location = Location.create(valid_attributes)
     expect(Location.university).to include(location)
   end
+
+  it 'has volunteers' do
+    location = Location.create(valid_attributes)
+    volunteer = FactoryBot.create(:volunteer)
+    volunteer.update!(university_location: location)
+    expect(location.volunteers).to include(volunteer)
+  end
+
+  it 'location destruction preserves associated volunteers' do
+    location = Location.create(valid_attributes)
+    volunteer = FactoryBot.create(:volunteer)
+    volunteer.update(university_location: location)
+    location.destroy!
+    expect(volunteer.reload.university_location).to be_nil
+  end
 end
