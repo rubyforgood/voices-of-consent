@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe BoxRequestTriageController, type: :controller do
+  let!(:user) { FactoryBot.create(:user) }
+
   let(:test_data) {
     {
       city: Faker::Address.city,
@@ -24,7 +26,8 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       state: Faker::Address.state,
       street_address: Faker::Address.street_address,
       summary: "sample summary",
-      zip: Faker::Address.zip
+      zip: Faker::Address.zip,
+      abuse_types: ["emotional"]
     }
   }
 
