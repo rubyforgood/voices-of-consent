@@ -55,7 +55,7 @@
           <% if box_request.review_declined_by_ids.include?(current_user.id) %>
             (You declined)
           <% elsif box_request.is_reviewed %>
-            <span class="fa fa-check-circle"></span> [REVIEWED]
+            <span class="fas fa-check-circle"></span>
           <% elsif !box_request.reviewed_by_id.present? %>
             <%= link_to("Claim", box_request_claim_path(box_request), class: "btn btn-secondary") %>
             <%= link_to("Review", edit_box_request_path(box_request), class: "btn btn-secondary") %>
@@ -69,7 +69,7 @@
             <% if box.design_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_designed %>
-              <span class="fa fa-check-circle"></span> [DESIGNED]
+              <span class="fas fa-check-circle"></span>
             <% elsif box_request.is_reviewed && !box.designed_by_id.present? %>
               <%= link_to("Claim", box_design_claim_path(box_id: box), class: "btn btn-secondary") %>
               <%= link_to("Design", box_design_new_path(box_id: box), class: "btn btn-secondary") %>
@@ -83,7 +83,7 @@
             <% if box.research_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_researched %>
-              <span class="fa fa-check-circle"></span> [RESEARCHED]
+              <span class="fas fa-check-circle"></span>
             <% elsif box.is_designed && !box.researched_by_id.present? %>
               <%= link_to("Claim", box_research_claim_path(box_id: box), class: "btn btn-secondary") %>
               <%= link_to("Research", box_research_new_path(box_id: box), class: "btn btn-secondary") %>
@@ -99,7 +99,7 @@
             <% if box.assembly_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_assembled %>
-              <span class="fa fa-check-circle"></span> [PACKAGED]
+              <span class="fas fa-check-circle"></span>
             <% elsif box.is_researched && !box.assembled_by_id.present? %>
               <%= link_to("Claim", box_assembly_claim_path(box_id: box), class: "btn btn-secondary") %>
               <%= link_to("Package", box_assembly_new_path(box_id: box), class: "btn btn-secondary") %>
@@ -113,7 +113,7 @@
             <% if box.shipping_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_shipped %>
-              <span class="fa fa-check-circle"></span> [SHIPPED]
+              <span class="fas fa-check-circle"></span>
             <% elsif box.is_assembled && !box.shipped_by_id.present? %>
               <%= link_to("Claim", box_shipment_claim_path(box_id: box), class: "btn btn-secondary") %>
               <%= link_to("Ship", box_shipment_new_path(box_id: box), class: "btn btn-secondary") %>
@@ -127,7 +127,7 @@
             <% if box.followup_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_followed_up %>
-              <span class="fa fa-check-circle"></span> [FOLLOWED-UP]
+              <span class="fas fa-check-circle"></span>
             <% elsif box.is_shipped && !box.followed_up_by.present? %>
               <%= link_to("Claim", box_follow_up_claim_path(box_id: box), class: "btn btn-secondary") %>
               <%= link_to("Followup", box_follow_up_new_path(box_id: box), class: "btn btn-secondary") %>

@@ -2,19 +2,22 @@
     display: flex;
     justify-content: center;
     img {
-        width: 720px;
+        max-width: 688px;
         height: auto;
     }
 }
 
-.box-request-layout-container {
+.outreach-form-layout-container {
     align-self: center;
 }
 
-.box-request-container {
+.outreach-form-container {
     background-color: white;
-    max-width: 720px;
+    max-width: 688px;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: 5%;
 }

@@ -1,8 +1,10 @@
 @import 'custom';
 @import '~bootstrap/scss/bootstrap';
 @import 'variables';
-@import 'box_request_layout';
+@import 'outreach_form_layout';
 @import 'navigation';
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/regular';
 
 $body-bg: #ffc0cb;
 $container-bg: #fff;

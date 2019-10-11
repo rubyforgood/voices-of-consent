@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_213913) do
+ActiveRecord::Schema.define(version: 2019_10_10_204858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -333,6 +333,8 @@ ActiveRecord::Schema.define(version: 2019_10_08_213913) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "marketing_vector"
+    t.text "why_volunteer"
     t.index ["university_location_id"], name: "index_volunteers_on_university_location_id"
   end
 

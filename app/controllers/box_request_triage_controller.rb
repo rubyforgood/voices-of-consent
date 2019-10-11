@@ -17,7 +17,8 @@ class BoxRequestTriageController < ApplicationController
      :street_address,
      :city,
      :state,
-     :zip
+     :zip,
+     :county
      ].each do |requester_attribute|
       requester.assign_attributes(requester_attribute => @payload[requester_attribute])
     end

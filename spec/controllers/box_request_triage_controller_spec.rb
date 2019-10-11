@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe BoxRequestTriageController, type: :controller do
+  let!(:user) { FactoryBot.create(:user) }
+
   let(:test_data) {
     {
       city: Faker::Address.city,
@@ -24,7 +26,8 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       state: Faker::Address.state,
       street_address: Faker::Address.street_address,
       summary: "sample summary",
-      zip: Faker::Address.zip
+      zip: Faker::Address.zip,
+      abuse_types: ["emotional"]
     }
   }
 
@@ -35,15 +38,16 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       expect(response.successful?).to be_falsey
     end
 
-    it "will save an email address" do
-
+    it "will save a Requester" do
       expected_email = test_data[:email]
+      expected_county= test_data[:county]
 
       post :create, :params => { :boxRequest => test_data }
 
       requester = Requester.last
 
       expect(requester.email).to eql(expected_email)
+      expect(requester.county).to eql(expected_county)
     end
 
     it "will create a BoxRequest" do
