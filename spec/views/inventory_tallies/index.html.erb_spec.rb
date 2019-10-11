@@ -2,18 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_tallies/index", type: :view do
   before(:each) do
-    assign(:inventory_tallies, [
-      InventoryTally.create!(
-        :additional_location_info => "Additional Location Info",
-        :inventory_type => nil,
-        :storage_location => nil
-      ),
-      InventoryTally.create!(
-        :additional_location_info => "Additional Location Info",
-        :inventory_type => nil,
-        :storage_location => nil
-      )
-    ])
+    @inventory_tallies = create_list(:inventory_tally, 2, additional_location_info: "Additional Location Info")
   end
 
   it "renders a list of inventory_tallies" do

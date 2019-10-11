@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BoxPolicy do
-  let(:user) { User.create!(email: 'test@test.com', password: 'super secret') }
+  let(:user) { User.create!(email: 'test@test.com', password: 'super secret', volunteer: create(:volunteer)) }
 
   describe '#can_design?' do
     it 'blocks a user without the design permission' do

@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "locations/show", type: :view do
   before(:each) do
-    @location = assign(:location, Location.create!(
+    @location = create(:location,
       :name => "Name",
       :street_address => "Street Address",
       :city => "City",
       :state => "State",
       :zip => "Zip",
       :location_type => 2
-    ))
+    )
   end
 
   it "renders attributes in <p>" do
@@ -19,6 +19,6 @@ RSpec.describe "locations/show", type: :view do
     expect(rendered).to match(/City/)
     expect(rendered).to match(/State/)
     expect(rendered).to match(/Zip/)
-    expect(rendered).to match(/2/)
+    expect(rendered).to match(/meeting_space/)
   end
 end

@@ -2,16 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "meeting_types/index", type: :view do
   before(:each) do
-    assign(:meeting_types, [
-      MeetingType.create!(
-        :name => "Name",
-        :description => "MyText"
-      ),
-      MeetingType.create!(
-        :name => "Name",
-        :description => "MyText"
-      )
-    ])
+    @meeting_types = create_list(:meeting_type, 2)
   end
 
   it "renders a list of meeting_types" do

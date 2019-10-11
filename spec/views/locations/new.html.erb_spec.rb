@@ -2,20 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "locations/new", type: :view do
   before(:each) do
-    assign(:location, Location.new(
-      :name => "MyString",
-      :street_address => "MyString",
-      :city => "MyString",
-      :state => "MyString",
-      :zip => "MyString",
-      :location_type => 1
-    ))
+    @location = create(:location)
   end
 
   it "renders new location form" do
     render
 
-    assert_select "form[action=?][method=?]", locations_path, "post" do
+    assert_select "form[action=?][method=?]", location_path(@location), "post" do
 
       assert_select "input[name=?]", "location[name]"
 
@@ -27,7 +20,7 @@ RSpec.describe "locations/new", type: :view do
 
       assert_select "input[name=?]", "location[zip]"
 
-      assert_select "input[name=?]", "location[location_type]"
+      assert_select "select[name=?]", "location[location_type]"
     end
   end
 end

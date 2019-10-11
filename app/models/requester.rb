@@ -5,6 +5,7 @@ class Requester < ApplicationRecord
 
   validates :first_name, presence:true
   validates :last_name, presence:true
+  validates :email, presence:true
   validates :street_address, presence:true
   validates :email, presence:true,  :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Must be a valid email address." }
   validates :phone, :format => { :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/, :message => "Must be a valid phone number in xxx-xxx-xxxx format.", :allow_blank => true }

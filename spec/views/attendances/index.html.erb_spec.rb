@@ -2,20 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "attendances/index", type: :view do
   before(:each) do
-    assign(:attendances, [
-      Attendance.create!(
-        :meeting => nil,
-        :user => nil,
-        :special_duties => "Special Duties",
-        :completed_hours => false
-      ),
-      Attendance.create!(
-        :meeting => nil,
-        :user => nil,
-        :special_duties => "Special Duties",
-        :completed_hours => false
-      )
-    ])
+    @attendances = create_list(:attendance, 2)
   end
 
   it "renders a list of attendances" do

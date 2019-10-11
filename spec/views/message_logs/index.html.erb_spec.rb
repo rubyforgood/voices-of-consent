@@ -32,7 +32,6 @@ RSpec.describe "message_logs/index", type: :view do
 
   it "renders a list of message_logs" do
     render
-
     assert_select "tr>td", :text => "BoxRequest", :count => 2
     assert_select "tr>td", :text => @messageable_1.id.to_s, :count => 1
     assert_select "tr>td", :text => "MyContent 1", :count => 1

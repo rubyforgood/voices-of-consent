@@ -2,21 +2,22 @@ require 'rails_helper'
 
 RSpec.describe "message_logs/new", type: :view do
   before(:each) do
-    assign(:message_log, MessageLog.new(
-      :messageable_type => "MyString",
-      :messageable_id => 1,
-      :content => "MyText",
-      :delivery_type => 1,
-      :delivery_status => "MyString",
-      :sent_to_id => 1,
-      :sent_by_id => 1
-    ))
+    messageable = create(:box_request)
+    @message_log = create(:message_log,
+           messageable_type: "BoxRequest",
+           messageable_id: messageable.id,
+           content: "MyText",
+           delivery_type: 3,
+           delivery_status: "Delivery Status",
+           sent_to: create(:user),
+           sent_by: create(:user)
+    )
   end
 
   it "renders new message_log form" do
     render
 
-    assert_select "form[action=?][method=?]", message_logs_path, "post" do
+    assert_select "form[action=?][method=?]", message_log_path(@message_log), "post" do
 
       assert_select "input[name=?]", "message_log[messageable_type]"
 

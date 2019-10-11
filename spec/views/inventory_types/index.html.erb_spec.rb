@@ -2,16 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_types/index", type: :view do
   before(:each) do
-    assign(:inventory_types, [
-      InventoryType.create!(
-        :name => "Name",
-        :description => "Description"
-      ),
-      InventoryType.create!(
-        :name => "Name",
-        :description => "Description"
-      )
-    ])
+    @inventory_types = create_list(:inventory_type, 2, name: "Name")
   end
 
   it "renders a list of inventory_types" do
