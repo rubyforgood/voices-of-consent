@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BoxShipmentController, type: :controller do
+  has_authenticated_user
 
   describe "GET #claim" do
     let!(:edgars_box) { create(:box) }
