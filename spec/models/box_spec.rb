@@ -89,6 +89,9 @@ RSpec.describe Box, :type => :model do
     end
 
     it "transitions from research_in_progress to researched" do
+      @time_now = Time.parse("Oct 11 2019")
+      Time.stub(:now).and_return(@time_now)
+
       box_request_1.reviewed_by_id = reviewer.id;
       box_request_1.save
       box_request_1.claim_review!
@@ -106,6 +109,7 @@ RSpec.describe Box, :type => :model do
       box.claim_research!
       box.mark_box_items_as_researched!
       expect(box).to transition_from(:research_in_progress).to(:researched).on_event(:complete_research)
+      expect(box.researched_at).to eq(@time_now)
     end
 
     it "transitions from researched to assembly in progress" do
