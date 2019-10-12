@@ -11,6 +11,12 @@ RSpec.describe InventoryImporter do
       expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
     end
 
+    it "returns results" do
+      results = subject.perform
+      expect(results.succeeded.count).to eq(tally_object_count)
+      expect(results.errored.count).to eq(0)
+    end
+
     it "creates inventory_adjustments for each tally" do
       expect { subject.perform }.to change { InventoryAdjustment.count }.by(tally_object_count)
     end
@@ -30,6 +36,12 @@ RSpec.describe InventoryImporter do
 
     it "creates a tally object for each row in csv" do
       expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
+    end
+
+    it "returns results" do
+      results = subject.perform
+      expect(results.succeeded.count).to eq(tally_object_count)
+      expect(results.errored.count).to eq(0)
     end
 
     it "creates inventory_adjustments for each tally" do
@@ -99,10 +111,39 @@ RSpec.describe InventoryImporter do
     end
   end
 
+  context "when CSV includes malformed data" do
+
+    let(:import_file) { file_fixture("inventory_tally_malformed.csv") }
+
+    it "returns result with error message" do
+      results = subject.perform
+      expect(results.error_message).to match(/Malformed/)
+    end
+
+  end
+
+  context "when CSV includes invalid rows" do
+
+    let(:import_file) { file_fixture("inventory_tally_invalid_rows.csv") }
+
+    it "imports valid, and returns invalid" do
+      results = subject.perform
+      expect(results.succeeded.count).to eq(1)
+      expect(results.errored.count).to eq(3)
+      expect(results.errored.first).to eq([nil, nil, 5])
+    end
+
+  end
+
   context "when invalid file path is provided" do
     let(:import_file) { "" }
 
-    it { refute subject.perform }
+    it "returns 0 succeeded results" do
+      results = subject.perform
+      expect(results.succeeded.count).to eq(0)
+      expect(results.errored.count).to eq(0)
+      expect(results.error_message).to eq("File path invalid or missing")
+    end
   end
 
 end
