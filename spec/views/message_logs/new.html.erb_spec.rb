@@ -9,7 +9,8 @@ RSpec.describe "message_logs/new", type: :view do
            content: "MyText",
            delivery_type: 3,
            delivery_status: "Delivery Status",
-           sent_to: create(:user),
+           sendable_type: "Volunteer"
+           sendable_id: create(:user),
            sent_by: create(:user)
     )
   end
@@ -29,7 +30,9 @@ RSpec.describe "message_logs/new", type: :view do
 
       assert_select "input[name=?]", "message_log[delivery_status]"
 
-      assert_select "input[name=?]", "message_log[sent_to_id]"
+      assert_select "input[name=?]", "message_log[sendable_type]"
+
+      assert_select "input[name=?]", "message_log[sendable_id]"
 
       assert_select "input[name=?]", "message_log[sent_by_id]"
     end
