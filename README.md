@@ -55,7 +55,7 @@ $ heroku local -f Procfile.dev
   http://localhost:5000
   $ rspec (to run the test suite)
 # If you chose the Docker route:
-  $ docker-compose start -or- $ docker-compose up
+  $ docker-compose up -d -or- $ docker-compose up
   http://localhost:3000
 $ rspec (to run the test suite)
 ```
@@ -64,10 +64,10 @@ $ rspec (to run the test suite)
 
 ### ... with Docker!
 
-If you opted to install Docker Desktop, `docker-compose start` will run dependency services like PostgreSQL (the database), Redis (the job queue), and Mailcatcher (a fake SMTP mail server for testing). Services will run in the background. NOTE: these services will attempt to use some commonly used ports (e.g. 5432 for PostgreSQL) on localhost, so if you see errors about conflicting ports, you may have the corresponding service already running elsewhere on your development host.
+If you opted to install Docker Desktop, `docker-compose up -d` will run dependency services like PostgreSQL (the database), Redis (the job queue), and Mailcatcher (a fake SMTP mail server for testing). Services will run in the background. NOTE: these services will attempt to use some commonly used ports (e.g. 5432 for PostgreSQL) on localhost, so if you see errors about conflicting ports, you may have the corresponding service already running elsewhere on your development host.
 
 ```
-$ docker-compose start
+$ docker-compose up -d
 Starting db          ... done
 Starting cache       ... done
 Starting mailcatcher ... done
