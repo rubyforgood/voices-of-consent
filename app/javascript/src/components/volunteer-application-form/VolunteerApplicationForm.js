@@ -46,7 +46,7 @@ class VolunteerApplicationForm extends React.Component {
   componentDidMount() {
     const { universityOptions } = this.state;
 
-    fetch('/locations.json?location_type=university')
+    fetch('/locations.json?location_type=university&sort_by[attribute]=name&sort_by[direction]=asc')
       .then(response => response.json())
       .then((data) => {
         const universities = data.map((university) => ({ label: university.name, value: university.id }))
