@@ -154,8 +154,13 @@ Additional testing for front_end specs should make use of Capybara ```sign_in/si
 
 ### App Startup Troubleshooting
 If you Recieve an error when trying to run
-```$ heroku local -f Procfile.dev```
+
+```
+$ heroku local -f Procfile.dev
+```
+
 that looks like this ...
+
 ```
 joe-shmo:~/projects/voices-of-consent(develop)$ heroku local -f Procfile.dev
  ›   Warning: heroku update available from 7.26.2 to 7.33.3.
@@ -180,6 +185,12 @@ joe-shmo:~/projects/voices-of-consent(develop)$ heroku local -f Procfile.dev
 Run -
 ``` $ ps aux | grep node ```
 and then use the following command on any PIDs that have voices of consent in the path, or mentions node/procfiles
-``` kill -9 <PID #> ```
+
+```
+kill -9 <PID #>
+```
 Then Re-run -
-'''$ heroku local -f Procfile.dev```
+
+```
+$ heroku local -f Procfile.dev
+```
