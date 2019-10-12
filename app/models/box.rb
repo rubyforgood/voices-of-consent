@@ -58,8 +58,8 @@ class Box < ApplicationRecord
     end
 
     event :complete_design, before: [:check_has_box_items, :update_designed_at!] do
-      transitions :from => :design_in_progress, :to => :designed,   :if => :check_if_research_is_needed, :guard => :is_designed
-      transitions :from => :design_in_progress, :to => :researched, :guard => [:is_designed]
+      transitions :from => :design_in_progress, :to => :designed,   :if => :check_if_research_is_needed, :guard => :is_designed, after: :send_research_solicitation_email!
+      transitions :from => :design_in_progress, :to => :researched, :guard => [:is_designed], after: :send_assembly_solicitation_email!
     end
 
     event :claim_research, before: :check_if_research_is_needed do
@@ -270,6 +270,13 @@ class Box < ApplicationRecord
         end
       end
     end
+  
+    def send_research_solicitation_email!
+      AutoEmailHandler.new("volunteer", self, self.designed_by)
+    end
+
+    def send_assembly_solicitation_email!
+      AutoEmailHandler.new("volunteer", self, self.researched_by)
 
     def send_shipping_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.assembled_by)

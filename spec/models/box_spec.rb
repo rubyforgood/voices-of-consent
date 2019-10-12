@@ -46,6 +46,7 @@ RSpec.describe Box, :type => :model do
       box_request_1.claim_review!
       box_request_1.complete_review!
       box = box_request_1.box
+      allow(box).to receive(:send_research_solicitation_email!)
       box.designed_by_id = designer.id;
       box.save
       box.claim_design!
@@ -53,6 +54,7 @@ RSpec.describe Box, :type => :model do
       # make sure at least one item needs research
       create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       expect(box).to transition_from(:design_in_progress).to(:designed).on_event(:complete_design)
+      expect(box).to have_received(:send_research_solicitation_email!)
     end
 
     it "transitions from design_in_progress to researched when research not needed" do
@@ -61,6 +63,7 @@ RSpec.describe Box, :type => :model do
       box_request_1.claim_review!
       box_request_1.complete_review!
       box = box_request_1.box
+      allow(box).to receive(:send_assembly_solicitation_email!)
       box.designed_by_id = designer.id;
       box.save
       box.claim_design!
@@ -68,6 +71,7 @@ RSpec.describe Box, :type => :model do
       # make sure at least one item needs research
       create(:box_item, box: box, inventory_type: inventory_type_no_research_needed)
       expect(box).to transition_from(:design_in_progress).to(:researched).on_event(:complete_design)
+      expect(box).to have_received(:send_assembly_solicitation_email!)
     end
 
     it "transitions from designed to research_in_progress" do
@@ -273,6 +277,29 @@ RSpec.describe Box, :type => :model do
       box.claim_follow_up!
       expect(box).to transition_from(:follow_up_in_progress).to(:followed_up).on_event(:complete_follow_up)
     end
+  end
+
+  describe Box, "#send_research_solicitation_email!" do
+    it "sends an email with the AutoEmailHandler" do
+      box = create(:box, designed_by: designer)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_research_solicitation_email!
+
+      expect(AutoEmailHandler).to have_received(:new).with(
+        "volunteer",
+        box,
+        designer,
+      )
+    end
+  end
+
+  describe Box, "#send_assembly_solicitation_email!" do
+    it "sends an email with the AutoEmailHandler" do
+      box = create(:box, researched_by: researcher)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_assembly_solicitation_email!
   end
 
   describe Box, "#send_shipping_solicitation_email!" do
