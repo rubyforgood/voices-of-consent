@@ -2,7 +2,8 @@
 
 class Volunteer < ApplicationRecord
   include Messageable
-
+  include Sendable
+  
   has_one :user
 
   validates :first_name, presence: true
