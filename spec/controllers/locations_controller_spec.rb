@@ -58,6 +58,16 @@ RSpec.describe LocationsController, type: :controller do
       expect(response.body).to match(/My College/)
       expect(response.body).to_not match(/My Shop/)
     end
+
+    it "can sort by field in desired direction" do
+      location1 = Location.create!(valid_attributes)
+      location2 = Location.create!(valid_attributes.merge(name: 'Zzzzzz'))
+      get :index, format: :json, params: { sort_by: { attribute: :name, direction: :desc } }
+      parsed_body = JSON.parse(response.body)
+
+      expect(parsed_body.first['name']).to eq(location2.name)
+      expect(parsed_body.last['name']).to eq(location1.name)
+    end
   end
 
   describe "GET #show" do
