@@ -76,7 +76,7 @@ class Box < ApplicationRecord
       transitions :from => :researched, :to => :assembly_in_progress, :guard => :has_assembler_id
     end
 
-    event :complete_assembly, before: [:add_box_items_to_box, :update_assembled_at!] do
+    event :complete_assembly, before: [:add_box_items_to_box, :update_assembled_at!], after: :send_shipping_solicitation_email! do
       transitions :from => :assembly_in_progress, :to => :assembled, :guard => :is_assembled
     end
 
@@ -270,12 +270,15 @@ class Box < ApplicationRecord
         end
       end
     end
-
+  
     def send_research_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.designed_by)
     end
 
     def send_assembly_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.researched_by)
+
+    def send_shipping_solicitation_email!
+      AutoEmailHandler.new("volunteer", self, self.assembled_by)
     end
 end

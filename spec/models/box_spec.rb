@@ -141,6 +141,7 @@ RSpec.describe Box, :type => :model do
       box_request_1.claim_review!
       box_request_1.complete_review!
       box = box_request_1.box
+      allow(box).to receive(:send_shipping_solicitation_email!)
       box.designed_by_id = designer.id;
       box.save
       box.claim_design!
@@ -157,6 +158,7 @@ RSpec.describe Box, :type => :model do
       box.save
       box.claim_assembly!
       expect(box).to transition_from(:assembly_in_progress).to(:assembled).on_event(:complete_assembly)
+      expect(box).to have_received(:send_shipping_solicitation_email!)
     end
 
     it "transitons from assembled to shipping_in_progress" do
@@ -298,11 +300,19 @@ RSpec.describe Box, :type => :model do
       allow(AutoEmailHandler).to receive(:new)
 
       box.send_assembly_solicitation_email!
+  end
+
+  describe Box, "#send_shipping_solicitation_email!" do
+    it "sends a email with AutoEmailHandler" do
+      box = create(:box, assembled_by: assembler)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_shipping_solicitation_email!
 
       expect(AutoEmailHandler).to have_received(:new).with(
         "volunteer",
         box,
-        researcher,
+        box.assembled_by,
       )
     end
   end
