@@ -304,6 +304,7 @@ RSpec.describe Box, :type => :model do
       allow(AutoEmailHandler).to receive(:new)
 
       box.send_assembly_solicitation_email!
+    end
   end
 
   describe Box, "#send_shipping_solicitation_email!" do

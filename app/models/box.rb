@@ -271,13 +271,14 @@ class Box < ApplicationRecord
         end
       end
     end
-  
+
     def send_research_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.designed_by)
     end
 
     def send_assembly_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.researched_by)
+    end
 
     def send_shipping_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.assembled_by)
