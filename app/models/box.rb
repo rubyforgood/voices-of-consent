@@ -132,7 +132,8 @@ class Box < ApplicationRecord
 
     def mark_box_items_as_researched! # TODO - remove this as always happening!
       box_items.each do |box_item|
-        box_item.update_attributes(researched_by_id: researched_by_id || designed_by_id)
+        box_item.update_attributes(researched_at: Time.now,
+                                   researched_by_id: researched_by_id || designed_by_id)
       end
     end
 
