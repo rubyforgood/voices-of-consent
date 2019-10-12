@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Progress } from 'react-sweet-progress';
+import UniversityPicker from './university-picker';
 import 'react-sweet-progress/lib/style.css';
 
 import './VolunteerApplicationForm.scss'
@@ -27,13 +28,13 @@ class VolunteerApplicationForm extends React.Component {
         ok_to_mail: null,
         is_underage: false, // Volunteers are all over 12 years old
         university_location_id: null,
-        graduation_year: null,
+        graduation_year: '',
       }
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSelectionChange = this.handleSelectionChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
-    // this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginatePrevious = this.handlePaginatePrevious.bind(this);
     this.handlePaginateForward = this.handlePaginateForward.bind(this);
@@ -41,6 +42,10 @@ class VolunteerApplicationForm extends React.Component {
 
   handleChange(event) {
     this.setState({ volunteerApplication: { ...this.state.volunteerApplication, [event.target.name]: event.target.value} });
+  }
+
+  handleSelectionChange(data) {
+    this.setState({ volunteerApplication: { ...this.state.volunteerApplication, [data.name]: data.value} });
   }
 
   handleRadioChange(event) {
@@ -246,15 +251,17 @@ class VolunteerApplicationForm extends React.Component {
         </div>
         { this.state.attemptedSubmit && volunteerApplication.phone != '' && (volunteerApplication.ok_to_text == null || volunteerApplication.ok_to_call == null) ? this.renderRequiredAlert() : null }
 
-        <div className="row section-top section-label">University Information</div>
+        <div className="row section-top section-label">College Students:</div>
         <div className="row">
-          <div className="col-md">
-            <input type="integer" className="row form-control" name="university_location_id" value={volunteerApplication.university_location_id} onChange={this.handleChange} />
-            <label className="row sub-text">University Location ID</label>
+          <div className="col-md college-student-col">
+            <UniversityPicker
+              onChange={this.handleSelectionChange}
+            />
+            <label className="sub-text">University Location</label>
           </div>
-          <div className="col-md">
-            <input type="integer" className="row form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
-            <label className="row sub-text">Graduation Year</label>
+          <div className="col-md college-student-col">
+            <input type="integer" className="form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
+            <label className="sub-text">Graduation Year</label>
           </div>
         </div>
       </div>

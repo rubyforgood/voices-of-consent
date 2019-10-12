@@ -19,7 +19,9 @@ class VolunteerApplicationController < ApplicationController
      :zip,
      :county,
      :marketing_vector,
-     :why_volunteer
+     :why_volunteer,
+     :university_location_id,
+     :graduation_year
    ].each do |volunteer_attribute|
       volunteer.assign_attributes(volunteer_attribute => @payload[volunteer_attribute])
     end
