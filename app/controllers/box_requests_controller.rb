@@ -90,7 +90,7 @@ class BoxRequestsController < ApplicationController
 
       respond_to do |format|
         if @box_request.decline_review!
-          format.html { redirect_to box_request_decline_thank_you_path }
+          format.html { redirect_to box_request_decline_thank_you_path(id: @box_request, phase: "review") }
           format.json { render :show, status: :ok, location: @box_request }
         else
 

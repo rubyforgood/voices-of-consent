@@ -235,6 +235,31 @@ class Box < ApplicationRecord
       puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{aasm.current_event})"
     end
 
+    def decline_design!
+      self.design_declined_by_ids << current_user.id
+      self.save!
+    end
+
+    def decline_research!
+      self.research_declined_by_ids << current_user.id
+      self.save!
+    end
+
+    def decline_assembly!
+      self.assembly_declined_by_ids << current_user.id
+      self.save!
+    end
+
+    def decline_shipping!
+      self.shipping_declined_by_ids << current_user.id
+      self.save!
+    end
+
+    def decline_follow_up!
+      self.followup_declined_by_ids << current_user.id
+      self.save!
+    end
+
     def create_core_box_items!
       box_request.box_request_abuse_types.each do |box_request_abuse_type|
         CoreBoxItem.where(abuse_type: box_request_abuse_type.abuse_type).each do |core_box_item|
