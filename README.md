@@ -154,7 +154,7 @@ Additional testing for front_end specs should make use of Capybara ```sign_in/si
 
 ### App Startup Troubleshooting
 If you Recieve an error when trying to run
-'''$ heroku local -f Procfile.dev```
+```$ heroku local -f Procfile.dev```
 that looks like this ...
 ```
 joe-shmo:~/projects/voices-of-consent(develop)$ heroku local -f Procfile.dev
