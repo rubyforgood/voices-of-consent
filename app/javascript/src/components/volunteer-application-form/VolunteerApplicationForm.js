@@ -273,7 +273,7 @@ class VolunteerApplicationForm extends React.Component {
               selectedUniversity={selectedUniversity}
               universityOptions={universityOptions}
             />
-            <label className="sub-text">University Location</label>
+            <label className="sub-text">University</label>
           </div>
           <div className="col-md college-student-col">
             <input type="integer" className="form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
