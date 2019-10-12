@@ -49,6 +49,13 @@ This scope of this application includes:
   - Volunteer Prints the mailing label and affixes it to the Box
   - Volunteer ships the package, and then `marks the box as shipped` by including `Location` it was shipped from (e.g. USPS, FedEx, etc), the cost of the receipt, and `tracking number`.  
 
+  ### References re the above
+  To check out where/how the lifecycle methods are implemented, visit:
+- `aasm` blocks in the `box_request.rb` and `box.rb` models
+- Check out how we determine things like `is_reviewed`, `is_shipped`, etc, by looking at those instance methods in `box_rb`
+- View `box_requests/index.html.erb` file or `localhost:3000/box_requests` in your local browser to see a grid of box_requests and their lifecycle phases
+- `spec/models/box_spec.rb` to see how we can manually walk `box_requests` along in the process
+
 ## Design notes
   - `Volunteers` are people (as are `Requesters`).
   - We chose to keep `Volunteers` separate from `Users` so that the User model only deals with login info.
