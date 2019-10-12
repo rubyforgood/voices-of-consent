@@ -13,8 +13,13 @@
 
   <% if action_name != "new" %>
     <div class="field">
+      <%= form.label :messageable_type %>
+      <%= form.text_field :messageable_type, :readonly => true %>
+    </div>
+
+    <div class="field">
       <%= form.label :messageable_id %>
-      <%= form.number_field :messageable_id %>
+      <%= form.number_field :messageable_id, :readonly => true %>
     </div>
   <% end %>
 
@@ -33,9 +38,14 @@
     <%= form.text_field :delivery_status %>
   </div>
 
+   <div class="field">
+    <%= form.label :sendable_type %>
+    <%= form.text_field :sendable_type %>
+  </div>
+
   <div class="field">
-    <%= form.label :sent_to_id %>
-    <%= form.number_field :sent_to_id %>
+    <%= form.label :sendable_id %>
+    <%= form.number_field :sendable_id %>
   </div>
 
   <div class="field">
