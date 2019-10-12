@@ -26,7 +26,7 @@ box_items.each do |inventory_type_name, abuse_types, age_ranges|
   end
 end
 
-20.times do
+40.times do
   is_underage = [{boolean: false, value: "12+"}, { boolean: true, value: "UNDERAGE"}].sample
 
   requester = Requester.create!(
