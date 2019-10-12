@@ -199,7 +199,7 @@ class Box < ApplicationRecord
         research_status = []
         box_items.each do |box_item|
           if box_item.requires_research
-            research_status << box_item.researched_by_id.present? ? true : false # TODO - add researched_at to BoxItem
+            research_status << box_item.researched_by_id.present? && box_item.researched_at ? true : false
           end
         end
         research_status.all?
