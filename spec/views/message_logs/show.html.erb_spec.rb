@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "message_logs/show", type: :view do
   before(:each) do
     @messageable = create(:messageable)
-    @sent_to = create(:user)
+    @sendable = create(:volunteer)
     @sent_by = create(:user)
     @message_log = create(
       :message_log,
@@ -11,7 +11,7 @@ RSpec.describe "message_logs/show", type: :view do
       content: "MyText",
       delivery_type: 3,
       delivery_status: "Delivery Status",
-      sent_to: @sent_to,
+      sendable: @sendable,
       sent_by: @sent_by,
     )
   end
@@ -23,7 +23,6 @@ RSpec.describe "message_logs/show", type: :view do
     expect(rendered).to match(/MyText/)
     expect(rendered).to match(/#{MessageLog.delivery_types[1]}/)
     expect(rendered).to match(/Delivery Status/)
-    expect(rendered).to match(/#{@sent_to.id}/)
     expect(rendered).to match(/#{@sent_by.id}/)
   end
 end
