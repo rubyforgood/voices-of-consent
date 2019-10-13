@@ -59,6 +59,7 @@ class InventoryImporter
 
     tally
   rescue
+    # If a row fails to update, return the csv data to allow for debugging
     row.fields
   end
 
