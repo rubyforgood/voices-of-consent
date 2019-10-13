@@ -18,20 +18,12 @@ RSpec.describe "message_logs/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", message_log_path(@message_log), "post" do
-
-      assert_select "input[name=?]", "message_log[messageable_type]"
-
-      assert_select "input[name=?]", "message_log[messageable_id]"
-
+      assert_select "input[type='number'][name=?]", "message_log[messageable_id]"
       assert_select "textarea[name=?]", "message_log[content]"
-
-      assert_select "input[name=?]", "message_log[delivery_type]"
-
-      assert_select "input[name=?]", "message_log[delivery_status]"
-
-      assert_select "input[name=?]", "message_log[sent_to_id]"
-
-      assert_select "input[name=?]", "message_log[sent_by_id]"
+      assert_select "input[type='number'][name=?]", "message_log[delivery_type]"
+      assert_select "input[type='text'][name=?]", "message_log[delivery_status]"
+      assert_select "input[type='number'][name=?]", "message_log[sent_to_id]"
+      assert_select "input[type='number'][name=?]", "message_log[sent_by_id]"
     end
   end
 end
