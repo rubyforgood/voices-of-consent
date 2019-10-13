@@ -5,4 +5,8 @@ class InventoryTally < ApplicationRecord
   has_many :inventory_adjustments
 
   has_many_attached :file_uploads
+
+  def quantity
+    inventory_adjustments.sum(:adjustment_quantity)
+  end
 end
