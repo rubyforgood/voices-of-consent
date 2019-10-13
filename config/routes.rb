@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   post 'volunteer_application',                    to: "volunteer_application#create"
   get 'volunteers/thank_you',                      to: 'volunteers#thank_you'
+  get 'volunteers/import',                         to: 'volunteers#import_volunteer'
+
+  resources :volunteers do
+    collection {post :import}
+  end
 
   # React Component Selection Lists
   get 'requesters/all',       to: 'requesters#index_for_selections'
