@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe BoxRequest, :type => :model do
   subject(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
   subject(:box_request) { BoxRequest.new }
-  subject(:user) { User.create(id: 4, email: "lorem@ipsum.com", encrypted_password: "5938djamro" ) }
+  subject(:user) { User.create(id: 4, email: "lorem@ipsum.com", volunteer: create(:volunteer), password: 'password', encrypted_password: "5938djamro" ) }
 
  it "is valid with valid attributes" do
    box_request.requester = requester
@@ -110,7 +110,7 @@ describe "state transitions" do
       expect(box_request).to transition_from(:requested).to(:review_in_progress).on_event(:claim_review)
     end
 
-     it "transitions from review in progress to reviewed" do
+    it "transitions from review in progress to reviewed" do
       box_request.reviewed_by_id = user.id
       box_request.claim_review
       # box_request.reviewed_at = Time.now
@@ -123,11 +123,8 @@ describe "state transitions" do
       box_request.reviewed_by_id = user.id;
       box_request.claim_review
       box_request.reviewed_at = Time.now
-      @box = Box.create(box_request_id: box_request.id )
       box_request.complete_review
-      expect(box_request.box).to have_state(:design_in_progress);
+      expect(box_request.box).to have_state(:reviewed);
     end
-
-end
-
+  end
 end
