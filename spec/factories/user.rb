@@ -4,7 +4,6 @@ FactoryBot.define do
       email { Faker::Internet.email }
 
       after(:build) { |u| u.password = u.password_confirmation = 'supersecret' }
-
     end
 
     factory :admin do
