@@ -9,7 +9,7 @@ RSpec.describe "message_logs/edit", type: :view do
                           content: "MyText",
                           delivery_type: 3,
                           delivery_status: "Delivery Status",
-                          sendable_type: "Volunteer"
+                          sendable_type: "Volunteer",
                           sendable_id: create(:user),
                           sent_by: create(:user)
     )
