@@ -15,7 +15,6 @@ class BoxShipmentController < ApplicationController
           if @box.aasm_state == "assembled"
             @box.claim_shipping!
           end
-
           format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "assemble"), notice: 'Box design was successfully claimed.' }
           format.json { render :show, status: :ok, location: @box }
         else
@@ -53,7 +52,9 @@ class BoxShipmentController < ApplicationController
     respond_to do |format|
       @box.shipped_by = current_user if @box.shipped_by_id == nil
 
+      print('hey')
       if @box.save
+        print('ho')
         if @box.aasm_state == "researched"
           @box.claim_shipping!
           @box.complete_shipping!
