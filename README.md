@@ -151,3 +151,46 @@ BE SURE to include the line ```after { Warden.test_reset! } ``` after the before
 within it. This allows for any unexpected state data of the user from hanging around and causing errors.
 
 Additional testing for front_end specs should make use of Capybara ```sign_in/sign_out``` Capybara methods.
+
+### App Startup Troubleshooting
+If you Recieve an error when trying to run
+
+```
+$ heroku local -f Procfile.dev
+```
+
+that looks like this ...
+
+```
+joe-shmo:~/projects/voices-of-consent(develop)$ heroku local -f Procfile.dev
+ ›   Warning: heroku update available from 7.26.2 to 7.33.3.
+[OKAY] Loaded ENV .env File as KEY=VALUE Format
+12:02:46 PM web.1    |  => Booting Puma
+12:02:46 PM web.1    |  => Rails 5.2.3 application starting in development
+12:02:46 PM web.1    |  => Run `rails server -h` for more startup options
+12:02:46 PM webpack.1 |  events.js:167
+12:02:46 PM webpack.1 |        throw er; // Unhandled 'error' event
+12:02:46 PM webpack.1 |        ^
+12:02:46 PM webpack.1 |  Error: listen EADDRINUSE: address already in use 127.0.0.1:3035
+12:02:46 PM webpack.1 |      at Server.setupListenHandle [as _listen2] (net.js:1290:14)
+12:02:46 PM webpack.1 |      at listenInCluster (net.js:1338:12)
+12:02:46 PM webpack.1 |      at GetAddrInfoReqWrap.doListen [as callback] (net.js:1471:7)
+12:02:46 PM webpack.1 |      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:62:10)
+12:02:46 PM webpack.1 |  Emitted 'error' event at:
+12:02:46 PM webpack.1 |      at emitErrorNT (net.js:1317:8)
+12:02:46 PM webpack.1 |      at process._tickCallback (internal/process/next_tick.js:63:19)
+[DONE] Killing all processes with signal  SIGINT
+```
+
+Run -
+``` $ ps aux | grep node ```
+and then use the following command on any PIDs that have voices of consent in the path, or mentions node/procfiles
+
+```
+kill -9 <PID #>
+```
+Then Re-run -
+
+```
+$ heroku local -f Procfile.dev
+```
