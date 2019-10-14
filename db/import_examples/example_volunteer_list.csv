@@ -1,0 +1,2 @@
+first_name,last_name,email,street_address,city,state,zip,county,phone,university_location_id,graduation_year,ok_to_email,ok_to_text,ok_to_call,ok_to_mail,underage,
+Turd,Ferguson,turd@fergeson.com,Lollipop Ln,Springfield,New Jersey,12345,Bucks County,1231231234,3,2019,true,false,false,true,true,
