@@ -290,6 +290,7 @@ RSpec.describe Box, :type => :model do
 
   describe Box, "#send_research_solicitation_email!" do
     it "sends an email with the AutoEmailHandler" do
+      designer.volunteer.update_attributes(ok_to_email: true)
       box = create(:box, designed_by: designer)
       allow(AutoEmailHandler).to receive(:new)
 
@@ -301,25 +302,75 @@ RSpec.describe Box, :type => :model do
           designer,
       )
     end
+
+    it "doesn't send an email with the AutoEmailHandler" do
+      designer.volunteer.update_attributes(ok_to_email: false)
+      box = create(:box, designed_by: designer)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_research_solicitation_email!
+
+      expect(AutoEmailHandler).to_not have_received(:new).with(
+          "volunteer",
+          box,
+          designer,
+      )
+    end
   end
 
   describe Box, "#send_assembly_solicitation_email!" do
     it "sends an email with the AutoEmailHandler" do
+      researcher.volunteer.update_attributes(ok_to_email: true)
       box = create(:box, researched_by: researcher)
       allow(AutoEmailHandler).to receive(:new)
 
       box.send_assembly_solicitation_email!
+
+      expect(AutoEmailHandler).to have_received(:new).with(
+          "volunteer",
+          box,
+          researcher,
+      )
+    end
+
+    it "doesn't send an email with the AutoEmailHandler" do
+      researcher.volunteer.update_attributes(ok_to_email: false)
+      box = create(:box, researched_by: researcher)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_assembly_solicitation_email!
+
+      expect(AutoEmailHandler).to_not have_received(:new).with(
+          "volunteer",
+          box,
+          researcher,
+      )
     end
   end
 
   describe Box, "#send_shipping_solicitation_email!" do
-    it "sends a email with AutoEmailHandler" do
+    it "sends an email with AutoEmailHandler" do
+      assembler.volunteer.update_attributes(ok_to_email: true)
       box = create(:box, assembled_by: assembler)
       allow(AutoEmailHandler).to receive(:new)
 
       box.send_shipping_solicitation_email!
 
       expect(AutoEmailHandler).to have_received(:new).with(
+          "volunteer",
+          box,
+          box.assembled_by,
+      )
+    end
+
+    it "doesn't send an email with AutoEmailHandler" do
+      assembler.volunteer.update_attributes(ok_to_email: false)
+      box = create(:box, assembled_by: assembler)
+      allow(AutoEmailHandler).to receive(:new)
+
+      box.send_shipping_solicitation_email!
+
+      expect(AutoEmailHandler).to_not have_received(:new).with(
           "volunteer",
           box,
           box.assembled_by,
