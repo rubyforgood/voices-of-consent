@@ -2,6 +2,8 @@
 
 class Volunteer < ApplicationRecord
   include Messageable
+  include Sendable
+  
   require 'csv'
 
   has_one :user

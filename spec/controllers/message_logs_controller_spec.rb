@@ -29,7 +29,7 @@ RSpec.describe MessageLogsController, type: :controller do
 
   describe "GET #index page 2 & will_paginate records for second page" do
     it "shows 2 items on the second page" do
-      FactoryBot.create_list(:message_log, 32, :messageable => build(:volunteer))
+      FactoryBot.create_list(:message_log, 32, :messageable => build(:volunteer), :sendable => build(:volunteer))
       get :index, params: { page: 2 }, session: valid_session
       expect(response).to be_successful
       #Only the last two items are rendered on the second page

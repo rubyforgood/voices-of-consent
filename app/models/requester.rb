@@ -1,5 +1,6 @@
 class Requester < ApplicationRecord
   include Messageable
+  include Sendable
 
   has_many :box_requests
 

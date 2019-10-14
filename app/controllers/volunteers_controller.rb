@@ -39,7 +39,7 @@ class VolunteersController < ApplicationController
       if @volunteer.save
         if @volunteer.ok_to_email?
           VolunteerMailer.welcome_email(@volunteer).deliver_later
-          message_log = MessageLog.new(sent_to: User.find_by(volunteer_id: @volunteer.id), sent_by: User.find_by(vounteer_id: @volunteer.id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
+          message_log = MessageLog.new(sendable: @volunteer, sent_by: User.find_by(vounteer_id: @volunteer.id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
           message_log.save
         end
 

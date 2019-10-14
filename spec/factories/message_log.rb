@@ -3,6 +3,7 @@ FactoryBot.define do
     messageable_type { "BoxRequest" }
     messageable_id { 1 }
     sent_by
-    sent_to
+    sendable_type { "Volunteer" }
+    sendable_id { 1 }
   end
 end
