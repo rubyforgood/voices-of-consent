@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   post 'volunteer_application',                    to: "volunteer_application#create"
   get 'volunteers/thank_you',                      to: 'volunteers#thank_you'
+  get 'volunteers/import',                         to: 'volunteers#import_volunteer'
+
+  resources :volunteers do
+    collection {post :import}
+  end
 
   # React Component Selection Lists
   get 'requesters/all',       to: 'requesters#index_for_selections'
@@ -68,6 +73,7 @@ Rails.application.routes.draw do
   resources :box_requests
   resources :boxes
   resources :inventory_adjustments
+  resources :inventory_imports, only: %i[new create]
   resources :inventory_tallies
   resources :inventory_types
   resources :locations

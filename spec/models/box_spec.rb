@@ -1,24 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe Box, :type => :model do
-  subject(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
-  subject(:box_request_1) {
+  let(:requester) { Requester.new(first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true, underage: false) }
+  let(:box_request_1) {
     BoxRequest.create(requester: requester,
-      summary: "Lorem ipsum text.... Caramels tart sweet pudding pie candy lollipop.",
-      question_re_affect: "Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies.",
-      question_re_current_situation: "Sweet roll cake pastry cookie.",
-      question_re_referral_source: "Ice cream sesame snaps danish marzipan macaroon icing jelly beans." ) }
+                      summary: "Lorem ipsum text.... Caramels tart sweet pudding pie candy lollipop.",
+                      question_re_affect: "Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies.",
+                      question_re_current_situation: "Sweet roll cake pastry cookie.",
+                      question_re_referral_source: "Ice cream sesame snaps danish marzipan macaroon icing jelly beans.") }
 
-  subject(:reviewer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::REQUEST_REVIEWER)]) }
-  subject(:designer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_DESIGNER)]) }
-  subject(:researcher) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ITEM_RESEARCHER)]) }
-  subject(:assembler) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ASSEMBLER)]) }
-  subject(:shipper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::SHIPPER)]) }
-  subject(:follow_upper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_FOLLOW_UPPER)]) }
-  subject(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
-  subject(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
+  let(:reviewer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::REQUEST_REVIEWER)]) }
+  let(:designer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_DESIGNER)]) }
+  let(:researcher) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ITEM_RESEARCHER)]) }
+  let(:assembler) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ASSEMBLER)]) }
+  let(:shipper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::SHIPPER)]) }
+  let(:follow_upper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_FOLLOW_UPPER)]) }
+  let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
+  let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
 
   describe "state transitions" do
+    before(:each) do
+      allow(AutoEmailHandler).to receive(:new)
+    end
 
     it "has state reviewed after box_request is reviewed" do
       box_request_1.reviewed_by_id = reviewer.id;
@@ -93,8 +96,8 @@ RSpec.describe Box, :type => :model do
     end
 
     it "transitions from research_in_progress to researched" do
-      @time_now = Time.parse("Oct 11 2019")
-      Time.stub(:now).and_return(@time_now)
+      time_now = Time.parse("Oct 11 2019")
+      allow(Time).to receive(:now).and_return(time_now)
 
       box_request_1.reviewed_by_id = reviewer.id;
       box_request_1.save
@@ -105,6 +108,8 @@ RSpec.describe Box, :type => :model do
       box.save
       box.claim_design!
       box.check_has_box_items # make sure there are items
+      expect(box).to receive(:send_research_solicitation_email!).and_return(true)
+
       # make sure at least one item needs research
       create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
@@ -113,7 +118,7 @@ RSpec.describe Box, :type => :model do
       box.claim_research!
       box.mark_box_items_as_researched!
       expect(box).to transition_from(:research_in_progress).to(:researched).on_event(:complete_research)
-      expect(box.researched_at).to eq(@time_now)
+      expect(box.researched_at).to eq(time_now)
     end
 
     it "transitions from researched to assembly in progress" do
@@ -291,9 +296,9 @@ RSpec.describe Box, :type => :model do
       box.send_research_solicitation_email!
 
       expect(AutoEmailHandler).to have_received(:new).with(
-        "volunteer",
-        box,
-        designer,
+          "volunteer",
+          box,
+          designer,
       )
     end
   end
@@ -304,6 +309,7 @@ RSpec.describe Box, :type => :model do
       allow(AutoEmailHandler).to receive(:new)
 
       box.send_assembly_solicitation_email!
+    end
   end
 
   describe Box, "#send_shipping_solicitation_email!" do
@@ -314,9 +320,9 @@ RSpec.describe Box, :type => :model do
       box.send_shipping_solicitation_email!
 
       expect(AutoEmailHandler).to have_received(:new).with(
-        "volunteer",
-        box,
-        box.assembled_by,
+          "volunteer",
+          box,
+          box.assembled_by,
       )
     end
   end

@@ -269,11 +269,14 @@ class Box < ApplicationRecord
                               updated_by: box_request.reviewed_by)
       end
     end
-  end
 
-  def send_research_solicitation_email!
-    AutoEmailHandler.new("volunteer", self, self.designed_by)
-  end
+    def send_research_solicitation_email!
+      AutoEmailHandler.new("volunteer", self, self.designed_by)
+    end
+
+    def send_assembly_solicitation_email!
+      AutoEmailHandler.new("volunteer", self, self.researched_by)
+    end
 
   def send_assembly_solicitation_email!
     AutoEmailHandler.new("volunteer", self, self.researched_by)

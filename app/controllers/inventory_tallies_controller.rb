@@ -4,7 +4,7 @@ class InventoryTalliesController < ApplicationController
   # GET /inventory_tallies
   # GET /inventory_tallies.json
   def index
-    @inventory_tallies = InventoryTally.all
+    @inventory_tallies = InventoryTally.all.includes(:storage_location, :inventory_type)
   end
 
   # GET /inventory_tallies/1

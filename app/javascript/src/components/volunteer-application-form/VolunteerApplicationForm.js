@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Progress } from 'react-sweet-progress';
+import UniversityPicker from './university-picker';
 import 'react-sweet-progress/lib/style.css';
 
 import './VolunteerApplicationForm.scss'
@@ -27,20 +28,38 @@ class VolunteerApplicationForm extends React.Component {
         ok_to_mail: null,
         is_underage: false, // Volunteers are all over 12 years old
         university_location_id: null,
-        graduation_year: null,
-      }
+        graduation_year: '',
+      },
+      // Store university info in this state so that it persists pagination
+      selectedUniversity: null,
+      universityOptions: [],
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleUniversityChange = this.handleUniversityChange.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
-    // this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginatePrevious = this.handlePaginatePrevious.bind(this);
     this.handlePaginateForward = this.handlePaginateForward.bind(this);
   }
 
+  componentDidMount() {
+    const { universityOptions } = this.state;
+
+    fetch('/locations.json?location_type=university&sort_by[attribute]=name&sort_by[direction]=asc')
+      .then(response => response.json())
+      .then((data) => {
+        const universities = data.map((university) => ({ label: university.name, value: university.id }))
+        this.setState({ universityOptions: [...universities, ...universityOptions] })
+      });
+  }
+
   handleChange(event) {
     this.setState({ volunteerApplication: { ...this.state.volunteerApplication, [event.target.name]: event.target.value} });
+  }
+
+  handleUniversityChange(selectedUniversity) {
+    this.setState({ selectedUniversity, volunteerApplication: { ...this.state.volunteerApplication, university_location_id: selectedUniversity.value} })
   }
 
   handleRadioChange(event) {
@@ -163,7 +182,7 @@ class VolunteerApplicationForm extends React.Component {
   }
 
   renderFinalSection() {
-    const { volunteerApplication } = this.state;
+    const { volunteerApplication, selectedUniversity, universityOptions } = this.state;
     return (
       <div>
         <div className="row section-top section-label">Address*</div>
@@ -246,15 +265,19 @@ class VolunteerApplicationForm extends React.Component {
         </div>
         { this.state.attemptedSubmit && volunteerApplication.phone != '' && (volunteerApplication.ok_to_text == null || volunteerApplication.ok_to_call == null) ? this.renderRequiredAlert() : null }
 
-        <div className="row section-top section-label">University Information</div>
+        <div className="row section-top section-label">College Students:</div>
         <div className="row">
-          <div className="col-md">
-            <input type="integer" className="row form-control" name="university_location_id" value={volunteerApplication.university_location_id} onChange={this.handleChange} />
-            <label className="row sub-text">University Location ID</label>
+          <div className="col-md college-student-col">
+            <UniversityPicker
+              onChange={this.handleUniversityChange}
+              selectedUniversity={selectedUniversity}
+              universityOptions={universityOptions}
+            />
+            <label className="sub-text">University</label>
           </div>
-          <div className="col-md">
-            <input type="integer" className="row form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
-            <label className="row sub-text">Graduation Year</label>
+          <div className="col-md college-student-col">
+            <input type="integer" className="form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
+            <label className="sub-text">Graduation Year</label>
           </div>
         </div>
       </div>
