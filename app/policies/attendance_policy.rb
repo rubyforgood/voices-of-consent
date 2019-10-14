@@ -7,8 +7,8 @@ class AttendancePolicy < ApplicationPolicy
   end
 
   def index?
-   # can_volunteer_at_events?
-   false
+   can_volunteer_at_events?
+   # false
   end
 
   def show?
