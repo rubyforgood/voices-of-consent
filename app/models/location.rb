@@ -14,4 +14,7 @@ class Location < ApplicationRecord
     distribution_partner: 4,
     university: 5
   }
+
+  scope :storage_unit, -> { where(location_type: "storage_unit") }
+
 end
