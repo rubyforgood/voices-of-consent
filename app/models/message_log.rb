@@ -15,7 +15,8 @@ class MessageLog < ApplicationRecord
   def self.log_autoemail(email_object, person, object, message_type, current_user)
     self.create!(delivery_type: self.delivery_types[:autoemail],
                  content: email_object.body.raw_source,
-                 sent_to: person, # TODO - change this to sendable_type and sendable so we can log if email went to Requester or User
+                 sendable_type: person.class,
+                 sendable: person,
                  sent_by: current_user,
                  messageable_type: object.class,
                  messageable: object,
