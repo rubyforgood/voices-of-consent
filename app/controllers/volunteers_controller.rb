@@ -82,6 +82,17 @@ class VolunteersController < ApplicationController
     end
   end
 
+  def import
+    if params[:file].nil?
+      redirect_to volunteers_path, alert: "CSV document not present."
+    else
+      Volunteer.import_csv(params[:file].path)
+      respond_to do |format|
+        format.html { redirect_to volunteers_path, notice: "Successfully Imported Data!!!" }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_volunteer
