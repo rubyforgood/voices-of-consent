@@ -271,7 +271,7 @@ class Box < ApplicationRecord
         end
       end
     end
-  
+
     def send_research_solicitation_email!
       AutoEmailHandler.new("volunteer", self, self.designed_by)
     end

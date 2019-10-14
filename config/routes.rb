@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   resources :box_requests
   resources :boxes
   resources :inventory_adjustments
+  resources :inventory_imports, only: %i[new create]
   resources :inventory_tallies
   resources :inventory_types
   resources :locations

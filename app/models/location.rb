@@ -1,5 +1,5 @@
 class Location < ApplicationRecord
-  has_many :inventory_tallies
+  has_many :inventory_tallies, foreign_key: :storage_location_id
   has_many :meetings
   has_many :purchases
 
