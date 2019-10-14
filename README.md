@@ -58,8 +58,8 @@ $ heroku local -f Procfile.dev
   $ docker-compose up -d -or- $ docker-compose up
   http://localhost:3000
 $ rspec (to run the test suite)
-View `seeds.rb` file for login email and password to use while working in development
 
+$ View `seeds.rb` file for login email and password to use while working in development
 ```
 
 ## Starting Local Services
