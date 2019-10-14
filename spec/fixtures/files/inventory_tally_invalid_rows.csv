@@ -1,0 +1,5 @@
+location_name,inventory_type_name,quantity
+store-a-lot,tampons,10
+,,5
+,tampons,1
+store-a-lot,,200
