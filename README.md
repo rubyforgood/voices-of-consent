@@ -53,7 +53,7 @@ $ rake dev:setup
 $ heroku local -f Procfile.dev
 # if you chose the local route, then you are good to go on:
   http://localhost:5000
-  $ rspec (to run the test suite)
+  $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
 # If you chose the Docker route:
   $ docker-compose up -d -or- $ docker-compose up
   http://localhost:3000
