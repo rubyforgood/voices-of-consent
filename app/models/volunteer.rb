@@ -45,7 +45,8 @@ class Volunteer < ApplicationRecord
         underage: row[14]
       })
     end
-    
+  end
+
   private
 
   def university_location_type
