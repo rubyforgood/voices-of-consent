@@ -183,10 +183,11 @@ class VolunteerApplicationForm extends React.Component {
 
   renderFinalSection() {
     const { volunteerApplication, selectedUniversity, universityOptions } = this.state;
+    const missingFieldValues = Boolean(volunteerApplication.street_address === '' || volunteerApplication.city === '' || volunteerApplication.state === '' || volunteerApplication.zip === '' || volunteerApplication.county === '');
     return (
       <div>
         <div className="row section-top section-label">Address*</div>
-        { this.state.attemptedSubmit && (volunteerApplication.street_address === '' || volunteerApplication.city === '' || volunteerApplication.state === '' || volunteerApplication.zip === '') ? this.renderRequiredAlert() : null }
+        {this.state.attemptedSubmit && missingFieldValues ? this.renderRequiredAlert() : null }
         <div className="row sub-text">
           <input type="text" className="form-control" name="street_address" value={volunteerApplication.street_address} onChange={this.handleChange} />
           <label>Address 1</label>
