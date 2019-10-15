@@ -107,6 +107,10 @@ class BoxRequestTriageController < ApplicationController
 
     render json: { "redirect_url": box_request_thank_you_path },
            status: 200
+
+    rescue ActiveRecord::RecordInvalid => error
+      render json: { "error": error },
+             status: 422
   end
 
   private
