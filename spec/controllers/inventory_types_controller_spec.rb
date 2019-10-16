@@ -25,12 +25,16 @@ require 'rails_helper'
 
 RSpec.describe InventoryTypesController, type: :controller do
   has_authenticated_user
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # InventoryType. As you add validations to InventoryType, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      name: Faker::House.furniture.titleize,
+      description: Faker::Lorem.sentence
+    }
   }
 
   let(:invalid_attributes) {
@@ -47,6 +51,16 @@ RSpec.describe InventoryTypesController, type: :controller do
       InventoryType.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
+    end
+  end
+
+  describe 'GET #index as :json' do
+    it 'returns a success response' do
+      InventoryType.create! valid_attributes
+      get :index, params: { format: :json }
+      expect(response).to be_successful
+      expect(JSON.parse(response.body).length).to eq(1)
+      expect(JSON.parse(response.body)[0]).to have_key('name')
     end
   end
 

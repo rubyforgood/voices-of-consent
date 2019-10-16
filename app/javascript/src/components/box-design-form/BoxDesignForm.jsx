@@ -3,8 +3,6 @@ import ItemPicker from '../item-picker'
 import './BoxDesignForm.scss';
 import InventoryAutosuggest from '../inventory-autosuggest';
 import { keyHandler } from '../../utilities';
-import { itemTypes as mockItemTypes } from '../../mocks/mockData';
-
 
 
 const BoxDesign = () => {
@@ -13,8 +11,13 @@ const BoxDesign = () => {
   const [searchInput, updateSearchInput] = useState("")
 
   useEffect(() => {
-    // Mock API call to return available inventory items.
-    updateAvailableItems(mockItemTypes)
+    // API call to return available inventory items.
+    fetch('/inventory_types.json')
+      .then(response => response.json())
+      .then((data) => {
+        const fetchedItemTypes = data.map(({ name }) => name)
+        updateAvailableItems(fetchedItemTypes)
+      });
   }, [])
 
   const updateItemCount = (targetIndex) => (newValue) => {
