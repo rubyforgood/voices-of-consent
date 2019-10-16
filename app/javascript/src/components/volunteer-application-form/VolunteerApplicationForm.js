@@ -5,6 +5,7 @@ import { Progress } from 'react-sweet-progress';
 import UniversityPicker from './university-picker';
 import 'react-sweet-progress/lib/style.css';
 
+import Select from "react-select";
 import './VolunteerApplicationForm.scss'
 
 class VolunteerApplicationForm extends React.Component {
@@ -13,6 +14,8 @@ class VolunteerApplicationForm extends React.Component {
     this.state = {
       attemptedSubmit: false,
       step: 0,
+      minimumGraduationYear: 1950,
+      maximumGraduationYear: 2050,
       volunteerApplication: {
         first_name: '',
         last_name: '',
@@ -60,6 +63,10 @@ class VolunteerApplicationForm extends React.Component {
 
   handleUniversityChange(selectedUniversity) {
     this.setState({ selectedUniversity, volunteerApplication: { ...this.state.volunteerApplication, university_location_id: selectedUniversity.value} })
+  }
+
+  handleGraduationYearChange = ({value: graduation_year}) => {
+    this.setState({...this.state, volunteerApplication: {...this.state.volunteerApplication, graduation_year}})
   }
 
   handleRadioChange(event) {
@@ -182,8 +189,12 @@ class VolunteerApplicationForm extends React.Component {
   }
 
   renderFinalSection() {
-    const { volunteerApplication, selectedUniversity, universityOptions } = this.state;
+    const { volunteerApplication, selectedUniversity, universityOptions,
+            minimumGraduationYear, maximumGraduationYear } = this.state;
+    const graduationYears = Array.from({length: (maximumGraduationYear - minimumGraduationYear) + 1},
+        (_, i) =>({value: minimumGraduationYear + i, label: minimumGraduationYear + i}));
     const missingFieldValues = Boolean(volunteerApplication.street_address === '' || volunteerApplication.city === '' || volunteerApplication.state === '' || volunteerApplication.zip === '' || volunteerApplication.county === '');
+
     return (
       <div>
         <div className="row section-top section-label">Address*</div>
@@ -277,8 +288,14 @@ class VolunteerApplicationForm extends React.Component {
             <label className="sub-text">University</label>
           </div>
           <div className="col-md college-student-col">
-            <input type="integer" className="form-control" name="graduation_year" value={volunteerApplication.graduation_year} onChange={this.handleChange} />
-            <label className="sub-text">Graduation Year</label>
+             <Select
+               placeholder="Graduation year"
+               options={graduationYears}
+               value={this.state.volunteerApplication.graduation_year}
+               selected={this.state.volunteerApplication.graduation_year}
+               searchable={true}
+               onChange={this.handleGraduationYearChange}
+             />
           </div>
         </div>
       </div>
