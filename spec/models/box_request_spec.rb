@@ -124,6 +124,7 @@ RSpec.describe BoxRequest, :type => :model do
       box_request.reviewed_at = Time.now
       @box = Box.create(box_request_id: box_request.id)
       box_request.complete_review
+      expect(box_request).to have_state(:reviewed)
       expect(box_request.box).to have_state(:reviewed)
     end
   end
