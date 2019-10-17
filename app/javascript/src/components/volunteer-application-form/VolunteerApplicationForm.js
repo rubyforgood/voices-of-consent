@@ -40,6 +40,7 @@ class VolunteerApplicationForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleUniversityChange = this.handleUniversityChange.bind(this);
+    this.handleUniversityCreate = this.handleUniversityCreate.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginatePrevious = this.handlePaginatePrevious.bind(this);
@@ -65,6 +66,23 @@ class VolunteerApplicationForm extends React.Component {
     this.setState({ selectedUniversity, volunteerApplication: { ...this.state.volunteerApplication, university_location_id: selectedUniversity.value} })
   }
 
+  handleUniversityCreate(university) {
+    const token = document.getElementsByName('csrf-token')[0].content;
+
+    window.fetch(location.origin + '/locations', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: headers,
+      body: JSON.stringify({
+        name: university,
+        location_type: 'university'
+      })
+    })
+    .then((response) => {
+      return response.json()
+    });
+  }
+
   handleGraduationYearChange = ({value: graduation_year}) => {
     this.setState({...this.state, volunteerApplication: {...this.state.volunteerApplication, graduation_year}})
   }
@@ -83,17 +101,11 @@ class VolunteerApplicationForm extends React.Component {
       return;
     }
 
-    const token = document.getElementsByName('csrf-token')[0].content;
 
     window.fetch(location.origin + '/volunteer_application', {
       method: 'POST',
       credentials: 'same-origin',
-      headers: {
-       'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token
-      },
+      headers: headers,
       body: JSON.stringify(this.state)
     })
     .then((response) => {
@@ -102,6 +114,17 @@ class VolunteerApplicationForm extends React.Component {
     .then((data) => {
       window.location.href = data.redirect_url;
     });
+  }
+
+  headers() {
+    const token = document.getElementsByName('csrf-token')[0].content;
+
+    return {
+      'Content-Type': 'application/json',
+       'Accept': 'application/json',
+       'X-Requested-With': 'XMLHttpRequest',
+       'X-CSRF-Token': token
+     };
   }
 
   missingRequiredFields() {
@@ -282,6 +305,7 @@ class VolunteerApplicationForm extends React.Component {
           <div className="col-md college-student-col">
             <UniversityPicker
               onChange={this.handleUniversityChange}
+              onCreate={this.handleUniversityCreate}
               selectedUniversity={selectedUniversity}
               universityOptions={universityOptions}
             />
