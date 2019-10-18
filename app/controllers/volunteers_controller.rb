@@ -8,6 +8,13 @@ class VolunteersController < ApplicationController
     @volunteers = Volunteer.all
   end
 
+  def index_for_selections
+    @volunteers = Volunteer.all.map { |volunteer| { id: volunteer.id, name: volunteer.name } }
+    respond_to do |format|
+      format.json { render json: @volunteers }
+    end
+  end
+
   # GET /volunteers/1
   # GET /volunteers/1.json
   def show
@@ -32,7 +39,7 @@ class VolunteersController < ApplicationController
       if @volunteer.save
         if @volunteer.ok_to_email?
           VolunteerMailer.welcome_email(@volunteer).deliver_later
-          message_log = MessageLog.new(sent_to: User.find(@volunteer.user_id), sent_by: User.find(@volunteer.user_id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
+          message_log = MessageLog.new(sendable: @volunteer, sent_by: User.find_by(vounteer_id: @volunteer.id), messageable: @volunteer, content: VolunteerMailer.welcome_email(@volunteer), delivery_type: "autoemail", delivery_status: "Sent", )
           message_log.save
         end
 
@@ -72,6 +79,17 @@ class VolunteersController < ApplicationController
   def thank_you
     respond_to do |format|
       format.html { render :layout => "outreach_form_layout" }
+    end
+  end
+
+  def import
+    if params[:file].nil?
+      redirect_to volunteers_path, alert: "CSV document not present."
+    else
+      Volunteer.import_csv(params[:file].path)
+      respond_to do |format|
+        format.html { redirect_to volunteers_path, notice: "Successfully Imported Data!!!" }
+      end
     end
   end
 

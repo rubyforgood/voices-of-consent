@@ -4,7 +4,11 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
+    @locations = filter_locations || Location.all
+    order_attribute, order_direction = sorting_params[:sort_by]&.values
+    return @locations if order_attribute.nil? || order_direction.nil?
+
+    @locations = @locations.order(order_attribute => order_direction)
   end
 
   # GET /locations/1
@@ -69,6 +73,18 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-      params.require(:location).permit(:name, :street_address, :city, :state, :zip, :type)
+      params.require(:location).permit(:name, :street_address, :city, :state, :zip, :location_type)
+    end
+
+    def filter_params
+      params.permit(:location_type)
+    end
+
+    def sorting_params
+      params.permit(sort_by: [:attribute, :direction])
+    end
+
+    def filter_locations
+      Location.where(filter_params) unless filter_params.empty?
     end
 end

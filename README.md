@@ -53,21 +53,23 @@ $ rake dev:setup
 $ heroku local -f Procfile.dev
 # if you chose the local route, then you are good to go on:
   http://localhost:5000
-  $ rspec (to run the test suite)
+  $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
 # If you chose the Docker route:
-  $ docker-compose start -or- $ docker-compose up
+  $ docker-compose up -d -or- $ docker-compose up
   http://localhost:3000
 $ rspec (to run the test suite)
+
+$ View `seeds.rb` file for login email and password to use while working in development
 ```
 
 ## Starting Local Services
 
 ### ... with Docker!
 
-If you opted to install Docker Desktop, `docker-compose start` will run dependency services like PostgreSQL (the database), Redis (the job queue), and Mailcatcher (a fake SMTP mail server for testing). Services will run in the background. NOTE: these services will attempt to use some commonly used ports (e.g. 5432 for PostgreSQL) on localhost, so if you see errors about conflicting ports, you may have the corresponding service already running elsewhere on your development host.
+If you opted to install Docker Desktop, `docker-compose up -d` will run dependency services like PostgreSQL (the database), Redis (the job queue), and Mailcatcher (a fake SMTP mail server for testing). Services will run in the background. NOTE: these services will attempt to use some commonly used ports (e.g. 5432 for PostgreSQL) on localhost, so if you see errors about conflicting ports, you may have the corresponding service already running elsewhere on your development host.
 
 ```
-$ docker-compose start
+$ docker-compose up -d
 Starting db          ... done
 Starting cache       ... done
 Starting mailcatcher ... done
@@ -141,3 +143,56 @@ You only need this if you're interested in working on emails in the development 
 
 ### Re-seeding development database
 To reset your development database with realistic data, run `rake dev:setup`. To add additional fake data during development after you have already run `rake dev:setup`, you can use `rake db:seed:dev`.
+
+
+### Testing
+When writing tests for rspec tests within the spec/request directory, you can use Warden::Test:Helpers
+which give you access to the ```login_as(user, :scope => :user)``` method, as well as the ```logout``` method.
+You use FactoryBot.create(:user) before the login_as method and pass it in as the required resource variable.
+BE SURE to include the line ```after { Warden.test_reset! } ``` after the before do block with the login_as method
+within it. This allows for any unexpected state data of the user from hanging around and causing errors.
+
+Additional testing for front_end specs should make use of Capybara ```sign_in/sign_out``` Capybara methods.
+
+### App Startup Troubleshooting
+If you Recieve an error when trying to run
+
+```
+$ heroku local -f Procfile.dev
+```
+
+that looks like this ...
+
+```
+joe-shmo:~/projects/voices-of-consent(develop)$ heroku local -f Procfile.dev
+ ›   Warning: heroku update available from 7.26.2 to 7.33.3.
+[OKAY] Loaded ENV .env File as KEY=VALUE Format
+12:02:46 PM web.1    |  => Booting Puma
+12:02:46 PM web.1    |  => Rails 5.2.3 application starting in development
+12:02:46 PM web.1    |  => Run `rails server -h` for more startup options
+12:02:46 PM webpack.1 |  events.js:167
+12:02:46 PM webpack.1 |        throw er; // Unhandled 'error' event
+12:02:46 PM webpack.1 |        ^
+12:02:46 PM webpack.1 |  Error: listen EADDRINUSE: address already in use 127.0.0.1:3035
+12:02:46 PM webpack.1 |      at Server.setupListenHandle [as _listen2] (net.js:1290:14)
+12:02:46 PM webpack.1 |      at listenInCluster (net.js:1338:12)
+12:02:46 PM webpack.1 |      at GetAddrInfoReqWrap.doListen [as callback] (net.js:1471:7)
+12:02:46 PM webpack.1 |      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:62:10)
+12:02:46 PM webpack.1 |  Emitted 'error' event at:
+12:02:46 PM webpack.1 |      at emitErrorNT (net.js:1317:8)
+12:02:46 PM webpack.1 |      at process._tickCallback (internal/process/next_tick.js:63:19)
+[DONE] Killing all processes with signal  SIGINT
+```
+
+Run -
+``` $ ps aux | grep node ```
+and then use the following command on any PIDs that have voices of consent in the path, or mentions node/procfiles
+
+```
+kill -9 <PID #>
+```
+Then Re-run -
+
+```
+$ heroku local -f Procfile.dev
+```

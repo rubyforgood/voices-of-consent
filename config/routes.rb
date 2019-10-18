@@ -57,12 +57,23 @@ Rails.application.routes.draw do
 
   post 'volunteer_application',                    to: "volunteer_application#create"
   get 'volunteers/thank_you',                      to: 'volunteers#thank_you'
+  get 'volunteers/import',                         to: 'volunteers#import_volunteer'
+
+  resources :volunteers do
+    collection {post :import}
+  end
+
+  # React Component Selection Lists
+  get 'requesters/all',       to: 'requesters#index_for_selections'
+  get 'volunteers/all',       to: 'volunteers#index_for_selections'
+  get 'box_requests/all',     to: 'box_requests#index_for_selections'
 
   resources :attendances
   resources :box_request_abuse_types
   resources :box_requests
   resources :boxes
   resources :inventory_adjustments
+  resources :inventory_imports, only: %i[new create]
   resources :inventory_tallies
   resources :inventory_types
   resources :locations
@@ -73,6 +84,7 @@ Rails.application.routes.draw do
   resource  :user_management, only: %i[show create destroy], controller: :user_management
   resources :volunteers
   resources :abuse_types, only: %i[index]
+  resources :box_assembly
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html
