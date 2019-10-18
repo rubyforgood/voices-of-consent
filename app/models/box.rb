@@ -178,7 +178,9 @@ class Box < ApplicationRecord
     end
 
     def is_assembled
-      self.assembled_by_id && self.assembled_at.present? && box_items.any? && box_items.pluck(:added_to_box).all?
+      self.assembled_by_id && self.assembled_at.present?
+      # TODO
+      # && box_items.any? && box_items.pluck(:added_to_box).all?
     end
 
     def is_shipped
