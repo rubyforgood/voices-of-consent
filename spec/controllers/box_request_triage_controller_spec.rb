@@ -66,5 +66,12 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       post :create, :params => { :boxRequest => test_data }
       expect(JSON.parse(response.body)).to include("redirect_url" => box_request_thank_you_path)
     end
+
+    it "returns error with an invalid email" do
+      test_data[:email] = "invalidemail"
+
+      post :create, :params => { :boxRequest => test_data }
+      expect(JSON.parse(response.body)).to include("error")
+    end
   end
 end

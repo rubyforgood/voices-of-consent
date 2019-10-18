@@ -28,6 +28,25 @@ class BoxFollowUpController < ApplicationController
     end
   end
 
+  def decline
+    @box = request_review_scope.find(params[:box_id])
+    if @box.followed_up_by != current_user
+
+      respond_to do |format|
+        if @box.decline_follow_up!
+          format.html { redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: "follow_up") }
+          format.json { render :show, status: :ok, location: @box }
+        else
+
+          format.html { redirect_to root_path, alert: 'Box follow_up decline failed.' }
+          format.json { render :show, status: :ok, location: @box }
+        end
+      end
+    else
+      redirect_to edit_box_path(@box), notice: "You previously claimed follow_up of this Box"
+    end
+  end
+
   def complete
     @box = box_claim_scope.find(params[:box_id])
 

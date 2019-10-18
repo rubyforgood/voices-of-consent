@@ -8,6 +8,7 @@ module Permission
   BOX_ITEM_RESEARCHER = 'researcher'
   TEAM_LEAD = 'team lead'
   SHIPPER = 'shipper'
+  BOX_FOLLOW_UPPER = 'box follow_upper'
   REIMBURSER = 'reimburser'
   PURCHASER = 'purchaser'
   VIEW_PURCHASES = 'view purchases'

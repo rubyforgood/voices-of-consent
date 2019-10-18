@@ -13,6 +13,7 @@ class BoxRequestForm extends React.Component {
     this.state = {
       abuseTypeOptions: ["All of the Above"],
       attemptedSubmit: false,
+      error: false,
       step: 0,
       boxRequest: {
         first_name: '',
@@ -99,7 +100,7 @@ class BoxRequestForm extends React.Component {
   }
 
   handleSubmit(event) {
-    this.setState({ attemptedSubmit: true })
+    this.setState({ attemptedSubmit: true, error: false })
     event.preventDefault();
 
     if (this.missingRequiredFields()) {
@@ -131,9 +132,17 @@ class BoxRequestForm extends React.Component {
       return response.json()
     })
     .then((data) => {
-      window.location.href = data.redirect_url;
-    });
+      if(data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+      else {
+        console.log(data.error)
+        this.setState({ step: 0, error: true });
+        return;
+      }
+    })
   }
+
 
   missingRequiredFields() {
     const {
@@ -193,6 +202,14 @@ class BoxRequestForm extends React.Component {
     );
   }
 
+  renderValidEmailAlert() {
+    return (
+      <div class="alert alert-danger required-fields-submit-alert" role="alert">
+        Please provide a valid email.
+      </div>
+    );
+  }
+
   renderAbuseTypes() {
     const abuseTypes = this.state.abuseTypeOptions.map((type) =>
       <div class="row form-check">
@@ -225,6 +242,7 @@ class BoxRequestForm extends React.Component {
           <input type="text" class="form-control" name="email" value={boxRequest.email} onChange={this.handleChange} />
         </div>
         { this.state.attemptedSubmit && boxRequest.email == '' ? this.renderRequiredAlert() : null }
+        { this.state.attemptedSubmit && this.state.error == true ? this.renderValidEmailAlert() : null }
         <div class="row">
           <label class="following-question">Okay to email?*</label>
           <div class="form-check form-check-inline">
