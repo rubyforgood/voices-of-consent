@@ -1,14 +1,14 @@
 import React , { useState, useEffect } from 'react'
 import ItemPicker from '../item-picker'
-import './BoxDesignForm.scss';
-import InventoryAutosuggest from '../inventory-autosuggest';
-import { keyHandler } from '../../utilities';
+import './BoxDesignForm.scss'
+import InventoryAutosuggest from '../inventory-autosuggest'
 
 
 const BoxDesign = () => {
   const [availableItems, updateAvailableItems] = useState([])
   const [items, updateItems] = useState([])
   const [searchInput, updateSearchInput] = useState("")
+  const [blankSearch, updateBlankSearch] = useState("")
 
   useEffect(() => {
     // API call to return available inventory items.
@@ -43,6 +43,16 @@ const BoxDesign = () => {
     updateItems(updatedItems)
   }
 
+  const openItems = () => {
+    if (!searchInput) {
+      updateBlankSearch('nothing')
+    }
+  }
+
+  const closeItems = () => {
+    updateBlankSearch('')
+  }
+
   return (
     <main className="box-design">
       <section>
@@ -58,17 +68,19 @@ const BoxDesign = () => {
             type="text"
             id="box-design-inventory-search"
             aria-label="Inventory Search Input"
-            name = "item"
+            name="item"
             placeholder="Search Inventory"
             value={ searchInput }
             autoComplete="off"
+            onFocus={ openItems }
+            onBlur={ closeItems }
             onChange={ e => {
               const sanitizedInput = e.target.value.replace(/\W/gi, "");
               updateSearchInput(sanitizedInput)
               } }
           />
           {
-            searchInput &&
+            (blankSearch || searchInput) &&
               <InventoryAutosuggest 
                 inventoryItems={availableItems}
                 searchInput={searchInput}
@@ -124,4 +136,4 @@ const BoxDesign = () => {
   )
   }
 
-export default BoxDesign;
+export default BoxDesign

@@ -2,10 +2,11 @@ import React from 'react'
 import { keyHandler } from '../../utilities';
 
 const InventoryAutosuggest = ({inventoryItems, searchInput, updateSearchInput, addItem}) => {
-    const possibleItems = inventoryItems.filter(itemType => {
-      const regex = new RegExp(`^(${ searchInput })`, 'i');
-      return regex.test(itemType);
-    })
+  console.log("InventoryAutosuggest")
+  const possibleItems = inventoryItems.filter(itemType => {
+    const regex = new RegExp(`^(${searchInput})`, 'i');
+    return regex.test(itemType);
+  })
     return (
       <ul className="inventory-autosuggest">
         {
