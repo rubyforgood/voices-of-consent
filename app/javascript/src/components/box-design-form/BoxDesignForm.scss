@@ -23,29 +23,6 @@ $primary_highlight-dark: #b49194;
             color: rgba(0,0,0,0.5);
         }
     }
-
-    .inventory-autosuggest {
-        position: absolute;
-        z-index: 10;
-        top: 45px;
-        left: 0;
-        width: 100%;
-        box-shadow: 0 0 1px black;
-        background: white;
-
-        .inventory-autosuggest__item {
-            display: block;
-            height: 45px;
-            width: 100%;
-            padding: 10px;
-            list-style-type: none;
-
-            &:active, &:hover, &:focus {
-                background: $primary_highlight-dark;
-            }
-        }
-    }
-
 }
 
 .box-design__item-picker {
