@@ -25,7 +25,7 @@ class AutoEmailHandler
   ######
 
   def get_solicitation_recipients
-    User.permission(@permission_name)
+    User.includes(:volunteer).where(volunteers: { ok_to_email: true }).permission(@permission_name)
   end
 
   def set_mailer_klass

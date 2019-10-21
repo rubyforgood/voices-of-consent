@@ -62,44 +62,6 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       expect(box_request.is_interested_in_counseling_services).to eql(expected_counseling)
     end
 
-    it "will email requester and volunteer if ok_to_email is true " do
-      allow(AutoEmailHandler).to receive(:new)
-      user.volunteer.update_attributes(ok_to_email: true)
-      post :create, :params => { :boxRequest => test_data }
-      box_request = BoxRequest.last
-      expect(AutoEmailHandler).to have_received(:new).with("requester", box_request, user)
-      expect(AutoEmailHandler).to have_received(:new).with("volunteer", box_request, user)
-    end
-
-    it "will email requester and not email volunteer " do
-      allow(AutoEmailHandler).to receive(:new)
-      user.volunteer.update_attributes(ok_to_email: false)
-      post :create, :params => { :boxRequest => test_data }
-      box_request = BoxRequest.last
-      expect(AutoEmailHandler).to have_received(:new).with("requester", box_request, user)
-      expect(AutoEmailHandler).to_not have_received(:new).with("volunteer", box_request, user)
-    end
-
-    it "will email volunteer and not email requester " do
-      allow(AutoEmailHandler).to receive(:new)
-      user.volunteer.update_attributes(ok_to_email: true)
-      test_data[:ok_to_email] = false
-      post :create, :params => { :boxRequest => test_data }
-      box_request = BoxRequest.last
-      expect(AutoEmailHandler).to_not have_received(:new).with("requester", box_request, user)
-      expect(AutoEmailHandler).to have_received(:new).with("volunteer", box_request, user)
-    end
-
-    it "will not email both volunteer and requester if ok_to_email is false " do
-      allow(AutoEmailHandler).to receive(:new)
-      user.volunteer.update_attributes(ok_to_email: false)
-      test_data[:ok_to_email] = false
-      post :create, :params => { :boxRequest => test_data }
-      box_request = BoxRequest.last
-      expect(AutoEmailHandler).to_not have_received(:new).with("requester", box_request, user)
-      expect(AutoEmailHandler).to_not have_received(:new).with("volunteer", box_request, user)
-    end
-
     it "returns redirect_url with a succesful submission" do
       post :create, :params => { :boxRequest => test_data }
       expect(JSON.parse(response.body)).to include("redirect_url" => box_request_thank_you_path)

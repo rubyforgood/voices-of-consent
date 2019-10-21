@@ -102,15 +102,8 @@ class BoxRequestTriageController < ApplicationController
       box_request.box_request_abuse_types.create!(abuse_type: AbuseType.where(name: abuse_type).first_or_create!)
     end
 
-    AutoEmailHandler.new('requester', box_request, current_user || User.first) if requester.ok_to_email?
-
-    if current_user.present?
-      if current_user.try(:volunteer).try(:ok_to_email?)
-        AutoEmailHandler.new('volunteer', box_request, current_user)
-      end
-    elsif User.first.volunteer.ok_to_email?
-      AutoEmailHandler.new('volunteer', box_request, User.first)
-    end
+    requester_email = AutoEmailHandler.new("requester", box_request, current_user || User.first)
+    volunteer_email = AutoEmailHandler.new("volunteer", box_request, current_user || User.first)
 
     render json: { "redirect_url": box_request_thank_you_path },
            status: 200
