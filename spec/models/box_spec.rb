@@ -9,12 +9,12 @@ RSpec.describe Box, :type => :model do
                       question_re_current_situation: "Sweet roll cake pastry cookie.",
                       question_re_referral_source: "Ice cream sesame snaps danish marzipan macaroon icing jelly beans.") }
 
-  let(:reviewer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::REQUEST_REVIEWER)]) }
-  let(:designer) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_DESIGNER)]) }
-  let(:researcher) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ITEM_RESEARCHER)]) }
-  let(:assembler) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_ASSEMBLER)]) }
-  let(:shipper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::SHIPPER)]) }
-  let(:follow_upper) { create(:user, user_permissions: [create(:user_permission, permission: Permission::BOX_FOLLOW_UPPER)]) }
+  let(:reviewer) { create(:user, :reviewer) }
+  let(:designer) { create(:user, :designer) }
+  let(:researcher) { create(:user, :researcher) }
+  let(:assembler) { create(:user, :assembler) }
+  let(:shipper) { create(:user, :shipper) }
+  let(:follow_upper) { create(:user, :follow_upper) }
   let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
   let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
 
