@@ -26,7 +26,7 @@ box_items.each do |inventory_type_name, abuse_types, age_ranges|
   end
 end
 
-40.times do
+40.times do |i|
   is_underage = [{boolean: false, value: "12+"}, { boolean: true, value: "UNDERAGE"}].sample
 
   requester = Requester.create!(
@@ -78,5 +78,34 @@ end
   ].compact
 
   box_request.save!
-end
 
+  user = User.first
+  
+  box = Box.create!(
+    box_request_id: box_request.id
+  )
+
+  MessageLog.create!(
+    content: "message-log-box-request #{i}",
+    delivery_type: [0, 1, 2, 3].sample,
+    delivery_status: ['pending', 'complete'].sample,
+    sent_by: user,
+    messageable: box_request,
+    sendable: box_request,
+    message_type: 'followup_email',
+    message_channel: 'email',
+    subject_line: 'subject'
+  )
+
+  MessageLog.create!(
+    content: "message-log-box #{i}",
+    delivery_type: [0, 1, 2, 3].sample,
+    delivery_status: ['pending', 'complete'].sample,
+    sent_by: user,
+    messageable: box,
+    sendable: box,
+    message_type: 'followup_email',
+    message_channel: 'email',
+    subject_line: 'subject'
+  )
+end
