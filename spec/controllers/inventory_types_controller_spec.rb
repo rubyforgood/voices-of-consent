@@ -73,14 +73,15 @@ RSpec.describe InventoryTypesController, type: :controller do
 
       before do
         unordered_name_list.each do |inventory_name|
-          InventoryType.create! ({ name: inventory_name, description: Faker::Lorem.sentence })
+          options = { name: inventory_name, description: Faker::Lorem.sentence }
+          InventoryType.create! options
         end
       end
 
       it 'returns the inventory type list in alphabetical order of name' do
         get :index, params: { format: :json }
-        name_list_response = JSON.parse(response.body).map { |inventory| inventory['name'] }
-        expect(name_list_response).to eql(ordered_name_list)
+        types = JSON.parse(response.body).map { |inventory| inventory['name'] }
+        expect(types).to eql(ordered_name_list)
       end
     end
   end
