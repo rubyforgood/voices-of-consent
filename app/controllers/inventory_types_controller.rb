@@ -3,8 +3,9 @@ class InventoryTypesController < ApplicationController
 
   # GET /inventory_types
   # GET /inventory_types.json
+  # Returns alphabetically ordered list of inventory types based on name
   def index
-    @inventory_types = InventoryType.all
+    @inventory_types = InventoryType.all.sort_by(&:name)
   end
 
   # GET /inventory_types/1

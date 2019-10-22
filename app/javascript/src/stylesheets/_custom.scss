@@ -39,5 +39,6 @@ footer {
   tbody tr {
     &:nth-child(2n) { background: rgb(254, 240, 243) }
     &:nth-child(2n+1) { background: rgb(235, 235, 235) }
+    text-align: center;
   }
 }
