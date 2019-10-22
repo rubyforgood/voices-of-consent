@@ -4,7 +4,7 @@ class InventoryTypesController < ApplicationController
   # GET /inventory_types
   # GET /inventory_types.json
   def index
-    @inventory_types = InventoryType.all
+    @inventory_types = InventoryType.all.sort_by { |inventory_type| inventory_type.name }
   end
 
   # GET /inventory_types/1
