@@ -68,7 +68,7 @@ gem 'webpacker', '~> 4.x'
 gem 'aasm'
 
 # auth
-gem 'devise', '~> 4.6'
+gem 'devise', '>= 4.7.1'
 gem 'devise_invitable', '~> 2.0.0'
 
 gem 'pundit', '~> 2.0'
