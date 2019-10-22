@@ -68,7 +68,6 @@ class VolunteerApplicationForm extends React.Component {
 
   handleUniversityCreate(university) {
     const { universityOptions } = this.state;
-    const token = document.getElementsByName('csrf-token')[0].content;
 
     window.fetch(location.origin + '/locations', {
       method: 'POST',
