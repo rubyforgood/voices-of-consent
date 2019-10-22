@@ -67,19 +67,33 @@ class VolunteerApplicationForm extends React.Component {
   }
 
   handleUniversityCreate(university) {
+    const { universityOptions } = this.state;
     const token = document.getElementsByName('csrf-token')[0].content;
 
     window.fetch(location.origin + '/locations', {
       method: 'POST',
       credentials: 'same-origin',
-      headers: headers,
+      headers: this.headers(),
       body: JSON.stringify({
         name: university,
-        location_type: 'university'
+        location_type: 'university',
+        source: 'volunteers-form'
       })
     })
     .then((response) => {
-      return response.json()
+      if(response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Something went wrong');
+      }
+    })
+    .then((universityData) => {
+      const university = { label: universityData.name, value: universityData.id };
+      this.setState({ universityOptions: universityOptions.concat(university) });
+      this.handleUniversityChange(university);
+    })
+    .catch((error) => {
+      console.log(error.message);
     });
   }
 
@@ -101,11 +115,10 @@ class VolunteerApplicationForm extends React.Component {
       return;
     }
 
-
     window.fetch(location.origin + '/volunteer_application', {
       method: 'POST',
       credentials: 'same-origin',
-      headers: headers,
+      headers: this.headers(),
       body: JSON.stringify(this.state)
     })
     .then((response) => {
