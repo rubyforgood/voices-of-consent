@@ -102,7 +102,9 @@ const BoxDesign = () => {
                 <>
                   <p>The next step is:</p>
                   <h2>Assembly of Care Box</h2>
-                  <p>Thanks so much for your help. Please click the following button below if you are read to progress this box to the next step.</p>
+                  <p>Thanks so much for your help. Please click the following
+                     button below if you are ready to progress this box to the
+                     next step.</p>
                 </>
               )
             : 
