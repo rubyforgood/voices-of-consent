@@ -326,4 +326,6 @@ RSpec.describe Box, :type => :model do
       )
     end
   end
+
+  it { is_expected.to belong_to(:assembly_location).class_name('Location').optional }
 end
