@@ -91,6 +91,7 @@ class BoxesController < ApplicationController
           :shipment_tracking_number,
           :followed_up_by,
           :followed_up_at,
+          :assembly_location_id,
           assembly_declined_by_ids: [],
           research_declined_by_ids: [],
           shipping_declined_by_ids: [],
