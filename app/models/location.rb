@@ -1,4 +1,5 @@
 class Location < ApplicationRecord
+  has_many :assembled_boxes, class_name: 'Box', foreign_key: 'assembly_location_id', inverse_of: :assembly_location
   has_many :inventory_tallies, foreign_key: :storage_location_id
   has_many :meetings
   has_many :purchases

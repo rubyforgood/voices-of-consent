@@ -1,6 +1,7 @@
 class Box < ApplicationRecord
   include AASM
 
+  belongs_to :assembly_location, class_name: "Location", inverse_of: :assembled_boxes
   belongs_to :box_request
   belongs_to :designed_by, optional: true, class_name: "User", foreign_key: :designed_by_id, inverse_of: :boxes_as_designer
   belongs_to :design_reviewed_by, optional: true, class_name: "User", foreign_key: :design_reviewed_by_id, inverse_of: :boxes_as_design_reviewer
