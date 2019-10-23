@@ -23,22 +23,25 @@
     <span>Shipping</span>
   </a>
   <div class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="nav-link" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-expanded="false">
       <% if user_signed_in? %>
         <% if current_user.avatar.attached? %>
           <img src="<%= url_for(current_user.avatar) %>" class="avatar"/>
         <% else %>
           <img src="http://placekitten.com/120/120" class="avatar" />
         <% end %>
-        <%= current_user.name %>
-        <% if current_user.is_admin? %>
-          <small>- Administrator</small>
-        <% else %>
-          <small>- Volunteer</small>
-        <% end %>
+        <div class="user-info">
+          <p><%= current_user.name %></p>
+          <% if current_user.is_admin? %>
+            <small>Administrator</small>
+          <% else %>
+            <small>Volunteer</small>
+          <% end %>
+        </div>
       <% else %>
         Account
       <% end %>
+      <span class="fa fa-cog"></span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
       <% if user_signed_in? %>
