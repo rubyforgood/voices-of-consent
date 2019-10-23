@@ -35,5 +35,10 @@ RSpec.describe Location, type: :model do
     expect(volunteer.reload.university_location).to be_nil
   end
 
-  it { is_expected.to have_many(:assembled_boxes).class_name('Box') }
+  it { 
+    is_expected.to have_many(:assembled_boxes)
+    .class_name('Box'),
+    foreign_key: 'assembly_location_id',
+    inverse_of: :assembly_location
+  }
 end
