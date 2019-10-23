@@ -26,6 +26,9 @@ class BoxesController < ApplicationController
   def create
     @box = Box.new(box_params)
 
+    @box_request = BoxRequest.find(@box.box_request_id);
+    @box_request.complete_review!
+
     respond_to do |format|
       if @box.save
         format.html { redirect_to @box, notice: 'Box was successfully created.' }
@@ -42,7 +45,10 @@ class BoxesController < ApplicationController
   def update
     respond_to do |format|
       if @box.update(box_params)
-        format.html { redirect_to @box, notice: 'Box was successfully updated.' }
+        if @box.is_shipped
+          @box.complete_shipping!
+        end
+        format.html { redirect_to box_requests_path(id: @box), notice: 'Box was successfully updated.' }
         format.json { render :show, status: :ok, location: @box }
       else
         format.html { render :edit }
@@ -69,6 +75,25 @@ class BoxesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def box_params
-      params.require(:box).permit(:box_request_id, :designed_by_id, :design_reviewed_by_id, :assembled_by_id, :shipped_by_id, :shipping_payment_id, :shipped_at, :shipment_tracking_number)
+      params.require(:box).permit(
+          :box_request_id,
+          :designed_by_id,
+          :designed_at,
+          :design_reviewed_by_id,
+          :design_reviewed_at,
+          :researched_by_id,
+          :researched_at,
+          :assembled_by_id,
+          :assembled_at,
+          :shipped_by_id,
+          :shipped_at,
+          :shipping_payment_id,
+          :shipment_tracking_number,
+          :followed_up_by,
+          :followed_up_at,
+          assembly_declined_by_ids: [],
+          research_declined_by_ids: [],
+          shipping_declined_by_ids: [],
+          followup_declined_by_ids: [],)
     end
 end

@@ -1,0 +1,23 @@
+.img-header {
+    display: flex;
+    justify-content: center;
+    img {
+        max-width: 688px;
+        height: auto;
+    }
+}
+
+.outreach-form-layout-container {
+    align-self: center;
+}
+
+.outreach-form-container {
+    background-color: white;
+    max-width: 688px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: 5%;
+}

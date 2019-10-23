@@ -4,7 +4,7 @@ class MessageLogsController < ApplicationController
   # GET /message_logs
   # GET /message_logs.json
   def index
-    @message_logs = MessageLog.all
+    @message_logs = MessageLog.ordered.paginate(page: params[:page])
   end
 
   # GET /message_logs/1
@@ -69,6 +69,6 @@ class MessageLogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_log_params
-      params.require(:message_log).permit(:messageable_type, :messageable_id, :content, :delivery_type, :delivery_status, :sent_to_id, :sent_by_id)
+      params.require(:message_log).permit(:messageable_type, :messageable_id, :content, :delivery_type, :delivery_status, :sendable_type, :sendable_id, :sent_by_id)
     end
 end

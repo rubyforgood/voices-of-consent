@@ -2,47 +2,140 @@
 
 <h1>Box Requests</h1>
 
-<form>
-  <%= select_tag :sort_by, {
-    review: "Review Stage",
-    design: "Design Stage",
-    packing: "Packing Stage",
-    shipping: "Shipping Stage",
-  }.map { |attribute, label|
-    "<option value=#{attribute.to_s.inspect}>#{label}</option>"
-  }.join.html_safe %>
+<%= simple_form_for :box_requests,
+                    html: { class: 'form-inline'},
+                    url: box_requests_path,
+                    method: :get do |f| %>
 
-  <button>Sort this list</button>
-</form>
+  <span class="results">
+    <%= @box_requests.length %> box requests
+  </span>
+  <%= select_tag     "filter_by",
+                       options_for_select(
+                           [:requested,
+                            :review_in_progress,
+                            :reviewed,
+                            :design_in_progress,
+                            :designed,
+                            :research_in_progress,
+                            :researched,
+                            :assembly_in_progress,
+                            :assembled,
+                            :shipping_in_progress,
+                            :shipped,
+                           ],
+                           selected: params[:filter_by]),
+                       include_blank: "-- Filter options --",
+                       placeholder: "",
+                       class: "form-control" %>
+  <%= f.button :submit, "Filter", class: "form-group btn btn-success button pull-left", name: nil %>
+<% end %>
 
 <table class="table box-requests-table">
   <thead>
     <tr>
-      <th></th>
-      <th>Reviewed by</th>
-      <th>Designed by</th>
-      <th>Assembled by</th>
-      <th>Shipped by</th>
-      <th>Followup sent?</th>
+      <th>Date</th>
+      <th>BoxRequest</th>
+      <th>Review</th>
+      <th>Design</th>
+      <th>Research</th>
+      <th>Package</th>
+      <th>Ship</th>
+      <th>Followup</th>
     </tr>
   </thead>
 
   <tbody>
     <% @box_requests.each do |box_request| %>
+      <% box = box_request.box %>
       <tr>
-        <td><%= box_request.id %></td>
+        <td class="text-nowrap"><%= box_request.created_at.strftime("%m-%d-%y") %></td>
+        <td><%= box_request.name %></td>
         <td>
-          <%= box_request.reviewer_name %>
-          <% if box_request.reviewed_by == current_user %>
-            <%= link_to("review", edit_box_request_path(box_request)) %>
+          <% if box_request.review_declined_by_ids.include?(current_user.id) %>
+            (You declined)
+          <% elsif box_request.is_reviewed %>
+            <span class="fas fa-check-circle"></span>
           <% elsif !box_request.reviewed_by_id.present? %>
-            <%= link_to("claim", edit_box_request_path(box_request)) %>
+            <%= link_to("Claim", box_request_claim_path(box_request), class: "btn btn-secondary") %>
+            <%= link_to("Review", edit_box_request_path(box_request), class: "btn btn-secondary") %>
+          <% elsif box_request.reviewed_by == current_user && !box_request.is_reviewed %>
+            <%= link_to("Review", edit_box_request_path(box_request), class: "btn btn-secondary") %>
           <% end %>
         </td>
-        <td><%= box_request.designer_name %></td>
-        <td><%= box_request.assembler_name %></td>
-        <td><%= box_request.shipper_name %></td>
-        <td><%= box_request.followup_sent? %></td>
+        <td>
+          <% if box %>
+
+            <% if box.design_declined_by_ids.include?(current_user.id) %>
+              (You declined)
+            <% elsif box.is_designed %>
+              <span class="fas fa-check-circle"></span>
+            <% elsif box_request.is_reviewed && !box.designed_by_id.present? %>
+              <%= link_to("Claim", box_design_claim_path(box_id: box), class: "btn btn-secondary") %>
+              <%= link_to("Design", box_design_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% elsif box_request.is_reviewed && !box.is_designed && box.designed_by == current_user %>
+              <%= link_to("Design", box_design_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if box %>
+            <% if box.research_declined_by_ids.include?(current_user.id) %>
+              (You declined)
+            <% elsif box.is_researched %>
+              <span class="fas fa-check-circle"></span>
+            <% elsif box.is_designed && !box.researched_by_id.present? %>
+              <%= link_to("Claim", box_research_claim_path(box_id: box), class: "btn btn-secondary") %>
+              <%= link_to("Research", box_research_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% elsif box.is_designed && !box.is_researched && box.researched_by == current_user %>
+              <%= link_to("Research", box_research_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if box %>
+            <%= box.box_items.count %> items
+            <%= box.aasm_state %>
+            <% if box.assembly_declined_by_ids.include?(current_user.id) %>
+              (You declined)
+            <% elsif box.is_assembled %>
+              <span class="fas fa-check-circle"></span>
+            <% elsif box.is_researched && !box.assembled_by_id.present? %>
+              <%= link_to("Claim", box_assembly_claim_path(box_id: box), class: "btn btn-secondary") %>
+              <%= link_to("Package", box_assembly_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% elsif box.is_researched && !box.is_assembled && box.assembled_by == current_user %>
+              <%= link_to("Package", box_assembly_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if box %>
+            <% if box.shipping_declined_by_ids.include?(current_user.id) %>
+              (You declined)
+            <% elsif box.is_shipped %>
+              <span class="fas fa-check-circle"></span>
+            <% elsif box.is_assembled && !box.shipped_by_id.present? %>
+              <%= link_to("Claim", box_shipment_claim_path(box_id: box), class: "btn btn-secondary") %>
+              <%= link_to("Ship", box_shipment_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% elsif box.is_assembled && !box.is_shipped && box.shipped_by == current_user %>
+              <%= link_to("Ship", box_shipment_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if box %>
+            <% if box.followup_declined_by_ids.include?(current_user.id) %>
+              (You declined)
+            <% elsif box.is_followed_up %>
+              <span class="fas fa-check-circle"></span>
+            <% elsif box.is_shipped && !box.followed_up_by.present? %>
+              <%= link_to("Claim", box_follow_up_claim_path(box_id: box), class: "btn btn-secondary") %>
+              <%= link_to("Followup", box_follow_up_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% elsif box.is_shipped && !box.is_followed_up && box.followed_up_by == current_user %>
+              <%= link_to("Followup", box_follow_up_new_path(box_id: box), class: "btn btn-secondary") %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

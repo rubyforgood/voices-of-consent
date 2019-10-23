@@ -3,8 +3,9 @@ class InventoryTypesController < ApplicationController
 
   # GET /inventory_types
   # GET /inventory_types.json
+  # Returns alphabetically ordered list of inventory types based on name
   def index
-    @inventory_types = InventoryType.all
+    @inventory_types = InventoryType.all.sort_by(&:name)
   end
 
   # GET /inventory_types/1
@@ -69,6 +70,8 @@ class InventoryTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inventory_type_params
-      params.require(:inventory_type).permit(:name, :description)
+      params.require(:inventory_type).permit(:name,
+                                             :description,
+                                             :requires_research)
     end
 end

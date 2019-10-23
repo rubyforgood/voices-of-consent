@@ -21,12 +21,14 @@ $border-color: rgb(170, 150, 153);
   width: 100%;
 
   z-index: 3;
-
+  a {
+    margin: 0;
+  }
   .nav-icon {
     border-right: solid 2px $border-color;
     flex: 1 0 auto;
     height: 100%;
-    padding: 0;
+    padding: 20px;
 
     display: flex;
     flex-direction: column;
@@ -53,7 +55,8 @@ $border-color: rgb(170, 150, 153);
 
     &.home-nav-icon {
       flex-grow: 2.75;
-
+      background: #cdcdcd;
+      padding: 0;
       img {
         max-height: 80px;
       }

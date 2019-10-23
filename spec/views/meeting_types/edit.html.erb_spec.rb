@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "meeting_types/edit", type: :view do
   before(:each) do
-    @meeting_type = assign(:meeting_type, MeetingType.create!(
-      :name => "MyString",
-      :description => "MyText"
-    ))
+    @meeting_type = create(:meeting_type)
   end
 
   it "renders the edit meeting_type form" do

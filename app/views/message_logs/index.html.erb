@@ -1,17 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Message Logs</h1>
-
-<table>
+<div class="table-responsive">
+<table class="table">
   <thead>
     <tr>
-      <th>messageable type</th>
-      <th>messageable</th>
-      <th>Content</th>
-      <th>Delivery type</th>
-      <th>Delivery status</th>
-      <th>Sent to</th>
-      <th>Sent by</th>
+      <th scope="col">Messageable Type</th>
+      <th scope="col">Messageable</th>
+      <th scope="col">Content</th>
+      <th scope="col">Delivery type</th>
+      <th scope="col">Delivery status</th>
+      <th scope="col">Sendable Type</th>
+      <th scope="col">Sendable</th>
+      <th scope="col">Sent by e-mail</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,19 +22,21 @@
       <tr>
         <td><%= message_log.messageable_type %></td>
         <td><%= message_log.messageable_id %></td>
-        <td><%= message_log.content %></td>
+        <%# Strip HTML tags and hard carriage returns since content returns as a long HTML string%>
+        <td><%= truncate(strip_tags(message_log.content).gsub(/=0D/, ""), length: 25) %></td>
         <td><%= message_log.delivery_type %></td>
         <td><%= message_log.delivery_status %></td>
-        <td><%= message_log.sent_to_id %></td>
-        <td><%= message_log.sent_by_id %></td>
+        <td><%= message_log.sendable_type %></td>
+        <td><%= message_log.sendable_id %></td>
+        <td><%= message_log.sent_by.email %></td>
         <td><%= link_to 'Show', message_log %></td>
-        <td><%= link_to 'Edit', edit_message_log_path(message_log) %></td>
-        <td><%= link_to 'Destroy', message_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
-
+<div class="d-flex justify-content-center">
+  <%= will_paginate @message_logs, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
 <%= link_to 'New Message Log', new_message_log_path %>

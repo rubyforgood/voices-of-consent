@@ -1,47 +1,27 @@
-<%= form_with(model: meeting, local: true) do |form| %>
-  <% if meeting.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
+<%= simple_form_for(@meeting, html: { class: 'form-inline' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-      <ul>
-      <% meeting.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :meeting_type_id %>
-    <%= form.text_field :meeting_type_id %>
+  <div class="form-inputs">
+    <%= f.association :meeting_type %>
+    <%= f.association :location %>
+    <%= f.input :title %>
+    <%= f.input :start_time,
+                as: :date_time_picker,
+                include_blank: true,
+                required: false,
+                input_html: { value: f.object.start_time,
+                              class: "form-field-display-block form-control datetimepicker" } %>
+    <%= f.input :end_time,
+                as: :date_time_picker,
+                include_blank: true,
+                required: false,
+                input_html: { value: f.object.end_time,
+                              class: "form-field-display-block form-control datetimepicker" } %>
+    <%= f.input :tenative %>
   </div>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :location_id %>
-    <%= form.text_field :location_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_time %>
-    <%= form.datetime_select :start_time %>
-  </div>
-
-  <div class="field">
-    <%= form.label :end_time %>
-    <%= form.datetime_select :end_time %>
-  </div>
-
-  <div class="field">
-    <%= form.label :tenative %>
-    <%= form.check_box :tenative %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>

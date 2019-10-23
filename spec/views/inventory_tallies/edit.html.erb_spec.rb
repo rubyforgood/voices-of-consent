@@ -2,11 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "inventory_tallies/edit", type: :view do
   before(:each) do
-    @inventory_tally = assign(:inventory_tally, InventoryTally.create!(
-      :additional_location_info => "MyString",
-      :inventory_type => nil,
-      :storage_location => nil
-    ))
+    @inventory_tally = create(:inventory_tally)
   end
 
   it "renders the edit inventory_tally form" do
@@ -16,9 +12,9 @@ RSpec.describe "inventory_tallies/edit", type: :view do
 
       assert_select "input[name=?]", "inventory_tally[additional_location_info]"
 
-      assert_select "input[name=?]", "inventory_tally[inventory_type_id]"
+      assert_select "select[name=?]", "inventory_tally[inventory_type_id]"
 
-      assert_select "input[name=?]", "inventory_tally[storage_location_id]"
+      assert_select "select[name=?]", "inventory_tally[storage_location_id]"
     end
   end
 end

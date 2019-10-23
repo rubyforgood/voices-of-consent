@@ -12,7 +12,7 @@
 
 <p>
   <strong>Email:</strong>
-  <%= User.find(@volunteer.user.id).email %>
+  <%= User.find_by(volunteer_id: @volunteer.id).email %>
 </p>
 
 <p>

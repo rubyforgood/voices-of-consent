@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
 
 <h1>Volunteers</h1>
 
@@ -24,7 +25,6 @@
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @volunteers.each do |volunteer| %>
       <tr>
@@ -55,3 +55,12 @@
 <br>
 
 <%= link_to 'New Volunteer', new_volunteer_path %>
+
+<hr>
+<div>
+  <h5> Import CSV of existing Volunteers <h5>
+  <%= form_tag import_volunteers_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import from file" %>
+  <% end %>
+</div>

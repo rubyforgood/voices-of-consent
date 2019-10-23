@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :box_request do
+  factory :box_request, aliases: [:messageable] do
     requester
 
     summary { "This is a summary." }
