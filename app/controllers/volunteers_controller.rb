@@ -24,7 +24,6 @@ class VolunteersController < ApplicationController
   # POST /volunteers
   # POST /volunteers.json
   def create
-    puts current_user.inspect
     @volunteer = Volunteer.new(volunteer_params.merge(user: current_user))
 
     respond_to do |format|
