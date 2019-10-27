@@ -94,8 +94,7 @@
         </td>
         <td>
           <% if box %>
-            <%= box.box_items.count %> items
-            <%= box.aasm_state %>
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title=<%= box.aasm_state %> >
             <% if box.assembly_declined_by_ids.include?(current_user.id) %>
               (You declined)
             <% elsif box.is_assembled %>
