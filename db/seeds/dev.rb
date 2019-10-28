@@ -108,4 +108,14 @@ end
     message_channel: 'email',
     subject_line: 'subject'
   )
+
+  # inventory_tallies
+  10.times do
+    InventoryTally.create(
+      :additional_location_info = Faker::Address.secondary_address
+      :inventory_type_id = Faker::Number.between(1, 10)
+      :storage_location_id = Faker::Number.between(1, 10)
+    )
+  end
+  
 end
