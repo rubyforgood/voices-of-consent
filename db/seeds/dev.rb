@@ -108,4 +108,13 @@ end
     message_channel: 'email',
     subject_line: 'subject'
   )
+
+  Location.create!(
+    name: Faker::Address.street_name,
+    street_address: Faker::Address.street_address,
+    city: Faker::Address.city,
+    state: Faker::Address.state,
+    zip: Faker::Address.zip,
+    location_type: [0,1,2,3,4,5].sample,
+  )
 end
