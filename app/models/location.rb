@@ -14,4 +14,5 @@ class Location < ApplicationRecord
     distribution_partner: 4,
     university: 5
   }
+
 end
