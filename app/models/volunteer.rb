@@ -28,7 +28,7 @@ class Volunteer < ApplicationRecord
 
   def self.import_csv(file)
     CSV.foreach(Rails.root.join(file), headers: true) do |row|
-     Volunteer.create!({
+      Volunteer.where(first_name: row[0], last_name: row[1]).first_or_create!({
         id: nil,
         first_name: row[0],
         last_name: row[1],
@@ -46,7 +46,7 @@ class Volunteer < ApplicationRecord
         ok_to_mail: row[14],
         underage: row[15]
       })
-      User.create({
+     User.where(email: row[2]).first_or_create({
         id: nil,
         email: row[2],
         password: "Secret!!",
