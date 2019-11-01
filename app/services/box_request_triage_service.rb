@@ -1,7 +1,7 @@
 class BoxRequestTriageService
   attr_reader :box_request, :box_request_attribute, :payload, :abuse_types_response, :params
 
-  def initialize(box_request, box_request_attribute, payload, abuse_types_response, params)
+  def initialize(box_request, box_request_attribute, payload, abuse_types_response = [], params = {})
     @box_request = box_request
     @box_request_attribute = box_request_attribute
     @payload = payload
