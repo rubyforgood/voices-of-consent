@@ -61,37 +61,13 @@ class BoxRequestTriageController < ApplicationController
       :is_underage,
       :abuse_types,
     ].each do |box_request_attribute|
-      if box_request_attribute == :abuse_types
-        if @abuse_types_response.include?("All of the Above")
-          @abuse_types = params[:abuseTypeOptions] - ["All of the Above"] # pull from original option set
-        else
-          @abuse_types = @abuse_types_response
-        end
-
-        @abuse_types.each do |abuse_type| # prepopulate tags
-          box_request.tag_list << abuse_type
-        end
-      elsif box_request_attribute == :is_safe
-        if YAML.load(@payload[box_request_attribute].to_s)
-          box_request.tag_list << "safe"
-        else
-          box_request.tag_list << "NOT SAFE"
-        end
-      elsif box_request_attribute == :is_underage
-        if YAML.load(@payload[box_request_attribute].to_s)
-          box_request.tag_list << "12+"
-        else
-          box_request.tag_list << "UNDERAGE"
-        end
-      elsif box_request_attribute == :is_interested_in_counseling_services
-        if YAML.load(@payload[box_request_attribute].to_s)
-          box_request.tag_list << "counseling"
-        end
-      elsif box_request_attribute == :is_interested_in_health_services
-        if YAML.load(@payload[box_request_attribute].to_s)
-          box_request.tag_list << "health_services"
-        end
-      end
+      BoxRequestTriageService.new(
+        box_request,
+        box_request_attribute,
+        @payload,
+        @abuse_types_response,
+        params
+      ).run
     end
 
     box_request.save!
