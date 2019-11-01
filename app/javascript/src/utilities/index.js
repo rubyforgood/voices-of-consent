@@ -2,11 +2,11 @@ export const keyHandler = (options = {}) => e => {
     if(typeof options !== 'object' || options === null) {
         return;
     }
-    
+
     const {
-        fn = () => {}, 
-        keys = ['Enter', ' '], 
-        stopProp = true, 
+        fn = () => {},
+        keys = ['Enter', ' '],
+        stopProp = true,
         prevDef = true
     } = options;
 

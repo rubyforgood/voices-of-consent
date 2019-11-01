@@ -12,6 +12,14 @@ class BoxRequestsController < ApplicationController
     end
   end
 
+  # GET /box_requests/box_requests.json
+  def index_for_selections
+     @box_requests = BoxRequest.all.map { |box_request| { id: box_request.id, name: box_request.name } }
+     respond_to do |format|
+      format.json { render json: @box_requests }
+     end
+  end
+
   # GET /box_requests/1
   # GET /box_requests/1.json
   def show
@@ -50,7 +58,8 @@ class BoxRequestsController < ApplicationController
     respond_to do |format|
       @box_request.reviewed_by_id = current_user.id if @box_request.reviewed_by_id == nil
       if @box_request.aasm_state == "requested"
-        @box_request.review!
+        @box_request.claim_review!
+        @box_request.complete_review!
       elsif @box_request.aasm_state == "review_in_progress"
         @box_request.complete_review!
       end
@@ -75,13 +84,13 @@ class BoxRequestsController < ApplicationController
     end
   end
 
-  def decline_review
+  def decline
     @box_request = request_review_scope.find(params[:id])
     if @box_request.reviewed_by_id != current_user.id
 
       respond_to do |format|
         if @box_request.decline_review!
-          format.html { redirect_to box_request_thanks_anyway_path }
+          format.html { redirect_to box_request_decline_thank_you_path(id: @box_request, phase: "review") }
           format.json { render :show, status: :ok, location: @box_request }
         else
 
@@ -94,15 +103,18 @@ class BoxRequestsController < ApplicationController
     end
   end
 
-  def claim_review
+  def claim
     @box_request = request_review_scope.find(params[:id])
 
-    if !@box_request.reviewed_by_id
+    if !@box_request.reviewed_by_id || @box_request.reviewed_by == current_user
       respond_to do |format|
-        @box_request.reviewed_by_id = current_user.id
+        @box_request.reviewed_by = current_user
         if @box_request.save
-          @box_request.review!
-          format.html { redirect_to edit_box_request_path(@box_request), notice: 'Box request review was successfully claimed.' }
+          if @box_request.aasm_state == "requested"
+            @box_request.claim_review!
+          end
+
+          format.html { redirect_to box_request_claim_thank_you_path(@box_request, "review"), notice: 'Box request review was successfully claimed.' }
           format.json { render :show, status: :ok, location: @box_request }
         else
           format.html { render :edit }
@@ -114,13 +126,22 @@ class BoxRequestsController < ApplicationController
     end
   end
 
+  def claim_thank_you
+    @box_request = request_review_scope.find(params[:id])
+    @phase = params[:phase]
+    if current_user
+    else
+      render layout: false
+    end
+  end
+
   # /box_requests/already_claimed
   def already_claimed
     render layout: false
   end
 
-  # /box_requests/thanks_anyway
-  def thanks_anyway
+  # /box_requests/decline_thank_you
+  def decline_thank_you
     render layout: false
   end
 
@@ -139,6 +160,7 @@ class BoxRequestsController < ApplicationController
                                         :question_re_if_not_self_completed,
                                         :summary,
                                         :reviewed_by_id,
+                                        :reviewed_at,
                                         :tag_list,
                                         review_declined_by_ids: [],
     )

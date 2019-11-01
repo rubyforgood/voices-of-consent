@@ -1,0 +1,48 @@
+<br>
+<br>
+<br>
+<h1>Box Shipment</h1>
+<hr>
+<%= simple_form_for(@box) do |f| %>
+  <h2>Shipping Label</h2>
+  <%= @requester.first_name %> <br>
+  <%= @requester.street_address %> <br>
+  <%= @requester.city %><br>
+  <%= @requester.state %><br>
+  <%= @requester.zip %><br>
+  <div class="field">
+    <button>Print mailing label</button>
+  </div>
+  <hr>
+
+  <h2>Receipt</h2>
+  <% if @box.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@box.errors.count, "error") %> prohibited this box_shipment from being saved:</h2>
+
+      <ul>
+        <% @box.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <button>Upload Photo Receipt</button>
+  </div>
+
+  <div class="field">
+    <%= f.label :shipping_vendor %>
+    <%= select_tag :shipping_vendor, ['USPS', 'FedEx', 'UPS'] %>
+  </div>
+
+  <%= f.input :shipped_at,
+              as: :date %>
+  <%= f.input :shipment_tracking_number, as: :text, input_html: { rows: 1 } %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+

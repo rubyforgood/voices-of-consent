@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_173749) do
+ActiveRecord::Schema.define(version: 2019_10_12_123313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "inventory_type_id", null: false
+    t.datetime "researched_at"
     t.index ["box_id"], name: "index_box_items_on_box_id"
     t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
     t.index ["inventory_type_id"], name: "index_box_items_on_inventory_type_id"
@@ -112,10 +113,23 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.datetime "updated_at", null: false
     t.string "aasm_state"
     t.datetime "designed_at"
+    t.datetime "design_reviewed_at"
+    t.bigint "researched_by_id"
+    t.datetime "researched_at"
+    t.datetime "assembled_at"
+    t.datetime "followed_up_at"
+    t.bigint "followed_up_by_id"
+    t.string "design_declined_by_ids", default: [], array: true
+    t.string "research_declined_by_ids", default: [], array: true
+    t.string "assembly_declined_by_ids", default: [], array: true
+    t.string "shipping_declined_by_ids", default: [], array: true
+    t.string "followup_declined_by_ids", default: [], array: true
     t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
     t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
     t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"
     t.index ["designed_by_id"], name: "index_boxes_on_designed_by_id"
+    t.index ["followed_up_by_id"], name: "index_boxes_on_followed_up_by_id"
+    t.index ["researched_by_id"], name: "index_boxes_on_researched_by_id"
     t.index ["shipped_by_id"], name: "index_boxes_on_shipped_by_id"
     t.index ["shipping_payment_id"], name: "index_boxes_on_shipping_payment_id"
   end
@@ -158,6 +172,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "requires_research", default: false, null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -195,7 +210,6 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.text "content"
     t.integer "delivery_type"
     t.string "delivery_status"
-    t.integer "sent_to_id"
     t.integer "sent_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -204,9 +218,11 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.string "subject_line"
     t.string "message_channel"
     t.string "message_type"
+    t.string "sendable_type"
+    t.bigint "sendable_id"
     t.index ["messageable_type", "messageable_id"], name: "index_message_logs_on_messageable_type_and_messageable_id"
+    t.index ["sendable_type", "sendable_id"], name: "index_message_logs_on_sendable_type_and_sendable_id"
     t.index ["sent_by_id"], name: "index_message_logs_on_sent_by_id"
-    t.index ["sent_to_id"], name: "index_message_logs_on_sent_to_id"
   end
 
   create_table "purchases", force: :cascade do |t|
@@ -319,6 +335,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
     t.boolean "underage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "marketing_vector"
+    t.text "why_volunteer"
     t.index ["university_location_id"], name: "index_volunteers_on_university_location_id"
   end
 
@@ -339,6 +357,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
   add_foreign_key "boxes", "users", column: "assembled_by_id"
   add_foreign_key "boxes", "users", column: "design_reviewed_by_id"
   add_foreign_key "boxes", "users", column: "designed_by_id"
+  add_foreign_key "boxes", "users", column: "followed_up_by_id"
+  add_foreign_key "boxes", "users", column: "researched_by_id"
   add_foreign_key "boxes", "users", column: "shipped_by_id"
   add_foreign_key "core_box_items", "abuse_types"
   add_foreign_key "core_box_items", "inventory_types"
@@ -350,7 +370,6 @@ ActiveRecord::Schema.define(version: 2019_10_06_173749) do
   add_foreign_key "meetings", "locations"
   add_foreign_key "meetings", "meeting_types"
   add_foreign_key "message_logs", "users", column: "sent_by_id"
-  add_foreign_key "message_logs", "users", column: "sent_to_id"
   add_foreign_key "purchases", "locations"
   add_foreign_key "purchases", "users", column: "purchased_by_id"
   add_foreign_key "purchases", "users", column: "reimbursed_by_id"

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AttendancesController, type: :controller do
   has_authenticated_user
+
   let(:meeting) { create(:meeting) }
 
   let(:valid_attributes) {

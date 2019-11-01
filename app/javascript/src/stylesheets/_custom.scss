@@ -9,7 +9,11 @@ body {
   padding-top: 56px;
 }
 
-.box-info {
+footer {
+  z-index: 1
+}
+
+.form-info {
   font-weight: bold;
   padding: 25px 25px 10px 25px;
 }
@@ -35,5 +39,6 @@ body {
   tbody tr {
     &:nth-child(2n) { background: rgb(254, 240, 243) }
     &:nth-child(2n+1) { background: rgb(235, 235, 235) }
+    text-align: center;
   }
 }

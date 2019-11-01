@@ -17,7 +17,8 @@ class BoxRequestTriageController < ApplicationController
      :street_address,
      :city,
      :state,
-     :zip
+     :zip,
+     :county
      ].each do |requester_attribute|
       requester.assign_attributes(requester_attribute => @payload[requester_attribute])
     end
@@ -77,8 +78,15 @@ class BoxRequestTriageController < ApplicationController
       box_request.box_request_abuse_types.create!(abuse_type: AbuseType.where(name: abuse_type).first_or_create!)
     end
 
+    requester_email = AutoEmailHandler.new("requester", box_request, current_user || User.first)
+    volunteer_email = AutoEmailHandler.new("volunteer", box_request, current_user || User.first)
+
     render json: { "redirect_url": box_request_thank_you_path },
            status: 200
+
+    rescue ActiveRecord::RecordInvalid => error
+      render json: { "error": error },
+             status: 422
   end
 
   private

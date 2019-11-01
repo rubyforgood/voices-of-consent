@@ -11,8 +11,9 @@ class BoxRequestForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      abuseTypeOptions: ["Emotional", "Physical", "Sexual", "All of the Above"],
+      abuseTypeOptions: ["All of the Above"],
       attemptedSubmit: false,
+      error: false,
       step: 0,
       boxRequest: {
         first_name: '',
@@ -46,6 +47,18 @@ class BoxRequestForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginatePrevious = this.handlePaginatePrevious.bind(this);
     this.handlePaginateForward = this.handlePaginateForward.bind(this);
+  }
+
+  componentDidMount() {
+    const { abuseTypeOptions } = this.state;
+
+    fetch('/abuse_types.json')
+      .then(response => response.json())
+      .then((data) => {
+        const abuseTypes = data.map(({ name }) => name)
+
+        this.setState({ abuseTypeOptions: [...abuseTypes, ...abuseTypeOptions] })
+      });
   }
 
   handleChange(event) {
@@ -87,7 +100,7 @@ class BoxRequestForm extends React.Component {
   }
 
   handleSubmit(event) {
-    this.setState({ attemptedSubmit: true })
+    this.setState({ attemptedSubmit: true, error: false })
     event.preventDefault();
 
     if (this.missingRequiredFields()) {
@@ -119,9 +132,17 @@ class BoxRequestForm extends React.Component {
       return response.json()
     })
     .then((data) => {
-      window.location.href = data.redirect_url;
-    });
+      if(data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+      else {
+        console.log(data.error)
+        this.setState({ step: 0, error: true });
+        return;
+      }
+    })
   }
+
 
   missingRequiredFields() {
     const {
@@ -181,6 +202,14 @@ class BoxRequestForm extends React.Component {
     );
   }
 
+  renderValidEmailAlert() {
+    return (
+      <div class="alert alert-danger required-fields-submit-alert" role="alert">
+        Please provide a valid email.
+      </div>
+    );
+  }
+
   renderAbuseTypes() {
     const abuseTypes = this.state.abuseTypeOptions.map((type) =>
       <div class="row form-check">
@@ -213,6 +242,7 @@ class BoxRequestForm extends React.Component {
           <input type="text" class="form-control" name="email" value={boxRequest.email} onChange={this.handleChange} />
         </div>
         { this.state.attemptedSubmit && boxRequest.email == '' ? this.renderRequiredAlert() : null }
+        { this.state.attemptedSubmit && this.state.error == true ? this.renderValidEmailAlert() : null }
         <div class="row">
           <label class="following-question">Okay to email?*</label>
           <div class="form-check form-check-inline">
@@ -373,21 +403,21 @@ class BoxRequestForm extends React.Component {
         <div class="row section-top">
           <label class="section-label">Phone</label>
           <input type="text" class="form-control" name="phone" value={boxRequest.phone} onChange={this.handleChange} />
-          <div class="col-6"> 
+          <div class="col-6">
             <div class="row">
               <label class="following-question">Okay to call?*</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_true" onChange={this.handleRadioChange} checked={boxRequest.ok_to_call}/>
                 <label class="form-check-label" for="ok_to_call">Yes</label>
               </div>
-              
+
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="ok_to_call" id="ok_to_call_false" onChange={this.handleRadioChange} checked={boxRequest.ok_to_call === false}/>
                 <label class="form-check-label" for="ok_to_call_false">No</label>
               </div>
             </div>
           </div>
-          <div class="col-6"> 
+          <div class="col-6">
             <div class="row">
               <label class="following-question">Okay to text?*</label>
               <div class="form-check form-check-inline">
@@ -412,7 +442,7 @@ class BoxRequestForm extends React.Component {
   }
 
   renderProgressBar() {
-    const { first_name, last_name, email, street_address, city, state, zip, ok_to_mail, ok_to_call, ok_to_text, ok_to_email, question_re_affect, 
+    const { first_name, last_name, email, street_address, city, state, zip, ok_to_mail, ok_to_call, ok_to_text, ok_to_email, question_re_affect,
       question_re_referral_source, question_re_current_situation, is_safe, is_interested_in_counseling_services, is_interested_in_health_services, is_underage, abuse_types } = this.state.boxRequest;
 
     const completedFields = [first_name, last_name, email, street_address, city, state, zip, question_re_affect,
@@ -454,8 +484,8 @@ class BoxRequestForm extends React.Component {
     const { boxRequest } = this.state;
 
     return (
-      <div class="box-request-container">
-        <div class="box-info">If you are interested in receiving a survivor box, please fill out this quick form below.
+      <div class="outreach-form-container">
+        <div class="form-info">If you are interested in receiving a survivor box, please fill out this quick form below.
           The more information you provide us with, the better we can help you.
           All information provided is 100% confidential and only seen by the leaders of our team.
           The return rate of our survivor boxes is 2-3 weeks due to high demand.

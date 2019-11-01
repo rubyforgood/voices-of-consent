@@ -23,6 +23,7 @@ import 'jquery'
 import 'bootstrap/js/dist/util'
 import 'bootstrap/js/dist/carousel'
 import 'bootstrap/js/dist/dropdown'
+import '@fortawesome/fontawesome-free/js/all'
 
 // application entry
 // import 'main'

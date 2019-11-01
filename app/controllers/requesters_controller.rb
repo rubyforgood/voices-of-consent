@@ -8,6 +8,13 @@ class RequestersController < ApplicationController
     @requesters = Requester.all
   end
 
+  def index_for_selections
+    @requesters = Requester.all.map { |requester| { id: requester.id, name: requester.name } }
+    respond_to do |format|
+      format.json { render json: @requesters }
+    end
+  end
+
   # GET /requesters/1
   # GET /requesters/1.json
   def show
@@ -16,7 +23,7 @@ class RequestersController < ApplicationController
   # GET /requesters/new
   def new
     @requester = Requester.new
-    render :new, layout: 'box_request_layout'
+    render :new, layout: 'outreach_form_layout'
   end
 
   # GET /requesters/1/edit
@@ -65,7 +72,7 @@ class RequestersController < ApplicationController
 
   def thank_you
     respond_to do |format|
-      format.html { render :layout => "box_request_layout" }
+      format.html { render :layout => "outreach_form_layout" }
     end
   end
 
