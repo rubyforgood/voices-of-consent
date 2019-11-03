@@ -2,8 +2,13 @@ class VolunteerMailer < ApplicationMailer
     attr_accessor :recipient
 
     def welcome_email(volunteer)
-        @recipient = volunteer
-        mail(to: @recipient.email, subject: 'Welcome to Voices of Consent!')
+        @volunteer = volunteer
+        mail(to: User.find(@volunteer.user.id).email, subject: 'Welcome to Voices of Consent!')
+    end
+
+    def box_request_email(volunteer)
+        @volunteer = volunteer
+        mail(to: User.find(@volunteer.user.id).email, subject: 'A Box Request has been sent')
     end
 
     def review_solicitation_email(volunteer, box_request)

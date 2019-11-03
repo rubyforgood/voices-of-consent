@@ -85,4 +85,13 @@ RSpec.describe Volunteer, type: :model do
     volunteer = Volunteer.create(attributes)
     expect(volunteer).to_not be_valid
   end
+  
+  it "has a user" do
+    u = User.new()
+    v = Volunteer.new(user: u, first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue",
+     city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false,
+     ok_to_mail: true, underage: false)
+    expect(v).to be_valid
+    expect(v.user.id).to eq(u.id)
+  end
 end
