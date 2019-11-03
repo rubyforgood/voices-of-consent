@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 class UniversityPicker extends React.Component {
   constructor(props) {
@@ -8,13 +8,14 @@ class UniversityPicker extends React.Component {
   }
 
   render() {
-    const { selectedUniversity, universityOptions } = this.props
+    const { selectedUniversity, universityOptions, onChange, onCreate } = this.props
 
     return (
-      <Select
+      <CreatableSelect
         placeholder='Select university...'
         value={selectedUniversity}
-        onChange={this.props.onChange}
+        onChange={onChange}
+        onCreateOption={onCreate}
         options={universityOptions}
         selected={selectedUniversity}
         isSearchable='true'
