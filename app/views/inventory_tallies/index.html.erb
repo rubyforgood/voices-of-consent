@@ -5,10 +5,10 @@
 <table>
   <thead>
     <tr>
-      <th>Additional location info</th>
       <th>Inventory type</th>
       <th>Storage location</th>
       <th>Quantity</th>
+      <th>Additional location info</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +16,10 @@
   <tbody>
     <% @inventory_tallies.each do |inventory_tally| %>
       <tr>
-        <td><%= inventory_tally.additional_location_info %></td>
         <td><%= inventory_tally.inventory_type&.name %></td>
         <td><%= inventory_tally.storage_location&.name %></td>
         <td><%= inventory_tally.quantity %></td>
+        <td><%= inventory_tally.additional_location_info %></td>
         <td><%= link_to 'Show', inventory_tally %></td>
         <td><%= link_to 'Edit', edit_inventory_tally_path(inventory_tally) %></td>
         <td><%= link_to 'Destroy', inventory_tally, method: :delete, data: { confirm: 'Are you sure?' } %></td>
