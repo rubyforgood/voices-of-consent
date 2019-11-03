@@ -80,7 +80,7 @@ end
   box_request.save!
 
   user = User.first
-  
+
   box = Box.create!(
     box_request_id: box_request.id
   )
@@ -109,13 +109,22 @@ end
     subject_line: 'subject'
   )
 
-  # inventory_tallies
-  10.times do
-    InventoryTally.create(
-      :additional_location_info = Faker::Address.secondary_address
-      :inventory_type_id = Faker::Number.between(1, 10)
-      :storage_location_id = Faker::Number.between(1, 10)
-    )
-  end
-  
+  Location.create!(
+    name: Faker::Address.street_name,
+    street_address: Faker::Address.street_address,
+    city: Faker::Address.city,
+    state: Faker::Address.state,
+    zip: Faker::Address.zip,
+    location_type: [0,1,2,3,4,5].sample,
+  )
 end
+
+# inventory_tallies
+10.times do
+  InventoryTally.create(
+      additional_location_info: Faker::Address.secondary_address,
+    inventory_type: InventoryType.last,
+    storage_location: Location.last
+  )
+end
+
