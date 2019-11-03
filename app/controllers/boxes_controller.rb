@@ -1,5 +1,6 @@
 class BoxesController < ApplicationController
   before_action :set_box, only: [:show, :edit, :update, :destroy]
+  before_action :set_locations, only: [:new, :create, :edit, :update]
 
   # GET /boxes
   # GET /boxes.json
@@ -73,6 +74,10 @@ class BoxesController < ApplicationController
       @box = Box.find(params[:id])
     end
 
+    def set_locations
+      @assembly_locations = Location.order(:name).pluck(:name, :id)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def box_params
       params.require(:box).permit(
@@ -91,6 +96,7 @@ class BoxesController < ApplicationController
           :shipment_tracking_number,
           :followed_up_by,
           :followed_up_at,
+          :assembly_location_id,
           assembly_declined_by_ids: [],
           research_declined_by_ids: [],
           shipping_declined_by_ids: [],

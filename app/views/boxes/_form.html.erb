@@ -10,6 +10,8 @@
     <%= f.association :shipping_payment %>
     <%= f.input :shipped_at %>
     <%= f.input :shipment_tracking_number %>
+    <%= f.select :assembly_location, @assembly_locations,
+      include_blank: 'Select location' %>
   </div>
 
   <div class="form-actions">

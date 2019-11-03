@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_123313) do
+ActiveRecord::Schema.define(version: 2019_10_23_140307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,7 +124,9 @@ ActiveRecord::Schema.define(version: 2019_10_12_123313) do
     t.string "assembly_declined_by_ids", default: [], array: true
     t.string "shipping_declined_by_ids", default: [], array: true
     t.string "followup_declined_by_ids", default: [], array: true
+    t.bigint "assembly_location_id"
     t.index ["assembled_by_id"], name: "index_boxes_on_assembled_by_id"
+    t.index ["assembly_location_id"], name: "index_boxes_on_assembly_location_id"
     t.index ["box_request_id"], name: "index_boxes_on_box_request_id"
     t.index ["design_reviewed_by_id"], name: "index_boxes_on_design_reviewed_by_id"
     t.index ["designed_by_id"], name: "index_boxes_on_designed_by_id"
@@ -353,6 +355,7 @@ ActiveRecord::Schema.define(version: 2019_10_12_123313) do
   add_foreign_key "box_requests", "requesters"
   add_foreign_key "box_requests", "users", column: "reviewed_by_id"
   add_foreign_key "boxes", "box_requests"
+  add_foreign_key "boxes", "locations", column: "assembly_location_id"
   add_foreign_key "boxes", "purchases", column: "shipping_payment_id"
   add_foreign_key "boxes", "users", column: "assembled_by_id"
   add_foreign_key "boxes", "users", column: "design_reviewed_by_id"
