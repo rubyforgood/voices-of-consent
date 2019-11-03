@@ -84,7 +84,20 @@ $border-color: rgb(170, 150, 153);
     }
 
     .nav-link {
-      line-height: 65px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        height: 40px;
+        margin-right: 20px;
+
+        p {
+          margin: 0;
+        }
+      } 
     }
   }
 }

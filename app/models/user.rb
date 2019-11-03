@@ -34,4 +34,8 @@ class User < ApplicationRecord
       UserPermission.where(user: self, permission: permission).first_or_create!
     end
   end
+
+  def is_admin?
+    UserPermission.where(user_id: self.id, permission: 'manage users').present?
+  end
 end
