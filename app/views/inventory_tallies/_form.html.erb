@@ -13,7 +13,10 @@
   <div class="form-inputs container">
       <%= f.association :inventory_type %>
       <%= f.association :storage_location, collection: Location.storage_unit %>
-      <%= f.text_area :additional_location_info %>
+      <%= f.input :additional_location_info,
+                  as: :text,
+                  input_html: {value: f.object.additional_location_info,
+                               rows: 2} %>
   </div>
 
   <div class="form-group row mb-0" style="margin: 2rem 0">
