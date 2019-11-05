@@ -10,7 +10,7 @@ RSpec.describe "inventory_tallies/new", type: :view do
 
     assert_select "form[action=?][method=?]", inventory_tally_path(@inventory_tally), "post" do
 
-      assert_select "input[name=?]", "inventory_tally[additional_location_info]"
+      assert_select "textarea[name=?]", "inventory_tally[additional_location_info]"
 
       assert_select "select[name=?]", "inventory_tally[inventory_type_id]"
 
