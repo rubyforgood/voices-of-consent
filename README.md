@@ -131,6 +131,12 @@ $ bundle install
 $ yarn install
 $ rake dev:setup
 $ heroku local -f Procfile.dev
+# if you run into the following error:
+```
+bash: heroku: command not found
+```
+# visit https://devcenter.heroku.com/articles/heroku-cli for instructions to install Heroku.
+
 # if you chose the local route, then you are good to go on:
   http://localhost:5000
   $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
