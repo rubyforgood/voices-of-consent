@@ -42,29 +42,10 @@ Some choices for how to run services in your development environment:
 
 ## Running the App!
 
-First, set up Local Services (Via Docker or individually installed services as described in the **Starting Local Services** section below.).
+First, set up Local Services via Docker or individually installed services. 
+### Starting Local Services
 
-Then to run the app locally,
-
-```
-$ bundle install
-$ yarn install
-$ rake dev:setup
-$ heroku local -f Procfile.dev
-# if you chose the local route, then you are good to go on:
-  http://localhost:5000
-  $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
-# If you chose the Docker route:
-  $ docker-compose up -d -or- $ docker-compose up
-  http://localhost:3000
-$ rspec (to run the test suite)
-
-$ View `seeds.rb` file for login email and password to use while working in development
-```
-
-## Starting Local Services
-
-### ... with Docker!
+#### ... with Docker!
 
 If you opted to install Docker Desktop, `docker-compose up -d` will run dependency services like PostgreSQL (the database), Redis (the job queue), and Mailcatcher (a fake SMTP mail server for testing). Services will run in the background. NOTE: these services will attempt to use some commonly used ports (e.g. 5432 for PostgreSQL) on localhost, so if you see errors about conflicting ports, you may have the corresponding service already running elsewhere on your development host.
 
@@ -82,7 +63,7 @@ voices-of-consent_db_1            docker-entrypoint.sh postgres    Up      127.0
 voices-of-consent_mailcatcher_1   mailcatcher --foreground - ...   Up      127.0.0.1:1025->1025/tcp, 127.0.0.1:1080->1080/tcp, 25/tcp, 80/tcp
 ```
 
-Stop the services with `docker-compose stop`.
+When you're done, stop the services with `docker-compose stop`.
 
 ```
 $ docker-compose stop
@@ -119,7 +100,7 @@ mailcatcher_1  | /usr/lib/ruby/gems/2.5.0/gems/thin-1.5.1/lib/thin/server.rb:104
 mailcatcher_1  | ==> http://0.0.0.0:1080/
 ```
 
-### ... with individually installed services
+#### ... with individually installed services
 
 Ensure Redis is running. `brew services start redis` on macOS or `redis-server` to run it as a one-off process.
 
@@ -141,11 +122,35 @@ Send mail through smtp://localhost:1025
 
 You only need this if you're interested in working on emails in the development environment.
 
-### Re-seeding development database
+### Run the App Locally
+
+Then, to run the app locally,
+
+```
+$ bundle install
+$ yarn install
+$ rake dev:setup
+$ heroku local -f Procfile.dev
+# if you chose the local route, then you are good to go on:
+  http://localhost:5000
+  $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
+# If you chose the Docker route:
+  $ docker-compose up -d -or- $ docker-compose up
+  http://localhost:3000
+$ rspec (to run the test suite)
+
+$ View `seeds.rb` file for login email and password to use while working in development
+```
+
+# Other Tips to Get Started
+
+## Loggin In
+A username and password to log in and test the app are in `seeds.rb`
+
+## Re-seeding development database
 To reset your development database with realistic data, run `rake dev:setup`. To add additional fake data during development after you have already run `rake dev:setup`, you can use `rake db:seed:dev`.
 
-
-### Testing
+## Testing
 When writing tests for rspec tests within the spec/request directory, you can use Warden::Test:Helpers
 which give you access to the ```login_as(user, :scope => :user)``` method, as well as the ```logout``` method.
 You use FactoryBot.create(:user) before the login_as method and pass it in as the required resource variable.
@@ -154,7 +159,7 @@ within it. This allows for any unexpected state data of the user from hanging ar
 
 Additional testing for front_end specs should make use of Capybara ```sign_in/sign_out``` Capybara methods.
 
-### App Startup Troubleshooting
+## App Startup Troubleshooting
 If you Recieve an error when trying to run
 
 ```
