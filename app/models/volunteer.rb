@@ -6,7 +6,7 @@ class Volunteer < ApplicationRecord
 
   require 'csv'
 
-  has_one :user
+  has_one :user, dependent: :destroy
   belongs_to :university_location, class_name: 'Location', required: false
 
   validates :first_name, presence: true
