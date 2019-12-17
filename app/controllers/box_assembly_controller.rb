@@ -2,6 +2,7 @@ class BoxAssemblyController < ApplicationController
 
   def new
     @box = box_claim_scope.find(params[:box_id])
+    @box_items = @box.inventory_types
   end
 
   def claim

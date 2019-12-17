@@ -12,6 +12,7 @@ class Box < ApplicationRecord
   belongs_to :followed_up_by, optional: true, class_name: "User", foreign_key: :followed_up_by_id, inverse_of: :boxes_as_followupper
 
   has_many :box_items
+  has_many :inventory_types, through: :box_items
 
   delegate :first_name, to: :designed_by, prefix: :designer, allow_nil: true
   delegate :first_name, to: :assembled_by, prefix: :assembler, allow_nil: true
