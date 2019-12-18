@@ -12,7 +12,7 @@ const BoxAssemblyForm = () => {
       .then(response => response.json())
       .then((data) => {
         const unassembledBoxItems = data.map((item) => {
-          return { id: item.id, type: item.name, count: 1 }
+          return { id: item.id, type: item.inventory_type.name, count: item.quantity }
         })
         // We want to give each item a bool representing
         // being added to a box already.

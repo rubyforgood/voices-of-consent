@@ -1,3 +1,6 @@
 json.id box_item.id
-json.name box_item.name
-json.description box_item.description
+json.inventory_type_id box_item.inventory_type_id
+json.quantity box_item.quantity
+json.inventory_type do
+  json.name box_item.inventory_type.name
+end
