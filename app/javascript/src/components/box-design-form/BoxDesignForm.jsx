@@ -17,12 +17,38 @@ const BoxDesign = () => {
       .then((data) => {
         const allTypes = data.map(({ name }) => name)
         const selectTypes = data.map((type) => {
-          return { value: type.name, label: type.name }
+          return { key: type.id, value: type.name, label: type.name }
         })
         updateAllItems(allTypes)
         updateSelectableItems(selectTypes)
-      });
+        return selectTypes
+      })
+      .then((selectTypes) => {
+        fetch(`${window.location.pathname}.json`)
+          .then(response => response.json())
+          .then((data) => {
+            const updatedItems = data.map((item) => {
+              return { key: item.id, item: item.inventory_type.name, count: item.quantity }
+            })
+            updateItems(updatedItems)
+            createItemsForSelect(updatedItems, selectTypes)
+          })
+      })
   }, [])
+
+  const filterSelect = (updatedItems, item) => {
+    var result = updatedItems.map(type =>
+      item.value != type.item
+    )
+    return result.includes(false) ? false : true
+  }
+
+  const createItemsForSelect = (updatedItems, selectTypes) => {
+    var reducedSelectableItems = selectTypes.filter(itemType =>
+      filterSelect(updatedItems, itemType)
+    )
+    updateSelectableItems(reducedSelectableItems)
+  }
 
   const updateItemCount = (targetIndex) => (newValue) => {
     const updatedItems = items.map((item, index) => {
@@ -50,6 +76,31 @@ const BoxDesign = () => {
   const addItem = (item) => {
     const updatedItems = [ ...items, { item, count: 1 }]
     updateItems(updatedItems)
+  }
+
+  const submitDesign = (items) => {
+    const sendBoxItems = async () => {
+      const token = document.getElementsByName('csrf-token')[0].content
+      const url = `${location.origin}${location.pathname}/complete`
+      const data = items
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': token
+          }
+        });
+        const json = await response.json()
+        console.log('Success:', JSON.stringify(json))
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
+    sendBoxItems()
   }
 
   return (
