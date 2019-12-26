@@ -11,7 +11,7 @@ const BoxDesign = () => {
   const [selectableItems, updateSelectableItems] = useState([])
 
   useEffect(() => {
-    // API call to return available inventory items.
+    // API call to return available inventory items, then another for predetermined box_items.
     fetch('/inventory_types.json')
       .then(response => response.json())
       .then((data) => {
