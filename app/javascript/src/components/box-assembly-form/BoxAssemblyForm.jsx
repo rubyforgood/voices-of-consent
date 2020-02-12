@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import ItemChecker from './item-checker';
-import { unassembledBoxItems as mockBoxItems } from '../../mocks/mockData';
 import './BoxAssemblyForm.scss';
 
 const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
 
-  // Dummy load box information on initial render
   useEffect(() => {
-    const unassembledBoxItems = mockBoxItems;
-    // We want to give each item a bool representing
-    // being added to a box already.
-    const unassembledItemChecklist = unassembledBoxItems.map((item) => {
-      item.checked = false;
-      return item;
-    })
-    updateItems(unassembledItemChecklist);
+    // API call to return predetermined box items.
+    fetch(`${window.location.pathname}.json`)
+      .then(response => response.json())
+      .then((data) => {
+        const unassembledBoxItems = data.map((item) => {
+          return { id: item.id, type: item.inventory_type.name, count: item.quantity }
+        })
+        // We want to give each item a bool representing
+        // being added to a box already.
+        const unassembledItemChecklist = unassembledBoxItems.map((item) => {
+          item.checked = false;
+          return item;
+        })
+        updateItems(unassembledItemChecklist);
+      });
   }, [])
 
   // This will run on every update to the items to determine

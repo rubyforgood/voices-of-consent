@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_140307) do
+ActiveRecord::Schema.define(version: 2019_12_18_145825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_140307) do
     t.datetime "updated_at", null: false
     t.bigint "inventory_type_id", null: false
     t.datetime "researched_at"
+    t.integer "quantity", default: 1
     t.index ["box_id"], name: "index_box_items_on_box_id"
     t.index ["created_by_id"], name: "index_box_items_on_created_by_id"
     t.index ["inventory_type_id"], name: "index_box_items_on_inventory_type_id"
