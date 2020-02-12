@@ -10,6 +10,10 @@ RSpec.describe Location, type: :model do
     expect(Location.new(valid_attributes)).to be_valid
   end
 
+  it 'is invalid with invalid attributes' do
+    expect(Location.new(valid_attributes.without(:name))).to be_invalid
+  end
+
   it 'enforces location_type enum' do
     attributes = valid_attributes.merge(location_type: :solar_system)
     expect { Location.new(attributes) }.to raise_error ArgumentError

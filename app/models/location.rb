@@ -6,6 +6,9 @@ class Location < ApplicationRecord
   has_many :volunteers, foreign_key: 'university_location_id',
                         dependent: :nullify
 
+  validates :name, presence: true
+  validates :location_type, presence: true
+
   enum location_type: {
     # Example types from ERD
     storage_unit: 0,
