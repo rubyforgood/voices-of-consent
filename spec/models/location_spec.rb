@@ -6,12 +6,18 @@ RSpec.describe Location, type: :model do
     city: 'Pittsburgh', state: 'PA', zip: 15260, location_type: :university }
   end
 
-  it 'is valid with valid attributes' do
-    expect(Location.new(valid_attributes)).to be_valid
+  context 'with invalid attributes' do
+    it 'is invalid without name' do
+      expect(Location.new(valid_attributes.without(:name))).to be_invalid
+    end
+
+    it 'is invalid without location_type' do
+      expect(Location.new(valid_attributes.without(:location_type))).to be_invalid
+    end
   end
 
-  it 'is invalid with invalid attributes' do
-    expect(Location.new(valid_attributes.without(:name))).to be_invalid
+  it 'is valid with valid attributes' do
+    expect(Location.new(valid_attributes)).to be_valid
   end
 
   it 'enforces location_type enum' do
