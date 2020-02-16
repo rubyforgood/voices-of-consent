@@ -24,12 +24,14 @@ class BoxRequest < ApplicationRecord
   scope :assembled, ->(){ joins(:box).where("boxes.aasm_state = ?", "assembled") }
   scope :shipping_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "shipping_in_progress") }
   scope :shipped, ->(){ joins(:box).where("boxes.aasm_state = ?", "shipped") }
+  scope :researched, ->(){ joins(:box).where("boxes.aasm_state = ?", "researched") }
 
   aasm do
 
     state :requested, :initial => true
     state :review_in_progress
     state :reviewed
+    state :researched
 
     after_all_transitions :log_status_change
 
