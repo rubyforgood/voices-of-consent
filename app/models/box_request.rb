@@ -31,7 +31,6 @@ class BoxRequest < ApplicationRecord
     state :requested, :initial => true
     state :review_in_progress
     state :reviewed
-    state :researched
 
     after_all_transitions :log_status_change
 
