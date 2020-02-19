@@ -18,12 +18,13 @@ class BoxRequest < ApplicationRecord
   delegate :name, to: :reviewed_by, prefix: :reviewer, allow_nil: true
 
   scope :requested, ->(){ where(reviewed_by_id: nil) }
-  scope :designed, ->(){ joins(:box).where("boxes.aasm_state = ?", "desgined") }
+  scope :designed, ->(){ joins(:box).where("boxes.aasm_state = ?", "designed") }
   scope :design_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "design_in_progress") }
   scope :assembly_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "assembly_in_progress") }
   scope :assembled, ->(){ joins(:box).where("boxes.aasm_state = ?", "assembled") }
   scope :shipping_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "shipping_in_progress") }
   scope :shipped, ->(){ joins(:box).where("boxes.aasm_state = ?", "shipped") }
+  scope :research_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "research_in_progress") }
   scope :researched, ->(){ joins(:box).where("boxes.aasm_state = ?", "researched") }
 
   aasm do
