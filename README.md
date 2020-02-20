@@ -145,19 +145,20 @@ if you run into the following error:
   
   ```
   $ docker-compose up -d 
+  http://localhost:3000
+  $ rspec (to run the test suite)
+  $ View `seeds.rb` file for login email and password to use while working in development
   ```
   
   -or- 
   
   ```
   $ docker-compose up
-  ```
-
   http://localhost:3000
-$ rspec (to run the test suite)
-
-$ View `seeds.rb` file for login email and password to use while working in development
-
+  $ rspec (to run the test suite)
+  $ View `seeds.rb` file for login email and password to use while working in development
+  ```
+  
 # Other Tips to Get Started
 
 ## Loggin In
