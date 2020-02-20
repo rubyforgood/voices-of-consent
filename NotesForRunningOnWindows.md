@@ -32,4 +32,4 @@ resulted in the following error:
 1:13:22 PM sidekiq.1 Exited with exit code SIGINT
 ```
 
-Running the commandds inside of the Procfile.dev seems to be a good workaround. s
+Running the commands inside of the Procfile.dev seems to be a good workaround.
