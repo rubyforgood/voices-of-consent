@@ -131,23 +131,34 @@ $ bundle install
 $ yarn install
 $ rake dev:setup
 $ heroku local -f Procfile.dev
-# if you run into the following error:
 ```
-bash: heroku: command not found
-```
-# visit https://devcenter.heroku.com/articles/heroku-cli for instructions to install Heroku.
 
-# if you chose the local route, then you are good to go on:
+if you run into the following error:
+```bash: heroku: command not found``` visit https://devcenter.heroku.com/articles/heroku-cli for instructions to install Heroku.
+
+
+# Viewing the Application
+## if you chose the local route, then you are good to go on:
   http://localhost:5000
   $ rspec (to run the test suite) or bundle exec rspec (if the first does not work)
-# If you chose the Docker route:
-  $ docker-compose up -d -or- $ docker-compose up
+## If you chose the Docker route:
+  
+  ```
+  $ docker-compose up -d 
   http://localhost:3000
-$ rspec (to run the test suite)
-
-$ View `seeds.rb` file for login email and password to use while working in development
-```
-
+  $ rspec (to run the test suite)
+  $ View `seeds.rb` file for login email and password to use while working in development
+  ```
+  
+  -or- 
+  
+  ```
+  $ docker-compose up
+  http://localhost:3000
+  $ rspec (to run the test suite)
+  $ View `seeds.rb` file for login email and password to use while working in development
+  ```
+  
 # Other Tips to Get Started
 
 ## Loggin In
@@ -207,3 +218,5 @@ Then Re-run -
 ```
 $ heroku local -f Procfile.dev
 ```
+
+# [Notes for Running on Windows](NotesForRunningOnWindows.md)
