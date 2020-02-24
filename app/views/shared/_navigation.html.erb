@@ -1,27 +1,108 @@
 <nav class="app-nav">
-  <a class="nav-icon home-nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
-  </a>
-  <a class="nav-icon" href="<%= box_requests_path %>">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
-    <span>Status</span>
-  </a>
-  <a class="nav-icon" href="/box_requests?filter_by=review_in_progress&current_user_id=<%= current_user.id %>">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
-    <span>Review</span>
-  </a>
-  <a class="nav-icon" href="/box_requests?filter_by=design_in_progress&current_user_id=<%= current_user.id %>">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
-    <span>Design</span>
-  </a>
-  <a class="nav-icon" href="/box_requests?filter_by=assembly_in_progress&current_user_id=<%= current_user.id %>">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
-    <span>Packing</span>
-  </a>
-  <a class="nav-icon" href="/box_requests?filter_by=shipping_in_progress&current_user_id=<%= current_user.id %>">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
-    <span>Shipping</span>
-  </a>
+  <% if user_signed_in? %>
+    <% if current_user.is_admin? %>
+      <a class="nav-icon home-nav-icon" href="/">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
+      </a>
+      <a class="nav-icon" href="<%= box_requests_path %>">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
+        <span>Status</span>
+      </a>
+      <a class="nav-icon" href="/box_requests?filter_by=review_in_progress">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
+        <span>Review</span>
+      </a>
+      <a class="nav-icon" href="/box_requests?filter_by=design_in_progress">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
+        <span>Design</span>
+      </a>
+      <a class="nav-icon" href="/box_requests?filter_by=assembly_in_progress">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
+        <span>Packing</span>
+      </a>
+      <a class="nav-icon" href="/box_requests?filter_by=shipping_in_progress">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
+        <span>Shipping</span>
+      </a>
+    <% else %>
+      <a class="nav-icon home-nav-icon" href="/">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
+      </a>
+      <a class="nav-icon" href="<%= box_requests_path %>">
+        <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
+        <span>Status</span>
+      </a>
+      <% if User.where(user_id: current_user.id).permission('reviewer') %>
+        <a class="nav-icon" href="/box_requests?filter_by=review_in_progress&current_user_id=<%= current_user.id %>">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
+          <span>Review</span>
+        </a>
+      <% else %>
+        <a class="nav-icon">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
+          <span>Review</span>
+        </a>
+      <% end %>
+      <% if User.where(user_id: current_user.id).permission('designer') %>
+        <a class="nav-icon" href="/box_requests?filter_by=design_in_progress&current_user_id=<%= current_user.id %>">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
+          <span>Design</span>
+        </a>
+      <% else %>
+        <a class="nav-icon">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
+          <span>Design</span>
+        </a>
+      <% end %>
+      <% if User.where(user_id: current_user.id).permission('assembler') %>
+        <a class="nav-icon" href="/box_requests?filter_by=assembly_in_progress&current_user_id=<%= current_user.id %>">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
+          <span>Packing</span>
+        </a>
+      <% else %>
+        <a class="nav-icon">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
+          <span>Packing</span>
+        </a>
+      <% end %>
+      <% if User.where(user_id: current_user.id).permission('shipper') %>
+        <a class="nav-icon" href="/box_requests?filter_by=shipping_in_progress&current_user_id=<%= current_user.id %>">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
+          <span>Shipping</span>
+        </a>
+      <% else %>
+        <a class="nav-icon">
+          <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
+          <span>Shipping</span>
+        </a>
+      <% end %>
+    <% end %>
+  <% else %>
+    <a class="nav-icon home-nav-icon" href="/">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
+    </a>
+    <a class="nav-icon">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
+      <span>Status</span>
+    </a>
+    <a class="nav-icon">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
+      <span>Review</span>
+    </a>
+    <a class="nav-icon">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
+      <span>Design</span>
+    </a>
+    <a class="nav-icon">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
+      <span>Packing</span>
+    </a>
+    <a class="nav-icon">
+      <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
+      <span>Shipping</span>
+    </a>
+  <% end %>
+
   <div class="nav-item dropdown">
     <a class="nav-link" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-expanded="false">
       <% if user_signed_in? %>
