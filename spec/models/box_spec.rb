@@ -17,6 +17,9 @@ RSpec.describe Box, :type => :model do
   let(:follow_upper) { create(:user, :follow_upper) }
   let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
   let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
+  let(:box_request) { create(:box_request, :has_reviewer) }
+  let(:reviewed_box_request) { create(:box_request, :review_complete) }
+  let(:box) { create(:box, :is_designed)  }
 
   describe "state transitions" do
     before(:each) do
@@ -24,20 +27,14 @@ RSpec.describe Box, :type => :model do
     end
 
     it "has state reviewed after box_request is reviewed" do
-      box_request_1.reviewed_by_id = reviewer.id;
-      box_request_1.save
-      box_request_1.claim_review!
-      box_request_1.complete_review!
-      box = box_request_1.box
+      box_request.claim_review!
+      box_request.complete_review!
+      box = box_request.box
       expect(box.aasm_state).to eq("reviewed")
     end
 
     it "transitions from reviewed to design_in_progress" do
-      box_request_1.reviewed_by_id = reviewer.id;
-      box_request_1.save
-      box_request_1.claim_review!
-      box_request_1.complete_review!
-      box = box_request_1.box
+      box = reviewed_box_request.box
       box.designed_by_id = designer.id;
       box.save
       expect(box).to transition_from(:reviewed).to(:design_in_progress).on_event(:claim_design)
