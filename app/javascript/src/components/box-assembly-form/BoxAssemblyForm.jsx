@@ -45,6 +45,7 @@ const BoxAssemblyForm = () => {
       }
       return item;
     })
+    console.log("CHRIS: updated items= ", updatedItems);
     updateItems(updatedItems);
   }
 
