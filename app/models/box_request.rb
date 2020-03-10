@@ -26,6 +26,7 @@ class BoxRequest < ApplicationRecord
   scope :shipped, ->(){ joins(:box).where("boxes.aasm_state = ?", "shipped") }
   scope :research_in_progress, ->(){ joins(:box).where("boxes.aasm_state = ?", "research_in_progress") }
   scope :researched, ->(){ joins(:box).where("boxes.aasm_state = ?", "researched") }
+  scope :followed_up, ->(){ joins(:box).where("boxes.aasm_state = ?", "followed_up") }
 
   aasm do
 
