@@ -1,27 +1,31 @@
 <nav class="app-nav">
-  <a class="nav-icon home-nav-icon" href="/">
-    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
-  </a>
-  <a class="nav-icon" href="<%= box_requests_path %>">
+<%= link_to root_path, class: 'nav-icon home-nav-icon' do %>
+  <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Logo.svg" title="Voices of Consent" />
+    <% end %>
+  <%= link_to box_requests_path, class: 'nav-icon' do %>
     <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Status.svg" title="Status" />
     <span>Status</span>
-  </a>
-  <a class="nav-icon" href="/">
+  <% end %>
+  <%= link_to root_path, class: 'nav-icon' do %>
     <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Review+Stage.svg" title="Review">
     <span>Review</span>
-  </a>
-  <a class="nav-icon" href="<%= box_requests_path %>">
+  <% end %>
+  <%= link_to box_requests_path, class: 'nav-icon' do %>
     <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Design+Stage.svg" title="Design">
     <span>Design</span>
-  </a>
-  <a class="nav-icon" href="/">
+  <% end %>
+  <%= link_to box_requests_path, class: 'nav-icon' do %>
+    <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Research">
+    <span>Research</span>
+  <% end %>
+  <%= link_to root_path, class: 'nav-icon' do %>
     <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Packing+Stage.svg" title="Packing">
     <span>Packing</span>
-  </a>
-  <a class="nav-icon" href="/">
+  <% end %>
+  <%= link_to root_path, class: 'nav-icon' do %>
     <img src="https://voices-of-consent-static-images.s3.amazonaws.com/Shipping+boc+redux.svg" title="Shipping">
     <span>Shipping</span>
-  </a>
+  <% end %>
   <div class="nav-item dropdown">
     <a class="nav-link" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-expanded="false">
       <% if user_signed_in? %>
