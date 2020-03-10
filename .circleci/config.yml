@@ -1,0 +1,174 @@
+docker_image: &docker_image
+  image: circleci/ruby:2.6.5-node
+
+version: 2.1
+commands:
+  bundle_install:
+    description: "Performs the bundler installation, relying on the CircleCI cache for performance"
+    steps:
+      - restore_cache:
+          keys:
+            - bundler-cache-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: "Bundle Install"
+          command: |
+            set -ou pipefail
+            export PATH="$HOME/.rbenv/bin:$PATH"
+            eval "$(rbenv init -)"
+            rbenv local `cat .ruby-version`
+            bundle install --path=.bundle
+      - save_cache:
+          key: bundler-cache-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - .bundle
+  docker_prerequisites:
+    description: "Run docker compose prerequisites that should eventually be folded into a base image"
+    steps:
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o ~/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C ~ -f ~/docker-$VER.tgz
+            sudo mv ~/docker/* /usr/bin
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+  docker_compose:
+    description: "Start the docker containers and ensure they are running"
+    steps:
+      - run:
+          name: "Run docker-compose"
+          command: |
+            set -x
+            docker-compose up -d
+  update_apt:
+    description: Update apt sources so we can install other stuff
+    steps:
+      - run:
+          name: Run `apt update`
+          command: |
+            set -ou pipefail
+            ls -d /etc/apt/sources.list.d/*
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            sudo apt update
+  wait_for_postgres:
+    description: "Wait to make sure the database is running"
+    steps:
+      - run:
+          name: "Waiting for Postgres to be ready"
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgress && exit 1
+  install_postgres_client:
+    description: "Install prereqs needed for the pg gem"
+    steps:
+      - run:
+          name: "Installing libpq package"
+          command: sudo apt-get install -y libpq-dev comerr-dev krb5-multidev
+  update_ruby:
+    description: "Install the specified version of ruby"
+    steps:
+      - restore_cache:
+          keys:
+            - ruby-install-{{ checksum ".ruby-version" }}
+      - run:
+          name: "Checking ruby version"
+          command: |
+            set -x
+            export VER=`cat .ruby-version`
+            if [ -d ~/.rbenv ]
+            then
+            export PATH="$HOME/.rbenv/bin:$PATH"
+            fi
+            set -ou pipefail
+            if [ ! -x ~/.rbenv/bin/rbenv ] || [ "$(rbenv version-name)" != $VER ]
+            then
+            git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+            pushd ~/.rbenv
+            src/configure && make -C src
+            popd
+            export PATH="$HOME/.rbenv/bin:$PATH"
+            git clone https://github.com/rbenv/ruby-build.git
+            PREFIX=/usr/local sudo ./ruby-build/install.sh
+            eval "$(rbenv init -)"
+            hash
+            rbenv install $VER
+            fi
+            hash
+      - save_cache:
+          key: ruby-install-{{ checksum ".ruby-version" }}
+          paths:
+            - ~/.rbenv
+  yarn_install:
+    steps:
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: "Yarn Setup"
+          command: |
+            set -ou pipefail
+            export PATH="$HOME/.nodenv/bin:$PATH"
+            if [ ! -x ~/.nodenv/bin/nodenv ]
+            then
+            git clone https://github.com/nodenv/nodenv.git ~/.nodenv
+            mkdir -p "$(nodenv root)"/plugins
+            git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build
+            nodenv install 12.1.0
+            fi
+            eval "$(nodenv init -)"
+            nodenv local 12.1.0
+            sudo apt-get install -y yarn
+            yarn install
+      - save_cache:
+          key: yarn-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - ~/.nodenv
+  test:
+    steps:
+      - run:
+          name: "Test Suite"
+          command: |
+            set -ou pipefail
+            export PATH="$HOME/.rbenv/bin:$PATH"
+            export PATH="$HOME/.nodenv/bin:$PATH"
+            eval "$(rbenv init -)"
+            eval "$(nodenv init -)"
+            nodenv local 12.1.0
+            mv config/database.yml.example config/database.yml
+            bin/rails db:setup
+            bundle exec rspec
+
+jobs:
+  tests:
+    working_directory: ~/voices-of-consent
+    machine: true
+    steps:
+      - checkout
+      - update_apt
+      - update_ruby
+      - install_postgres_client
+      - bundle_install
+      - yarn_install
+      - docker_compose
+      - wait_for_postgres
+      - test
+
+workflows:
+  version: 2.1
+  voices_of_consent:
+    jobs:
+      - tests
