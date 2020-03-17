@@ -26,7 +26,7 @@ RSpec.describe InventoryImporter do
     end
 
     it "creates an inventory type for each type in csv" do
-      expect { subject.perform }.to change { InventoryType.count }.by(3)
+      expect { subject.perform }.to change { InventoryType.count }.by(4)
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe InventoryImporter do
     end
 
     it "creates an inventory type for each type in csv" do
-      expect { subject.perform }.to change { InventoryType.count }.by(3)
+      expect { subject.perform }.to change { InventoryType.count }.by(4)
     end
   end
 

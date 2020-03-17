@@ -10,7 +10,6 @@ class InventoryImporter
 
   def perform
     return Results.new(error_message: "File path invalid or missing") unless data
-
     succeeded, errored = CSV.parse(data, headers: true, converters: :numeric).map do |row|
       upsert_tally(row)
     end.partition { |r| r.is_a?(InventoryTally) }
@@ -45,15 +44,11 @@ class InventoryImporter
   end
 
   def upsert_tally(row)
-    location = Location.where("lower(name) = ?", row["location_name"].downcase)
-                       .first_or_create(name: row["location_name"])
+    location = Location.first_or_create(name: row["location_name"], location_type: row["location_type"])
+    binding.pry
+    inventory_type = InventoryType.where("lower(name) = ?", row["inventory_type_name"].downcase).first_or_create(name: row["inventory_type_name"])
 
-    inventory_type = InventoryType.where("lower(name) = ?", row["inventory_type_name"].downcase)
-                                  .first_or_create(name: row["inventory_type_name"])
-
-    tally = InventoryTally.where(inventory_type: inventory_type)
-                          .where(storage_location: location)
-                          .first_or_create
+    tally = InventoryTally.where(inventory_type: inventory_type).where(storage_location: location).first_or_create
 
     tally.inventory_adjustments.create(adjustment_quantity: row["quantity"].to_i)
 
