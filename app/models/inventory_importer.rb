@@ -44,8 +44,9 @@ class InventoryImporter
   end
 
   def upsert_tally(row)
-    location = Location.first_or_create(name: row["location_name"], location_type: row["location_type"])
-    binding.pry
+    location = Location.where("lower(name) = ?", row["location_name"].downcase)
+                       .first_or_create(name: row["location_name"], location_type: row["location_type"])
+
     inventory_type = InventoryType.where("lower(name) = ?", row["inventory_type_name"].downcase).first_or_create(name: row["inventory_type_name"])
 
     tally = InventoryTally.where(inventory_type: inventory_type).where(storage_location: location).first_or_create

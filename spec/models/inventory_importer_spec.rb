@@ -32,7 +32,7 @@ RSpec.describe InventoryImporter do
 
   context "when some locations exist" do
 
-    let!(:location) { Location.create(name: "store-a-lot") }
+    let!(:location) { Location.create(name: "store-a-lot", location_type: "shop") }
 
     it "creates a tally object for each row in csv" do
       expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
@@ -75,20 +75,20 @@ RSpec.describe InventoryImporter do
     end
 
     it "creates an inventory type for each type in csv" do
-      expect { subject.perform }.to change { InventoryType.count }.by(2)
-      expect(inventory_type.inventory_tallies.count).to eq(2)
+      expect { subject.perform }.to change { InventoryType.count }.by(3)
+      expect(inventory_type.inventory_tallies.count).to eq(1)
     end
 
     it "performs case-insensitive search" do
       inventory_type.update!(name: "Tampons")
-      expect { subject.perform }.to change { InventoryType.count }.by(2) # "tampons" and "Tampons" are treated the same
-      expect(inventory_type.inventory_tallies.count).to eq(2)
+      expect { subject.perform }.to change { InventoryType.count }.by(3) # "tampons" and "Tampons" are treated the same
+      expect(inventory_type.inventory_tallies.count).to eq(1)
     end
   end
 
   context "when some inventory tallies are present" do
     before do
-      location = Location.create(name: "store-a-lot")
+      location = Location.create(name: "store-a-lot", location_type: "shop")
       type = InventoryType.create(name: "tampons")
       tally = InventoryTally.create(storage_location: location, inventory_type: type)
       InventoryAdjustment.create(inventory_tally: tally, adjustment_quantity: 10)
@@ -107,7 +107,7 @@ RSpec.describe InventoryImporter do
     end
 
     it "creates an inventory type for each type in csv" do
-      expect { subject.perform }.to change { InventoryType.count }.by(2)
+      expect { subject.perform }.to change { InventoryType.count }.by(3)
     end
   end
 
@@ -128,9 +128,11 @@ RSpec.describe InventoryImporter do
 
     it "imports valid, and returns invalid" do
       results = subject.perform
-      expect(results.succeeded.count).to eq(1)
-      expect(results.errored.count).to eq(3)
-      expect(results.errored.first).to eq([nil, nil, 5])
+      aggregate_failures do
+        expect(results.succeeded.count).to eq(1)
+        expect(results.errored.count).to eq(3)
+        expect(results.errored.first).to eq([nil, nil, 5, nil])
+      end
     end
 
   end
