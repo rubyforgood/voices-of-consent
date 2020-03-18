@@ -40,6 +40,14 @@ Some choices for how to run services in your development environment:
     * PostgreSQL 9.5+
     * Mailcatcher 0.7.1
 
+## Setting up Ruby
+
+The easiest way to manage different installations of Ruby is with [rbenv](https://github.com/rbenv/rbenv). After following the installation instructions on the rbenv repo and restarting your terminal, you'll be able to run `rbenv install` in the root directory of the repository. rbenv will handle installing Ruby and switching to it for you when you enter the repo (so no need to worry about your other Ruby installs!) After that, run `gem install bundler` and you'll be all set to run `bundle install`.
+
+If you run into a problem where your bundle install says you're on an older version of bundler than what's in the lockfile, run `gem update --system` to update RubyGems, then `gem install bundler:1.17.3`
+
+Depending on your system, you might have trouble building the `pg` gem, probably due to a missing `libpq-fe.h`. On Ubuntu ##TODO
+
 ## Running the App!
 
 First, set up Local Services via Docker or individually installed services. 
