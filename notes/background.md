@@ -62,6 +62,12 @@ This scope of this application includes:
   - We chose to put `Requester` (people who submit `BoxRequests`) data and `Volunteer` data into different tables, just so we never access `Requester` data accidentally.
   - The above phases are distinct so that the privacy of `Requesters` is preserved. For example, the person Assembling the Box likely isn't also the person affixing the mailing label, etc.
   
+#### `Volunteer` and `User` model details
+
+The `Volunteer` model is where we keep all the personal data for a person, such as phone, address, age range, etc, and these people will not necessarily be direct users of the Voices of Consent application itself aside from signing up as a volunteer.  Lots of volunteers never actually use the application itself but may for example show up at a packing party, and we are just tracking them with the `Volunteer` model.   If a `Volunteer` record is created, a `User` record is not created along with it.
+
+The `User` model is not just tracking a volunteer’s info but is specific to the account information for a user of the application, and includes info such as a person’s site permissions, password token, etc.  A `User` record `belongs_to` the `Volunteer` model, and when a `User` record is created it will also have an associated `Volunteer` record created along with it.
+
 ## Other features
   - Inventory Management
     - Multiple locations each have inventory
@@ -77,4 +83,3 @@ This scope of this application includes:
         - To: Volunteers w BoxDesign permission - A Box is ready for review. Please Claim or Decline.
         - etc
     - We'll also allow Admins to create `MessageLogs` ad hoc, so it essentially provides basic CRM support
-  
