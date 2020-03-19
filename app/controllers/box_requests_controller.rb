@@ -9,6 +9,7 @@ class BoxRequestsController < ApplicationController
     if params[:filter_by].present?
       (filter_attr = params[:filter_by])
       @box_requests = @box_requests.public_send(filter_attr)
+      @box_requests.where(reviewed_by_id: params[:current_user_id]) if params[:current_user_id].present?
     end
   end
 
