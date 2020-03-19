@@ -46,7 +46,32 @@ The easiest way to manage different installations of Ruby is with [rbenv](https:
 
 If you run into a problem where your bundle install says you're on an older version of bundler than what's in the lockfile, run `gem update --system` to update RubyGems, then `gem install bundler:1.17.3`
 
-Depending on your system, you might have trouble building the `pg` gem, probably due to a missing `libpq-fe.h`. On Ubuntu ##TODO
+Depending on your system, you might have trouble building the `pg` gem, probably due to a missing `libpq-fe.h`. To get the necessary libraries installed:
+* Debian/Ubuntu: `sudo apt-get install libpq-dev`
+* On Enterprise Linux (CentOS/RHEL/Fedora/Amazon Linux/Sci Linux): `yum install postgresql-devel`
+* For Mac (Homebrew): `brew install postgresql`
+
+## Setting up Node
+
+The easiest way to manage different installations with node.js is with [nvm](https://github.com/nvm-sh/nvm). After following the installation instructions, type `nvm install` to install and run the right version of node.js.
+
+You'll also need Yarn, a package manager for node.js. To install that:
+* Debian/Ubuntu: 
+```
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn
+```
+* On Enterprise Linux (CentOS/RHEL/Fedora/Amazon Linux/Sci Linux): 
+```
+curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+sudo yum install yarn
+```
+* For Mac (Homebrew): `brew install yarn`
+
+## Setting up Heroku
+
+The Rails, Sidekiq, and webpack processes are launched with Heroku. You can install Heroku Local using [these instructions](https://devcenter.heroku.com/articles/heroku-cli).
 
 ## Running the App!
 
@@ -137,6 +162,7 @@ Then, to run the app locally,
 ```
 $ bundle install
 $ yarn install
+$ docker-compose up -d (if using docker)
 $ rake dev:setup
 $ heroku local -f Procfile.dev
 ```
