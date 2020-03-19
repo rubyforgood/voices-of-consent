@@ -1,5 +1,6 @@
 version: '3.2'
 services:
+
   db:
     image: postgres:11.4
     ports:
@@ -7,11 +8,13 @@ services:
     environment:
       - POSTGRES_USER=${USER}
   redis:
-    image: redis:latest
+    image: redis:5.0
     ports:
       - "127.0.0.1:6379:6379"
   mailcatcher:
-    image: tophfr/mailcatcher
+    build:
+      context: ./Dockerfiles
+      dockerfile: mailcatcher
     command: ["mailcatcher", "--foreground", "--ip=0.0.0.0", "--smtp-port=1025", "--http-port=1080"]
     ports:
       - "127.0.0.1:1080:1080"
