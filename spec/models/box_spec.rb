@@ -11,8 +11,8 @@ RSpec.describe Box, :type => :model do
   let(:follow_upper) { create(:user, :follow_upper) }
   let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
   let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
-  let(:box_request_with_reviewer) { create(:box_request, :has_reviewer) }
-  let(:reviewed_box_request) { create(:box_request, :review_complete) }
+  let(:box_request_with_reviewer) { create(:box_request, :review_in_progress) }
+  let(:reviewed_box_request) { create(:box_request, :reviewed) }
   let(:box) { create(:box, :is_designed)  }
 
   describe "state transitions" do
@@ -36,7 +36,6 @@ RSpec.describe Box, :type => :model do
       box = build(:box, :design_in_progress)
       allow(box).to receive(:send_research_solicitation_email!)
       box.claim_design!
-      box.check_has_box_items # make sure there are items
       #add items that need research
       create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       expect(box).to transition_from(:design_in_progress).to(:designed).on_event(:complete_design)
@@ -47,7 +46,6 @@ RSpec.describe Box, :type => :model do
       box = build(:box, :design_in_progress)
       allow(box).to receive(:send_assembly_solicitation_email!)
       #box.claim_design!
-      box.check_has_box_items # make sure there are items
       # add item that doesn't require research
       create(:box_item, box: box)
       expect(box).to transition_from(:design_in_progress).to(:researched).on_event(:complete_design)
@@ -56,7 +54,7 @@ RSpec.describe Box, :type => :model do
 
     it "transitions from designed to research_in_progress" do
       box = build(:box, :designed)
-      box.researched_by_id = researcher.id;
+      box.researched_by_id = researcher.id
       expect(box).to transition_from(:designed).to(:research_in_progress).on_event(:claim_research)
     end
 
@@ -64,7 +62,6 @@ RSpec.describe Box, :type => :model do
       time_now = Time.parse("Oct 11 2019")
       allow(Time).to receive(:now).and_return(time_now)
       box = build(:box, :research_in_progress)
-      box.mark_box_items_as_researched!
       expect(box).to transition_from(:research_in_progress).to(:researched).on_event(:complete_research)
       expect(box.researched_at).to eq(time_now)
     end

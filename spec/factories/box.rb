@@ -1,22 +1,24 @@
 FactoryBot.define do
   factory :box do
+    
     box_request
 
     trait :reviewed do
-      box_request {(create(:box_request, :review_complete))}
+      box_request {(create(:box_request, :reviewed))}
     end
 
     trait :design_in_progress do 
+      after(:create) { |box| box.check_has_box_items }
       reviewed
       aasm_state { "design_in_progress"}
       designed_by_id {create(:user, :designer).id}
-      designed_at { Time.now }
       design_reviewed_by_id  {create(:user, :reviewer).id}
       design_reviewed_at { Time.now }
     end
-
+    
     trait :designed do 
       design_in_progress
+      designed_at { Time.now }
       aasm_state { "designed"}
       box_items {create_list(:box_item, 1, :research_needed)}
     end
@@ -29,6 +31,7 @@ FactoryBot.define do
 
     trait :researched do 
       research_in_progress
+      after(:build) { |box| box.mark_box_items_as_researched! }
       aasm_state {"researched"}
     end
 
@@ -41,6 +44,7 @@ FactoryBot.define do
     trait :assembled do 
       assembly_in_progress
       aasm_state {"assembled"}
+      assembled_at { Time.now }
     end
 
     trait :shipping_in_progress do 
@@ -52,6 +56,7 @@ FactoryBot.define do
     trait :shipped do 
       shipping_in_progress
       aasm_state {"shipped"}
+      shipped_at { Time.now }
     end
 
     trait :follow_up_in_progress do 
@@ -63,6 +68,7 @@ FactoryBot.define do
     trait :followed_up do 
       follow_up_in_progress
       aasm_state {"followed_up"}
+      followed_up_at { Time.now }
     end
 
   end

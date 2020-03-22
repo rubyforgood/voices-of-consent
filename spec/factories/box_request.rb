@@ -2,12 +2,12 @@ FactoryBot.define do
   factory :box_request, aliases: [:messageable] do
     requester
 
-    trait :has_reviewer do
+    trait :review_in_progress do
       reviewed_by_id {create(:user, :reviewer).id}
       reviewed_at {Time.now}
     end
 
-    trait :review_complete do 
+    trait :reviewed do 
       box
       reviewed_by_id {create(:user, :reviewer).id}
       reviewed_at {Time.now}
