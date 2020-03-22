@@ -10,6 +10,8 @@
       <td>
         <% if user.invitation_sent_at? %>
           <%= user.invitation_accepted? %>
+        <% else %>
+          <%= "Not Invited"%>
         <% end %>
       </td>
    </tr>
