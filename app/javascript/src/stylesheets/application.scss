@@ -7,7 +7,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 
 $body-bg: #ffc0cb;
-$container-bg: #fff;
+$container-bg: rgba(255,255,255,0.8);
 $footer-bg: #eee;
 
 * {
@@ -31,7 +31,7 @@ body {
 .container {
   background-color: $container-bg;
   flex: 1;
-  margin-bottom: 170px;
+  margin-bottom: 5px;
   height: auto;
 }
 
@@ -54,7 +54,8 @@ body {
 
 footer {
   background-color: $footer-bg;
-  position: fixed;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
   width: 100%;
   bottom: 0;
 }
