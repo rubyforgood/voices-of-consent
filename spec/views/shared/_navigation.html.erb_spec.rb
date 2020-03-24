@@ -11,20 +11,11 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
     it 'renders navigation bar' do
       render
 
-      assert_select "a[href='/box_requests']", text: 'Status', count: 0
-      assert_select 'a', text: 'Status', count: 1
-      assert_select "a[href='/box_requests?filter_by=review_in_progress']",
-                    text: 'Review', count: 0
-      assert_select 'a', text: 'Review', count: 1
-      assert_select "a[href='/box_requests?filter_by=design_in_progress']",
-                    text: 'Design', count: 0
-      assert_select 'a', text: 'Design', count: 1
-      assert_select "a[href='/box_requests?filter_by=assembly_in_progress']",
-                    text: 'Packing', count: 0
-      assert_select 'a', text: 'Packing', count: 1
-      assert_select "a[href='/box_requests?filter_by=shipping_in_progress']",
-                    text: 'Shipping', count: 0
-      assert_select 'a', text: 'Shipping', count: 1
+      assert_select 'a', text: 'Status', count: 0
+      assert_select 'a', text: 'Review', count: 0
+      assert_select 'a', text: 'Design', count: 0
+      assert_select 'a', text: 'Packing', count: 0
+      assert_select 'a', text: 'Shipping', count: 0
     end
   end
 
