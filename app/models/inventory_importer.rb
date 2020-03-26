@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 class InventoryImporter
-
   attr_reader :file_path
 
   def initialize(file_path)
@@ -9,10 +10,12 @@ class InventoryImporter
   end
 
   def perform
-    return Results.new(error_message: "File path invalid or missing") unless data
-    succeeded, errored = CSV.parse(data, headers: true, converters: :numeric).map do |row|
-      upsert_tally(row)
-    end.partition { |r| r.is_a?(InventoryTally) }
+    return Results.new(error_message: 'File path invalid or missing') unless data
+
+    succeeded, errored =
+      CSV.parse(data, headers: true, converters: :numeric).map do |row|
+        upsert_tally(row)
+      end.partition { |r| r.is_a?(InventoryTally) }
 
     Results.new(succeeded: succeeded, errored: errored)
   rescue CSV::MalformedCSVError => e
@@ -20,7 +23,6 @@ class InventoryImporter
   end
 
   class Results
-
     attr_reader :succeeded, :errored, :error_message
 
     def initialize(succeeded: [], errored: [], error_message: nil)
@@ -44,19 +46,30 @@ class InventoryImporter
   end
 
   def upsert_tally(row)
-    location = Location.where("lower(name) = ?", row["location_name"].downcase)
-                       .first_or_create(name: row["location_name"], location_type: row["location_type"])
+    location =
+      Location.where('lower(name) = ?', row['location_name'].downcase)
+              .first_or_create(
+                name: row['location_name'], location_type: row['location_type']
+              )
 
-    inventory_type = InventoryType.where("lower(name) = ?", row["inventory_type_name"].downcase).first_or_create(name: row["inventory_type_name"])
+    inventory_type =
+      InventoryType.where(
+        'lower(name) = ?',
+        row['inventory_type_name'].downcase
+      ).first_or_create(name: row['inventory_type_name'])
 
-    tally = InventoryTally.where(inventory_type: inventory_type).where(storage_location: location).first_or_create
+    tally =
+      InventoryTally.where(inventory_type: inventory_type).where(
+        storage_location: location
+      ).first_or_create
 
-    tally.inventory_adjustments.create(adjustment_quantity: row["quantity"].to_i)
+    tally.inventory_adjustments.create(
+      adjustment_quantity: row['quantity'].to_i
+    )
 
     tally
-  rescue
+  rescue StandardError
     # If a row fails to update, return the csv data to allow for debugging
     row.fields
   end
-
 end

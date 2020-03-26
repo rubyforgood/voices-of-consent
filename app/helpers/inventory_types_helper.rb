@@ -1,2 +1,3 @@
-module InventoryTypesHelper
-end
+# frozen_string_literal: true
+
+module InventoryTypesHelper; end

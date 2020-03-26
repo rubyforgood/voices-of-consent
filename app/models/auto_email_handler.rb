@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AutoEmailHandler
   include DeliverNowWithErrorHandling
 
@@ -9,7 +11,12 @@ class AutoEmailHandler
     @mailer_klass = nil
     @mailer_action = nil
     @permission_name = nil
-    @recipients = recipient_type == "requester" ? [object.requester] : get_solicitation_recipients
+    @recipients =
+      if recipient_type == 'requester'
+        [object.requester]
+      else
+        get_solicitation_recipients
+      end
     @queued_autoemails = []
 
     send_relevant_messages
@@ -25,44 +32,44 @@ class AutoEmailHandler
   ######
 
   def get_solicitation_recipients
-    User.includes(:volunteer).where(volunteers: { ok_to_email: true }).permission(@permission_name)
+    User.includes(:volunteer).where(volunteers: { ok_to_email: true })
+        .permission(@permission_name)
   end
 
   def set_mailer_klass
-    if @recipient_type.include?("requester")
-      @mailer_klass = RequesterMailer
-    else
-      @mailer_klass = VolunteerMailer
-    end
+    @mailer_klass =
+      @recipient_type.include?('requester') ? RequesterMailer : VolunteerMailer
   end
 
   def set_mailer_mailer_action_and_permission
-    if @recipient_type == "requester" && @object_aasm_status == "requested"
-      @mailer_action = "box_request_confirmation_email"
+    if @recipient_type == 'requester' && @object_aasm_status == 'requested'
+      @mailer_action = 'box_request_confirmation_email'
       @permission = nil # n/a if going to requester
-    elsif @recipient_type == "volunteer" && @object_aasm_status == "requested"
-      @mailer_action = "review_solicitation_email"
+    elsif @recipient_type == 'volunteer' && @object_aasm_status == 'requested'
+      @mailer_action = 'review_solicitation_email'
       @permission = Permission::REQUEST_REVIEWER
-    elsif @object_aasm_status == "reviewed"
-      @mailer_action = "design_solicitation_email"
+    elsif @object_aasm_status == 'reviewed'
+      @mailer_action = 'design_solicitation_email'
       @permission = Permission::BOX_DESIGNER
-    elsif @object_aasm_status == "designed" && @object.requires_research? && @object.research_completed?
-      @mailer_action = "assembly_solicitation_email"
+    elsif @object_aasm_status == 'designed' && @object.requires_research? &&
+          @object.research_completed?
+      @mailer_action = 'assembly_solicitation_email'
       @permission = Permission::BOX_ASSEMBLER
-    elsif @object_aasm_status == "designed" && @object.requires_research? && !@object.research_completed?
-      @mailer_action = "research_solicitation_email"
+    elsif @object_aasm_status == 'designed' && @object.requires_research? &&
+          !@object.research_completed?
+      @mailer_action = 'research_solicitation_email'
       @permission = Permission::BOX_ITEM_RESEARCHER
-    elsif @object_aasm_status == "assembled"
-      @mailer_action = "shipping_solicitation_email"
+    elsif @object_aasm_status == 'assembled'
+      @mailer_action = 'shipping_solicitation_email'
       @permission = Permission::BOX_SHIPPER
-    elsif @recipient_type == "volunteer" && @object_aasm_status == "shipped"
-      @mailer_action = "shipping_confirmation_email"
+    elsif @recipient_type == 'volunteer' && @object_aasm_status == 'shipped'
+      @mailer_action = 'shipping_confirmation_email'
       @permission = Permission::REQUEST_REVIEWER
-    elsif @recipient_type == "requester" && @object_aasm_status == "shipped"
-      @mailer_action = "shipping_confirmation_email"
+    elsif @recipient_type == 'requester' && @object_aasm_status == 'shipped'
+      @mailer_action = 'shipping_confirmation_email'
       @permission = nil # n/a if going to requester
     else
-      raise "ERROR -- unknown aasm state"
+      raise 'ERROR -- unknown aasm state'
     end
   end
 
@@ -76,13 +83,24 @@ class AutoEmailHandler
   def send_emails_and_log
     @queued_autoemails.each do |email_object|
       sent_email = send_email(email_object)
-      recipient = @recipients.length == 1 ? @recipients.first : @recipients.where(email: email_object.to).last
-      message_log = MessageLog.log_autoemail(email_object, @current_user || User.first, @object, @mailer_action, @current_user) # store the email that was sent above as a MessageLog
+      recipient =
+        if @recipients.length == 1
+          @recipients.first
+        else
+          @recipients.where(email: email_object.to).last
+        end
+      message_log =
+        MessageLog.log_autoemail(
+          email_object,
+          @current_user || User.first,
+          @object,
+          @mailer_action,
+          @current_user
+        ) # store the email that was sent above as a MessageLog
     end
   end
 
   def send_email(email_object)
     deliver_now_with_error_handling(email_object, @mailer_action)
   end
-
 end

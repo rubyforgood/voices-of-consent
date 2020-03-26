@@ -1,2 +1,3 @@
-module BoxRequestAbuseTypesHelper
-end
+# frozen_string_literal: true
+
+module BoxRequestAbuseTypesHelper; end

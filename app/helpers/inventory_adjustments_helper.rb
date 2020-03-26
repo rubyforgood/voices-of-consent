@@ -1,2 +1,3 @@
-module InventoryAdjustmentsHelper
-end
+# frozen_string_literal: true
+
+module InventoryAdjustmentsHelper; end

@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Location, type: :model do
-  let(:valid_attributes) do {
-    name: 'University of Pittsburgh', street_address: '4200 Fifth Ave',
-    city: 'Pittsburgh', state: 'PA', zip: 15260, location_type: :university }
+  let(:valid_attributes) do
+    {
+      name: 'University of Pittsburgh',
+      street_address: '4200 Fifth Ave',
+      city: 'Pittsburgh',
+      state: 'PA',
+      zip: 15_260,
+      location_type: :university
+    }
   end
 
   context 'with invalid attributes' do
@@ -12,7 +20,9 @@ RSpec.describe Location, type: :model do
     end
 
     it 'is invalid without location_type' do
-      expect(Location.new(valid_attributes.without(:location_type))).to be_invalid
+      expect(
+        Location.new(valid_attributes.without(:location_type))
+      ).to be_invalid
     end
   end
 
@@ -45,10 +55,8 @@ RSpec.describe Location, type: :model do
     expect(volunteer.reload.university_location).to be_nil
   end
 
-  it { 
-    is_expected.to have_many(:assembled_boxes)
-    .class_name('Box'),
-    foreign_key: 'assembly_location_id',
-    inverse_of: :assembly_location
-  }
+  it do
+    is_expected.to have_many(:assembled_boxes).class_name('Box'),
+                   foreign_key: 'assembly_location_id', inverse_of: :assembly_location
+  end
 end

@@ -1,5 +1,6 @@
-class BoxAssemblyController < ApplicationController
+# frozen_string_literal: true
 
+class BoxAssemblyController < ApplicationController
   def new
     @box = box_claim_scope.find(params[:box_id])
     @box_items = @box.box_items
@@ -11,16 +12,23 @@ class BoxAssemblyController < ApplicationController
     if !@box.assembled_by_id || @box.assembled_by == current_user
       respond_to do |format|
         @box.assembled_by = current_user
-        if @box.save
-          if @box.aasm_state == "researched"
-            @box.claim_assembly!
-          end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "assembled"), notice: 'Box assembly was successfully claimed.' }
+        if @box.save
+          @box.claim_assembly! if @box.aasm_state == 'researched'
+
+          format.html do
+            redirect_to box_request_claim_thank_you_path(
+              @box.box_request,
+              'assembled'
+            ),
+                        notice: 'Box assembly was successfully claimed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json { render json: @box.errors, status: :unprocessable_entity }
+          format.json do
+            render json: @box.errors, status: :unprocessable_entity
+          end
         end
       end
     else
@@ -31,19 +39,24 @@ class BoxAssemblyController < ApplicationController
   def decline
     @box = request_review_scope.find(params[:box_id])
     if @box.assembled_by != current_user
-
       respond_to do |format|
         if @box.decline_assembly!
-          format.html { redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: "assembly") }
+          format.html do
+            redirect_to box_request_decline_thank_you_path(
+              id: @box.box_request, phase: 'assembly'
+            )
+          end
           format.json { render :show, status: :ok, location: @box }
         else
-
-          format.html { redirect_to root_path, alert: 'Box assembly decline failed.' }
+          format.html do
+            redirect_to root_path, alert: 'Box assembly decline failed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box), notice: "You previously claimed assembly of this Box"
+      redirect_to edit_box_path(@box),
+                  notice: 'You previously claimed assembly of this Box'
     end
   end
 
@@ -51,17 +64,20 @@ class BoxAssemblyController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
 
     respond_to do |format|
-      @box.assembled_by = current_user if !@box.assembled_by_id
+      @box.assembled_by = current_user unless @box.assembled_by_id
 
       if @box.save
-        if @box.aasm_state == "researched"
+        if @box.aasm_state == 'researched'
           @box.claim_assembly!
           @box.complete_assembly!
-        elsif @box.aasm_state == "assembly_in_progress"
+        elsif @box.aasm_state == 'assembly_in_progress'
           @box.complete_assembly!
         end
 
-        format.html { redirect_to box_requests_path, notice: 'Box assembly was successfully claimed.' }
+        format.html do
+          redirect_to box_requests_path,
+                      notice: 'Box assembly was successfully claimed.'
+        end
         format.json { render :show, status: :ok, location: @box }
       else
         format.html { render :edit }
@@ -73,10 +89,7 @@ class BoxAssemblyController < ApplicationController
   private
 
   def box_assembly_params
-    require(:box).permit(
-        :assembled_by_id,
-        :assembled_at,
-    )
+    require(:box).permit(:assembled_by_id, :assembled_at)
   end
 
   def box_claim_scope

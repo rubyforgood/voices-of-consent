@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 module AuthenticationHelpers
   def login(user = FactoryBot.create(:user))
-    user.update_attributes(password: 'password', password_confirmation: 'password')
+    user.update_attributes(
+      password: 'password', password_confirmation: 'password'
+    )
 
     visit user_session_path
     fill_in :user_email, with: user.email

@@ -1,2 +1,3 @@
-module InventoryTalliesHelper
-end
+# frozen_string_literal: true
+
+module InventoryTalliesHelper; end

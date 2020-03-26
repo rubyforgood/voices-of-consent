@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Volunteer, type: :model do
@@ -5,23 +7,28 @@ RSpec.describe Volunteer, type: :model do
     {
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
-      phone: "",
+      phone: '',
       street_address: Faker::Address.street_address,
       city: Faker::Address.city,
       state: Faker::Address.state,
       zip: Faker::Address.zip,
       county: Faker::Address.community,
-      marketing_vector: "friends",
-      why_volunteer: "to help others",
+      marketing_vector: 'friends',
+      why_volunteer: 'to help others',
       ok_to_email: true,
       ok_to_call: true,
       ok_to_mail: true,
       ok_to_text: true,
       underage: false,
-      university_location: Location.create!(
-        name: 'College', street_address: '1', city: 'Testburgh',
-        state: 'PA', zip: 12345, location_type: :university
-      )
+      university_location:
+        Location.create!(
+          name: 'College',
+          street_address: '1',
+          city: 'Testburgh',
+          state: 'PA',
+          zip: 12_345,
+          location_type: :university
+        )
     }
   end
 
@@ -30,9 +37,10 @@ RSpec.describe Volunteer, type: :model do
   end
 
   it 'validates required columns' do
-    required_attributes = Volunteer.validators.select do |v|
-      v.is_a?(ActiveRecord::Validations::PresenceValidator)
-    end.flat_map(&:attributes)
+    required_attributes =
+      Volunteer.validators.select do |v|
+        v.is_a?(ActiveRecord::Validations::PresenceValidator)
+      end.flat_map(&:attributes)
 
     required_attributes.each do |attribute|
       atts = valid_attributes.except(attribute)
@@ -41,9 +49,10 @@ RSpec.describe Volunteer, type: :model do
   end
 
   it 'validates presence columns' do
-    required_attributes = Volunteer.validators.select do |v|
-      v.is_a?(ActiveRecord::Validations::PresenceValidator)
-    end.flat_map(&:attributes)
+    required_attributes =
+      Volunteer.validators.select do |v|
+        v.is_a?(ActiveRecord::Validations::PresenceValidator)
+      end.flat_map(&:attributes)
 
     required_attributes.each do |attribute|
       atts = valid_attributes.except(attribute)
@@ -52,9 +61,10 @@ RSpec.describe Volunteer, type: :model do
   end
 
   it 'validates inclusion columns' do
-    constrained_attributes = Volunteer.validators.select do |v|
-      v.is_a?(ActiveModel::Validations::InclusionValidator)
-    end.flat_map(&:attributes)
+    constrained_attributes =
+      Volunteer.validators.select do |v|
+        v.is_a?(ActiveModel::Validations::InclusionValidator)
+      end.flat_map(&:attributes)
 
     constrained_attributes.each do |attribute|
       atts = valid_attributes.except(attribute)
@@ -85,12 +95,24 @@ RSpec.describe Volunteer, type: :model do
     volunteer = Volunteer.create(attributes)
     expect(volunteer).to_not be_valid
   end
-  
-  it "has a user" do
-    u = User.new()
-    v = Volunteer.new(user: u, first_name: "Jane", last_name: "Doe", street_address: "122 Boggie Woogie Avenue",
-     city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false,
-     ok_to_mail: true, underage: false)
+
+  it 'has a user' do
+    u = User.new
+    v =
+      Volunteer.new(
+        user: u,
+        first_name: 'Jane',
+        last_name: 'Doe',
+        street_address: '122 Boggie Woogie Avenue',
+        city: 'Fairfax',
+        state: 'VA',
+        zip: '22030',
+        ok_to_email: true,
+        ok_to_text: false,
+        ok_to_call: false,
+        ok_to_mail: true,
+        underage: false
+      )
     expect(v).to be_valid
     expect(v.user.id).to eq(u.id)
   end

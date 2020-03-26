@@ -1,5 +1,6 @@
-class BoxResearchController < ApplicationController
+# frozen_string_literal: true
 
+class BoxResearchController < ApplicationController
   def new
     @box = box_claim_scope.find(params[:box_id])
   end
@@ -11,17 +12,25 @@ class BoxResearchController < ApplicationController
       respond_to do |format|
         @box.researched_by = current_user
         if @box.save
-          if @box.aasm_state == "designed"
+          if @box.aasm_state == 'designed'
             @box.claim_research!
-          elsif @box.aasm_state == "researched"
+          elsif @box.aasm_state == 'researched'
             @box.mark_as_researched!
           end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "research"), notice: 'Box research was successfully claimed.' }
+          format.html do
+            redirect_to box_request_claim_thank_you_path(
+              @box.box_request,
+              'research'
+            ),
+                        notice: 'Box research was successfully claimed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json { render json: @box.errors, status: :unprocessable_entity }
+          format.json do
+            render json: @box.errors, status: :unprocessable_entity
+          end
         end
       end
     else
@@ -32,19 +41,24 @@ class BoxResearchController < ApplicationController
   def decline
     @box = request_review_scope.find(params[:box_id])
     if @box.researched_by != current_user
-
       respond_to do |format|
         if @box.decline_research!
-          format.html { redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: "research") }
+          format.html do
+            redirect_to box_request_decline_thank_you_path(
+              id: @box.box_request, phase: 'research'
+            )
+          end
           format.json { render :show, status: :ok, location: @box }
         else
-
-          format.html { redirect_to root_path, alert: 'Box research decline failed.' }
+          format.html do
+            redirect_to root_path, alert: 'Box research decline failed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box), notice: "You previously claimed research of this Box"
+      redirect_to edit_box_path(@box),
+                  notice: 'You previously claimed research of this Box'
     end
   end
 
@@ -52,19 +66,22 @@ class BoxResearchController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
 
     respond_to do |format|
-      @box.researched_by = current_user if @box.researched_by_id == nil
+      @box.researched_by = current_user if @box.researched_by_id.nil?
 
       if @box.save
-        if @box.aasm_state == "designed"
+        if @box.aasm_state == 'designed'
           @box.claim_research!
           @box.complete_research!
-        elsif @box.aasm_state == "research_in_progress"
+        elsif @box.aasm_state == 'research_in_progress'
           @box.complete_research!
-        elsif @box.aasm_state == "researched"
+        elsif @box.aasm_state == 'researched'
           @box.mark_as_researched!
         end
 
-        format.html { redirect_to box_requests_path, notice: 'Box design was successfully claimed.' }
+        format.html do
+          redirect_to box_requests_path,
+                      notice: 'Box design was successfully claimed.'
+        end
         format.json { render :show, status: :ok, location: @box }
       else
         format.html { render :edit }
@@ -73,14 +90,10 @@ class BoxResearchController < ApplicationController
     end
   end
 
-
   private
 
   def box_research_params
-    require(:box).permit(
-        :researched_by_id,
-        :researched_at,
-    )
+    require(:box).permit(:researched_by_id, :researched_at)
   end
 
   def box_claim_scope

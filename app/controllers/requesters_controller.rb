@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class RequestersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new, :thank_you]
-  before_action :set_requester, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_user!, only: %i[new thank_you]
+  before_action :set_requester, only: %i[show edit update destroy]
 
   # GET /requesters
   # GET /requesters.json
@@ -9,16 +11,16 @@ class RequestersController < ApplicationController
   end
 
   def index_for_selections
-    @requesters = Requester.all.map { |requester| { id: requester.id, name: requester.name } }
-    respond_to do |format|
-      format.json { render json: @requesters }
-    end
+    @requesters =
+      Requester.all.map do |requester|
+        { id: requester.id, name: requester.name }
+      end
+    respond_to { |format| format.json { render json: @requesters } }
   end
 
   # GET /requesters/1
   # GET /requesters/1.json
-  def show
-  end
+  def show; end
 
   # GET /requesters/new
   def new
@@ -27,8 +29,7 @@ class RequestersController < ApplicationController
   end
 
   # GET /requesters/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /requesters
   # POST /requesters.json
@@ -37,11 +38,15 @@ class RequestersController < ApplicationController
 
     respond_to do |format|
       if @requester.save
-        format.html { redirect_to @requester, notice: 'Requester was successfully created.' }
+        format.html do
+          redirect_to @requester, notice: 'Requester was successfully created.'
+        end
         format.json { render :show, status: :created, location: @requester }
       else
         format.html { render :new }
-        format.json { render json: @requester.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @requester.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -51,11 +56,15 @@ class RequestersController < ApplicationController
   def update
     respond_to do |format|
       if @requester.update(requester_params)
-        format.html { redirect_to @requester, notice: 'Requester was successfully updated.' }
+        format.html do
+          redirect_to @requester, notice: 'Requester was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @requester }
       else
         format.html { render :edit }
-        format.json { render json: @requester.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @requester.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -65,25 +74,44 @@ class RequestersController < ApplicationController
   def destroy
     @requester.destroy
     respond_to do |format|
-      format.html { redirect_to requesters_url, notice: 'Requester was successfully destroyed.' }
+      format.html do
+        redirect_to requesters_url,
+                    notice: 'Requester was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   def thank_you
     respond_to do |format|
-      format.html { render :layout => "outreach_form_layout" }
+      format.html { render layout: 'outreach_form_layout' }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_requester
-      @requester = Requester.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def requester_params
-      params.require(:requester).permit(:first_name, :last_name, :email, :street_address, :city, :state, :zip, :county, :phone, :ok_to_email, :ok_to_text, :ok_to_call, :ok_to_mail, :underage)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_requester
+    @requester = Requester.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def requester_params
+    params.require(:requester).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :street_address,
+      :city,
+      :state,
+      :zip,
+      :county,
+      :phone,
+      :ok_to_email,
+      :ok_to_text,
+      :ok_to_call,
+      :ok_to_mail,
+      :underage
+    )
+  end
 end

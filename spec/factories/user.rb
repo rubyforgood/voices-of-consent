@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
-  factory :user, aliases: [:sent_by, :sendable, :created_by, :updated_by] do
+  factory :user, aliases: %i[sent_by sendable created_by updated_by] do
     volunteer
     email { Faker::Internet.email }
 
@@ -32,7 +34,7 @@ FactoryBot.define do
 
   factory :admin do
     email { Faker::Internet.email }
-    password { "password" }
-    password_confirmation { "password" }
+    password { 'password' }
+    password_confirmation { 'password' }
   end
 end

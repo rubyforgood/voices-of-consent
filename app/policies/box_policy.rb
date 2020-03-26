@@ -45,13 +45,15 @@ class BoxPolicy
 
     def resolve
       if BoxPolicy.new(user, scope).can_review_box_request?
-        scope.where("reviewed_by_id = ? OR reviewed_by_id IS NULL", user.id)
+        scope.where('reviewed_by_id = ? OR reviewed_by_id IS NULL', user.id)
       end
     end
   end
 
   def can_review_box_request?
-    !!UserPermission.find_by(user: user, permission: Permission::REQUEST_REVIEWER)
+    !!UserPermission.find_by(
+      user: user, permission: Permission::REQUEST_REVIEWER
+    )
   end
 
   class AssemblyScope

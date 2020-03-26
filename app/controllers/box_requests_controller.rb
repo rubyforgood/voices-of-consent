@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BoxRequestsController < ApplicationController
   before_action :set_box_request, only: %i[show edit update destroy]
 
@@ -9,16 +11,19 @@ class BoxRequestsController < ApplicationController
     if params[:filter_by].present?
       (filter_attr = params[:filter_by])
       @box_requests = @box_requests.public_send(filter_attr)
-      @box_requests.where(reviewed_by_id: params[:current_user_id]) if params[:current_user_id].present?
+      if params[:current_user_id].present?
+        @box_requests.where(reviewed_by_id: params[:current_user_id])
+      end
     end
   end
 
   # GET /box_requests/box_requests.json
   def index_for_selections
-     @box_requests = BoxRequest.all.map { |box_request| { id: box_request.id, name: box_request.name } }
-     respond_to do |format|
-      format.json { render json: @box_requests }
-     end
+    @box_requests =
+      BoxRequest.all.map do |box_request|
+        { id: box_request.id, name: box_request.name }
+      end
+    respond_to { |format| format.json { render json: @box_requests } }
   end
 
   # GET /box_requests/1
@@ -44,11 +49,16 @@ class BoxRequestsController < ApplicationController
 
     respond_to do |format|
       if @box_request.save
-        format.html { redirect_to box_requests_path, notice: 'Box request was successfully created.' }
+        format.html do
+          redirect_to box_requests_path,
+                      notice: 'Box request was successfully created.'
+        end
         format.json { render :show, status: :created, location: @box_request }
       else
         format.html { render :new }
-        format.json { render json: @box_request.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @box_request.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -57,20 +67,25 @@ class BoxRequestsController < ApplicationController
   # PATCH/PUT /box_requests/1.json
   def update
     respond_to do |format|
-      @box_request.reviewed_by_id = current_user.id if @box_request.reviewed_by_id == nil
-      if @box_request.aasm_state == "requested"
+      @box_request.reviewed_by_id = current_user.id if @box_request.reviewed_by_id.nil?
+      if @box_request.aasm_state == 'requested'
         @box_request.claim_review!
         @box_request.complete_review!
-      elsif @box_request.aasm_state == "review_in_progress"
+      elsif @box_request.aasm_state == 'review_in_progress'
         @box_request.complete_review!
       end
 
       if @box_request.update(box_request_params)
-        format.html { redirect_to box_requests_path, notice: 'Box request was successfully updated.' }
+        format.html do
+          redirect_to box_requests_path,
+                      notice: 'Box request was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @box_request }
       else
         format.html { render :edit }
-        format.json { render json: @box_request.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @box_request.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -80,7 +95,10 @@ class BoxRequestsController < ApplicationController
   def destroy
     @box_request.destroy
     respond_to do |format|
-      format.html { redirect_to box_requests_url, notice: 'Box request was successfully destroyed.' }
+      format.html do
+        redirect_to box_requests_url,
+                    notice: 'Box request was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
@@ -88,19 +106,24 @@ class BoxRequestsController < ApplicationController
   def decline
     @box_request = request_review_scope.find(params[:id])
     if @box_request.reviewed_by_id != current_user.id
-
       respond_to do |format|
         if @box_request.decline_review!
-          format.html { redirect_to box_request_decline_thank_you_path(id: @box_request, phase: "review") }
+          format.html do
+            redirect_to box_request_decline_thank_you_path(
+              id: @box_request, phase: 'review'
+            )
+          end
           format.json { render :show, status: :ok, location: @box_request }
         else
-
-          format.html { redirect_to root_path, alert: 'Box request review decline failed.' }
+          format.html do
+            redirect_to root_path, alert: 'Box request review decline failed.'
+          end
           format.json { render :show, status: :ok, location: @box_request }
         end
       end
     else
-      redirect_to edit_box_request_path(@box_request), notice: "You previously claimed review of this Box"
+      redirect_to edit_box_request_path(@box_request),
+                  notice: 'You previously claimed review of this Box'
     end
   end
 
@@ -110,16 +133,23 @@ class BoxRequestsController < ApplicationController
     if !@box_request.reviewed_by_id || @box_request.reviewed_by == current_user
       respond_to do |format|
         @box_request.reviewed_by = current_user
-        if @box_request.save
-          if @box_request.aasm_state == "requested"
-            @box_request.claim_review!
-          end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box_request, "review"), notice: 'Box request review was successfully claimed.' }
+        if @box_request.save
+          @box_request.claim_review! if @box_request.aasm_state == 'requested'
+
+          format.html do
+            redirect_to box_request_claim_thank_you_path(
+              @box_request,
+              'review'
+            ),
+                        notice: 'Box request review was successfully claimed.'
+          end
           format.json { render :show, status: :ok, location: @box_request }
         else
           format.html { render :edit }
-          format.json { render json: @box_request.errors, status: :unprocessable_entity }
+          format.json do
+            render json: @box_request.errors, status: :unprocessable_entity
+          end
         end
       end
     else
@@ -131,6 +161,7 @@ class BoxRequestsController < ApplicationController
     @box_request = request_review_scope.find(params[:id])
     @phase = params[:phase]
     if current_user
+
     else
       render layout: false
     end
@@ -155,15 +186,16 @@ class BoxRequestsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def box_request_params
-    params.require(:box_request).permit(:question_re_current_situation,
-                                        :question_re_affect,
-                                        :question_re_referral_source,
-                                        :question_re_if_not_self_completed,
-                                        :summary,
-                                        :reviewed_by_id,
-                                        :reviewed_at,
-                                        :tag_list,
-                                        review_declined_by_ids: [],
+    params.require(:box_request).permit(
+      :question_re_current_situation,
+      :question_re_affect,
+      :question_re_referral_source,
+      :question_re_if_not_self_completed,
+      :summary,
+      :reviewed_by_id,
+      :reviewed_at,
+      :tag_list,
+      review_declined_by_ids: []
     )
   end
 

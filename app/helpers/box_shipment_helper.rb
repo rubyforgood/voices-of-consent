@@ -1,2 +1,3 @@
-module BoxShipmentHelper
-end
+# frozen_string_literal: true
+
+module BoxShipmentHelper; end

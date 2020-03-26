@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user_permission do
     user
@@ -15,7 +17,7 @@ FactoryBot.define do
     end
 
     trait :can_research do
-      permission { Permission::BOX_ITEM_RESEARCHER}
+      permission { Permission::BOX_ITEM_RESEARCHER }
     end
 
     trait :can_review do

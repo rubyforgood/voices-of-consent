@@ -1,8 +1,9 @@
-class HomeController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:contact]
+# frozen_string_literal: true
 
-  def index
-  end
+class HomeController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[contact]
+
+  def index; end
 
   def contact
     render :contact, layout: 'embed'

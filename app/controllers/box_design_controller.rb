@@ -1,5 +1,6 @@
-class BoxDesignController < ApplicationController
+# frozen_string_literal: true
 
+class BoxDesignController < ApplicationController
   def new
     @box = box_claim_scope.find(params[:box_id])
     @box_items = @box.box_items
@@ -11,16 +12,23 @@ class BoxDesignController < ApplicationController
     if !@box.designed_by_id || @box.designed_by == current_user
       respond_to do |format|
         @box.designed_by = current_user
-        if @box.save
-          if @box.aasm_state == "reviewed"
-            @box.claim_design!
-          end
 
-          format.html { redirect_to box_request_claim_thank_you_path(@box.box_request, "design"), notice: 'Box design was successfully claimed.' }
+        if @box.save
+          @box.claim_design! if @box.aasm_state == 'reviewed'
+
+          format.html do
+            redirect_to box_request_claim_thank_you_path(
+              @box.box_request,
+              'design'
+            ),
+                        notice: 'Box design was successfully claimed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json { render json: @box.errors, status: :unprocessable_entity }
+          format.json do
+            render json: @box.errors, status: :unprocessable_entity
+          end
         end
       end
     else
@@ -31,19 +39,24 @@ class BoxDesignController < ApplicationController
   def decline
     @box = request_review_scope.find(params[:box_id])
     if @box.designed_by != current_user
-
       respond_to do |format|
         if @box.decline_design!
-          format.html { redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: "design") }
+          format.html do
+            redirect_to box_request_decline_thank_you_path(
+              id: @box.box_request, phase: 'design'
+            )
+          end
           format.json { render :show, status: :ok, location: @box }
         else
-
-          format.html { redirect_to root_path, alert: 'Box design decline failed.' }
+          format.html do
+            redirect_to root_path, alert: 'Box design decline failed.'
+          end
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box), notice: "You previously claimed design of this Box"
+      redirect_to edit_box_path(@box),
+                  notice: 'You previously claimed design of this Box'
     end
   end
 
@@ -51,17 +64,20 @@ class BoxDesignController < ApplicationController
     @box = box_claim_scope.find(params[:box_id])
 
     respond_to do |format|
-      @box.designed_by = current_user if !@box.designed_by_id
+      @box.designed_by = current_user unless @box.designed_by_id
 
       if @box.save
-        if @box.aasm_state == "reviewed"
+        if @box.aasm_state == 'reviewed'
           @box.claim_design!
           @box.complete_design!
-        elsif @box.aasm_state == "design_in_progress"
+        elsif @box.aasm_state == 'design_in_progress'
           @box.complete_design!
         end
 
-        format.html { redirect_to box_requests_path, notice: 'Box design was successfully claimed.' }
+        format.html do
+          redirect_to box_requests_path,
+                      notice: 'Box design was successfully claimed.'
+        end
         format.json { render :show, status: :ok, location: @box }
       else
         format.html { render :edit }
@@ -77,7 +93,7 @@ class BoxDesignController < ApplicationController
       :designed_by_id,
       :designed_at,
       :design_reviewed_by_id,
-      :design_reviewed_at,
+      :design_reviewed_at
     )
   end
 

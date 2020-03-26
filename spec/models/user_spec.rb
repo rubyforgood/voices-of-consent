@@ -1,15 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe User, :type => :model do
-  it "is valid with valid attributes"
+RSpec.describe User, type: :model do
+  it 'is valid with valid attributes'
 
-  describe "#grant_all_permissions!" do
-    it "ensures a user has all available permissions" do
+  describe '#grant_all_permissions!' do
+    it 'ensures a user has all available permissions' do
       user = create(:user)
       expect(user.user_permissions.count).to eq(0)
 
       user.grant_all_permissions!
-      expect(user.user_permissions.count).to eq(Permission::AVAILABLE_PERMISSIONS.count)
+      expect(user.user_permissions.count).to eq(
+        Permission::AVAILABLE_PERMISSIONS.count
+      )
     end
 
     it "doesn't create any duplicative permissions" do
@@ -17,7 +21,10 @@ RSpec.describe User, :type => :model do
       user = user_permission.user
 
       user.grant_all_permissions!
-      expect(user.user_permissions.where(permission: user_permission.permission).count).to eq(1)
+      expect(
+        user.user_permissions.where(permission: user_permission.permission)
+          .count
+      ).to eq(1)
     end
   end
 end

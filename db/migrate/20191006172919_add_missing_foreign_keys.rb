@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
   def change
     # box_items table
@@ -6,7 +8,7 @@ class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
     add_foreign_key :box_items, :users, column: :created_by_id
     add_foreign_key :box_items, :users, column: :researched_by_id
     add_foreign_key :box_items, :users, column: :updated_by_id
-    
+
     # box_requests table
     add_foreign_key :box_requests, :requesters
 
@@ -19,7 +21,7 @@ class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
 
     # inventory_adjustments table
     add_foreign_key :inventory_tallies, :inventory_types
-    
+
     # message_logs table
     add_foreign_key :message_logs, :users, column: :sent_to_id
     add_foreign_key :message_logs, :users, column: :sent_by_id
@@ -34,7 +36,7 @@ class AddMissingForeignKeys < ActiveRecord::Migration[5.2]
     # users
     add_foreign_key :users, :volunteers, column: :volunteer_id
 
-    #volunteers
+    # volunteers
     add_foreign_key :volunteers, :locations, column: :university_location_id
   end
 end

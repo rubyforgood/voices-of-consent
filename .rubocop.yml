@@ -1,9 +1,17 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   Exclude:
     - 'Gemfile'
     - 'Rakefile'
     - 'spec/spec_helper.rb'
+    - 'node_modules/**/*'
+
 Metrics/LineLength:
   Max: 100
+  IgnoredPatterns: ['(\A|\s)#']
+  Exclude:
+    - 'spec/models/box_request_spec.rb'
+
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context']
+  ExcludedMethods: ['describe', 'context', 'define', 'setup']

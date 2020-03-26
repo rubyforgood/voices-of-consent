@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VolunteerApplicationController < ApplicationController
   skip_before_action :authenticate_user!, only: :create
 
@@ -10,31 +12,35 @@ class VolunteerApplicationController < ApplicationController
     @payload = application_params
     volunteer = Volunteer.new
 
-    [:first_name,
-     :last_name,
-     :phone,
-     :street_address,
-     :city,
-     :state,
-     :zip,
-     :county,
-     :marketing_vector,
-     :why_volunteer,
-     :university_location_id,
-     :graduation_year
-   ].each do |volunteer_attribute|
-      volunteer.assign_attributes(volunteer_attribute => @payload[volunteer_attribute])
+    %i[
+      first_name
+      last_name
+      phone
+      street_address
+      city
+      state
+      zip
+      county
+      marketing_vector
+      why_volunteer
+      university_location_id
+      graduation_year
+    ].each do |volunteer_attribute|
+      volunteer.assign_attributes(
+        volunteer_attribute => @payload[volunteer_attribute]
+      )
     end
 
-    #making is_underage to underage
+    # making is_underage to underage
     volunteer.underage = @payload[:is_underage]
 
-    #nil checking these four
-    [:ok_to_email,
-     :ok_to_text,
-     :ok_to_call,
-     :ok_to_mail
-   ].each do |volunteer_attribute|
+    # nil checking these four
+    %i[
+      ok_to_email
+      ok_to_text
+      ok_to_call
+      ok_to_mail
+    ].each do |volunteer_attribute|
       value = @payload[volunteer_attribute]
       value = false if value.nil?
       volunteer.assign_attributes(volunteer_attribute => value)
@@ -42,8 +48,7 @@ class VolunteerApplicationController < ApplicationController
 
     volunteer.save!
 
-    render json: { "redirect_url": volunteers_thank_you_path },
-           status: 200
+    render json: { "redirect_url": volunteers_thank_you_path }, status: 200
   end
 
   private

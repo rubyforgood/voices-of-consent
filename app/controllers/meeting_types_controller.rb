@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class MeetingTypesController < ApplicationController
-  before_action :set_meeting_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_meeting_type, only: %i[show edit update destroy]
 
   # GET /meeting_types
   # GET /meeting_types.json
@@ -9,8 +11,7 @@ class MeetingTypesController < ApplicationController
 
   # GET /meeting_types/1
   # GET /meeting_types/1.json
-  def show
-  end
+  def show; end
 
   # GET /meeting_types/new
   def new
@@ -18,8 +19,7 @@ class MeetingTypesController < ApplicationController
   end
 
   # GET /meeting_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /meeting_types
   # POST /meeting_types.json
@@ -28,11 +28,16 @@ class MeetingTypesController < ApplicationController
 
     respond_to do |format|
       if @meeting_type.save
-        format.html { redirect_to @meeting_type, notice: 'Meeting type was successfully created.' }
+        format.html do
+          redirect_to @meeting_type,
+                      notice: 'Meeting type was successfully created.'
+        end
         format.json { render :show, status: :created, location: @meeting_type }
       else
         format.html { render :new }
-        format.json { render json: @meeting_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @meeting_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -42,11 +47,16 @@ class MeetingTypesController < ApplicationController
   def update
     respond_to do |format|
       if @meeting_type.update(meeting_type_params)
-        format.html { redirect_to @meeting_type, notice: 'Meeting type was successfully updated.' }
+        format.html do
+          redirect_to @meeting_type,
+                      notice: 'Meeting type was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @meeting_type }
       else
         format.html { render :edit }
-        format.json { render json: @meeting_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @meeting_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -56,19 +66,23 @@ class MeetingTypesController < ApplicationController
   def destroy
     @meeting_type.destroy
     respond_to do |format|
-      format.html { redirect_to meeting_types_url, notice: 'Meeting type was successfully destroyed.' }
+      format.html do
+        redirect_to meeting_types_url,
+                    notice: 'Meeting type was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_meeting_type
-      @meeting_type = MeetingType.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def meeting_type_params
-      params.require(:meeting_type).permit(:name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_meeting_type
+    @meeting_type = MeetingType.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def meeting_type_params
+    params.require(:meeting_type).permit(:name, :description)
+  end
 end

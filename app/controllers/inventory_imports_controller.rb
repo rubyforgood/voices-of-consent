@@ -1,8 +1,8 @@
-class InventoryImportsController < ApplicationController
+# frozen_string_literal: true
 
+class InventoryImportsController < ApplicationController
   # GET /inventory_imports/new
-  def new
-  end
+  def new; end
 
   # POST /inventory_imports
   def create
@@ -14,11 +14,11 @@ class InventoryImportsController < ApplicationController
     notices << "Failed to update #{results.errored.count} tallies." if results.errored.any?
 
     if results.succeeded.any?
-      flash[:notice] = notices.join(" ")
+      flash[:notice] = notices.join(' ')
       redirect_to inventory_tallies_url
     else
-      notices << "Please check file formatting and try again."
-      flash.now[:notice] = notices.join(" ")
+      notices << 'Please check file formatting and try again.'
+      flash.now[:notice] = notices.join(' ')
       render :new
     end
   end

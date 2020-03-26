@@ -1,2 +1,3 @@
-module RequestersHelper
-end
+# frozen_string_literal: true
+
+module RequestersHelper; end

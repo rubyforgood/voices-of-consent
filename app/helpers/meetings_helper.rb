@@ -1,2 +1,3 @@
-module MeetingsHelper
-end
+# frozen_string_literal: true
+
+module MeetingsHelper; end

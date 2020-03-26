@@ -1,26 +1,32 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "purchases/new", type: :view do
+RSpec.describe 'purchases/new', type: :view do
   before(:each) do
-    @purchase = create(:purchase,
-      :total_price => 1.5,
-      :purchased_by => nil,
-      :reimbursed_by => nil,
-      :reimbursement_check_number => "MyString",
-      :reimbursement_status => "MyString"
-    )
+    @purchase =
+      create(
+        :purchase,
+        total_price: 1.5,
+        purchased_by: nil,
+        reimbursed_by: nil,
+        reimbursement_check_number: 'MyString',
+        reimbursement_status: 'MyString'
+      )
   end
 
-  it "renders new purchase form" do
+  it 'renders new purchase form' do
     render
 
-    assert_select "form[action=?][method=?]", purchase_path(@purchase), "post" do
-      assert_select "select[name=?]", "purchase[location_id]"
-      assert_select "input[name=?]", "purchase[total_price]"
-      assert_select "select[name=?]", "purchase[purchased_by_id]"
-      assert_select "select[name=?]", "purchase[reimbursed_by_id]"
-      assert_select "input[name=?]", "purchase[reimbursement_check_number]"
-      assert_select "input[name=?]", "purchase[reimbursement_status]"
+    assert_select 'form[action=?][method=?]',
+                  purchase_path(@purchase),
+                  'post' do
+      assert_select 'select[name=?]', 'purchase[location_id]'
+      assert_select 'input[name=?]', 'purchase[total_price]'
+      assert_select 'select[name=?]', 'purchase[purchased_by_id]'
+      assert_select 'select[name=?]', 'purchase[reimbursed_by_id]'
+      assert_select 'input[name=?]', 'purchase[reimbursement_check_number]'
+      assert_select 'input[name=?]', 'purchase[reimbursement_status]'
     end
   end
 end

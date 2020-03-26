@@ -1,18 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "inventory_types/new", type: :view do
-  before(:each) do
-    @inventory_type = create(:inventory_type)
-  end
+RSpec.describe 'inventory_types/new', type: :view do
+  before(:each) { @inventory_type = create(:inventory_type) }
 
-  it "renders new inventory_type form" do
+  it 'renders new inventory_type form' do
     render
 
-    assert_select "form[action=?][method=?]", inventory_type_path(@inventory_type), "post" do
+    assert_select 'form[action=?][method=?]',
+                  inventory_type_path(@inventory_type),
+                  'post' do
+      assert_select 'input[name=?]', 'inventory_type[name]'
 
-      assert_select "input[name=?]", "inventory_type[name]"
-
-      assert_select "input[name=?]", "inventory_type[description]"
+      assert_select 'input[name=?]', 'inventory_type[description]'
     end
   end
 end

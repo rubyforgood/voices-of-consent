@@ -4,9 +4,7 @@ require 'rails_helper'
 require 'spec_helper'
 RSpec.describe 'shared/_navigation.html.erb', type: :view do
   context 'user_signed_in? false' do
-    before do
-      allow(view).to receive(:user_signed_in?).and_return(false)
-    end
+    before { allow(view).to receive(:user_signed_in?).and_return(false) }
 
     it 'renders navigation bar' do
       render
@@ -31,13 +29,21 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
 
       assert_select "a[href='/box_requests']", text: 'Status', count: 1
       base_url = '/box_requests?filter_by='
-      assert_select "a[href='#{base_url}review_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}review_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Review', count: 1
-      assert_select "a[href='#{base_url}design_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}design_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Design', count: 1
-      assert_select "a[href='#{base_url}assembly_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}assembly_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Packing', count: 1
-      assert_select "a[href='#{base_url}shipping_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}shipping_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Shipping', count: 1
     end
   end
@@ -55,19 +61,27 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
 
       assert_select "a[href='/box_requests']", text: 'Status', count: 1
       base_url = '/box_requests?filter_by='
-      assert_select "a[href='#{base_url}review_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}review_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Review', count: 0
       assert_select "a[href='#{base_url}review_in_progress']",
                     text: 'Review', count: 1
-      assert_select "a[href='#{base_url}design_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}design_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Design', count: 0
       assert_select "a[href='#{base_url}design_in_progress']",
                     text: 'Design', count: 1
-      assert_select "a[href='#{base_url}assembly_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}assembly_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Packing', count: 0
       assert_select "a[href='#{base_url}assembly_in_progress']",
                     text: 'Packing', count: 1
-      assert_select "a[href='#{base_url}shipping_in_progress&current_user_id=#{@user.id}']",
+      assert_select "a[href='#{base_url}shipping_in_progress&current_user_id=#{
+                      @user.id
+                    }']",
                     text: 'Shipping', count: 0
       assert_select "a[href='#{base_url}shipping_in_progress']",
                     text: 'Shipping', count: 1

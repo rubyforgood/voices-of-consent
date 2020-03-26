@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 namespace :users do
-  task :create => :environment do
-    if !ENV['EMAIL']
-      puts "ERROR: include an EMAIL= environment variable"
+  task create: :environment do
+    unless ENV['EMAIL']
+      puts 'ERROR: include an EMAIL= environment variable'
       exit 1
     end
 
@@ -9,8 +11,8 @@ namespace :users do
     passwd = SecureRandom.hex(12)
 
     user = User.create! email: email,
-      password: passwd,
-      password_confirmation: passwd
+                        password: passwd,
+                        password_confirmation: passwd
 
     puts "CREATED USER #{user.id} WITH"
     puts "  email: #{user.email}"

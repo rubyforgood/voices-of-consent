@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Pundit
 
@@ -8,8 +10,10 @@ class ApplicationController < ActionController::Base
   layout 'application_full'
 
   private
+
   def storable_location?
-    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+    request.get? && is_navigational_format? && !devise_controller? &&
+      !request.xhr?
   end
 
   def store_user_location!
