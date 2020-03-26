@@ -8,8 +8,12 @@
     <tr>
       <td> <%= user.email %> </td>
       <td>
-        <% if user.invitation_sent_at? %>
-          <%= user.invitation_accepted? %>
+        <% if user.invitation_accepted? %>
+          Invited and Accepted
+        <% elsif user.invitation_sent_at? %>
+          Invited but not Accepted yet
+        <% else %>
+          Not Invited
         <% end %>
       </td>
    </tr>
