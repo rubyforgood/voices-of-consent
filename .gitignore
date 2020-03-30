@@ -72,6 +72,8 @@ yarn-debug.log*
 /storage/*
 !/storage/.keep
 
+# Ignore simple-cov files
+/coverage
 
 .tool-versions
 .rails_routes_rb~
