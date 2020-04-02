@@ -55,8 +55,24 @@ RSpec.describe Location, type: :model do
     expect(volunteer.reload.university_location).to be_nil
   end
 
-  it do
-    is_expected.to have_many(:assembled_boxes).class_name('Box'),
-                   foreign_key: 'assembly_location_id', inverse_of: :assembly_location
+
+  it { 
+    is_expected.to have_many(:assembled_boxes)
+    .class_name('Box'),
+    foreign_key: 'assembly_location_id',
+    inverse_of: :assembly_location
+  }
+
+  context 'after_create' do
+    context 'when location_type is storage_unit' do
+      before do
+        create_list(:inventory_type, 4)
+      end
+
+      it 'should create a InventoryTally to each InventoryType' do
+        location = create(:location, location_type: "storage_unit")
+        expect(InventoryTally.where(storage_location: location).count).to eq(4)
+      end
+    end
   end
 end

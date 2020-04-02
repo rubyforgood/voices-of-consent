@@ -14,6 +14,8 @@ class Location < ApplicationRecord
   validates :name, presence: true
   validates :location_type, presence: true
 
+  after_create :create_inventory_tallies, if: :storage_unit?
+
   enum location_type: {
     # Example types from ERD
     # Can't call it `store` because it's an AR method
@@ -24,4 +26,12 @@ class Location < ApplicationRecord
     distribution_partner: 4,
     university: 5
   }
+
+  private
+
+  def create_inventory_tallies
+    InventoryType.all.each do |inventory_type|
+      inventory_tallies.create(inventory_type: inventory_type)
+    end
+  end
 end
