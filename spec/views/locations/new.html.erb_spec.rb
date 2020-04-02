@@ -8,9 +8,7 @@ RSpec.describe 'locations/new', type: :view do
   it 'renders new location form' do
     render
 
-    assert_select 'form[action=?][method=?]',
-                  location_path(@location),
-                  'post' do
+    assert_select 'form[action=?][method=?]', location_path(@location), 'post' do
       assert_select 'input[name=?]', 'location[name]'
 
       assert_select 'input[name=?]', 'location[street_address]'

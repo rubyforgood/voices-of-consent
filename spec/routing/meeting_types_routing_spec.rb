@@ -17,10 +17,7 @@ RSpec.describe MeetingTypesController, type: :routing do
     end
 
     it 'routes to #edit' do
-      expect(get: '/meeting_types/1/edit').to route_to(
-        'meeting_types#edit',
-        id: '1'
-      )
+      expect(get: '/meeting_types/1/edit').to route_to('meeting_types#edit', id: '1')
     end
 
     it 'routes to #create' do
@@ -28,24 +25,15 @@ RSpec.describe MeetingTypesController, type: :routing do
     end
 
     it 'routes to #update via PUT' do
-      expect(put: '/meeting_types/1').to route_to(
-        'meeting_types#update',
-        id: '1'
-      )
+      expect(put: '/meeting_types/1').to route_to('meeting_types#update', id: '1')
     end
 
     it 'routes to #update via PATCH' do
-      expect(patch: '/meeting_types/1').to route_to(
-        'meeting_types#update',
-        id: '1'
-      )
+      expect(patch: '/meeting_types/1').to route_to('meeting_types#update', id: '1')
     end
 
     it 'routes to #destroy' do
-      expect(delete: '/meeting_types/1').to route_to(
-        'meeting_types#destroy',
-        id: '1'
-      )
+      expect(delete: '/meeting_types/1').to route_to('meeting_types#destroy', id: '1')
     end
   end
 end

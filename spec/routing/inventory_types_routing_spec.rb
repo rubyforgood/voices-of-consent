@@ -13,17 +13,11 @@ RSpec.describe InventoryTypesController, type: :routing do
     end
 
     it 'routes to #show' do
-      expect(get: '/inventory_types/1').to route_to(
-        'inventory_types#show',
-        id: '1'
-      )
+      expect(get: '/inventory_types/1').to route_to('inventory_types#show', id: '1')
     end
 
     it 'routes to #edit' do
-      expect(get: '/inventory_types/1/edit').to route_to(
-        'inventory_types#edit',
-        id: '1'
-      )
+      expect(get: '/inventory_types/1/edit').to route_to('inventory_types#edit', id: '1')
     end
 
     it 'routes to #create' do
@@ -31,24 +25,15 @@ RSpec.describe InventoryTypesController, type: :routing do
     end
 
     it 'routes to #update via PUT' do
-      expect(put: '/inventory_types/1').to route_to(
-        'inventory_types#update',
-        id: '1'
-      )
+      expect(put: '/inventory_types/1').to route_to('inventory_types#update', id: '1')
     end
 
     it 'routes to #update via PATCH' do
-      expect(patch: '/inventory_types/1').to route_to(
-        'inventory_types#update',
-        id: '1'
-      )
+      expect(patch: '/inventory_types/1').to route_to('inventory_types#update', id: '1')
     end
 
     it 'routes to #destroy' do
-      expect(delete: '/inventory_types/1').to route_to(
-        'inventory_types#destroy',
-        id: '1'
-      )
+      expect(delete: '/inventory_types/1').to route_to('inventory_types#destroy', id: '1')
     end
   end
 end

@@ -20,9 +20,7 @@ class BoxRequestsController < ApplicationController
   # GET /box_requests/box_requests.json
   def index_for_selections
     @box_requests =
-      BoxRequest.all.map do |box_request|
-        { id: box_request.id, name: box_request.name }
-      end
+      BoxRequest.all.map { |box_request| { id: box_request.id, name: box_request.name } }
     respond_to { |format| format.json { render json: @box_requests } }
   end
 
@@ -50,15 +48,12 @@ class BoxRequestsController < ApplicationController
     respond_to do |format|
       if @box_request.save
         format.html do
-          redirect_to box_requests_path,
-                      notice: 'Box request was successfully created.'
+          redirect_to box_requests_path, notice: 'Box request was successfully created.'
         end
         format.json { render :show, status: :created, location: @box_request }
       else
         format.html { render :new }
-        format.json do
-          render json: @box_request.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @box_request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -77,15 +72,12 @@ class BoxRequestsController < ApplicationController
 
       if @box_request.update(box_request_params)
         format.html do
-          redirect_to box_requests_path,
-                      notice: 'Box request was successfully updated.'
+          redirect_to box_requests_path, notice: 'Box request was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @box_request }
       else
         format.html { render :edit }
-        format.json do
-          render json: @box_request.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @box_request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -96,8 +88,7 @@ class BoxRequestsController < ApplicationController
     @box_request.destroy
     respond_to do |format|
       format.html do
-        redirect_to box_requests_url,
-                    notice: 'Box request was successfully destroyed.'
+        redirect_to box_requests_url, notice: 'Box request was successfully destroyed.'
       end
       format.json { head :no_content }
     end
@@ -109,15 +100,11 @@ class BoxRequestsController < ApplicationController
       respond_to do |format|
         if @box_request.decline_review!
           format.html do
-            redirect_to box_request_decline_thank_you_path(
-              id: @box_request, phase: 'review'
-            )
+            redirect_to box_request_decline_thank_you_path(id: @box_request, phase: 'review')
           end
           format.json { render :show, status: :ok, location: @box_request }
         else
-          format.html do
-            redirect_to root_path, alert: 'Box request review decline failed.'
-          end
+          format.html { redirect_to root_path, alert: 'Box request review decline failed.' }
           format.json { render :show, status: :ok, location: @box_request }
         end
       end
@@ -138,18 +125,13 @@ class BoxRequestsController < ApplicationController
           @box_request.claim_review! if @box_request.aasm_state == 'requested'
 
           format.html do
-            redirect_to box_request_claim_thank_you_path(
-              @box_request,
-              'review'
-            ),
+            redirect_to box_request_claim_thank_you_path(@box_request, 'review'),
                         notice: 'Box request review was successfully claimed.'
           end
           format.json { render :show, status: :ok, location: @box_request }
         else
           format.html { render :edit }
-          format.json do
-            render json: @box_request.errors, status: :unprocessable_entity
-          end
+          format.json { render json: @box_request.errors, status: :unprocessable_entity }
         end
       end
     else

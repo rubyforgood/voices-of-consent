@@ -32,15 +32,10 @@ class InventoryAdjustmentsController < ApplicationController
           redirect_to @inventory_adjustment,
                       notice: 'Inventory adjustment was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @inventory_adjustment
-        end
+        format.json { render :show, status: :created, location: @inventory_adjustment }
       else
         format.html { render :new }
-        format.json do
-          render json: @inventory_adjustment.errors,
-                 status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_adjustment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,15 +49,10 @@ class InventoryAdjustmentsController < ApplicationController
           redirect_to @inventory_adjustment,
                       notice: 'Inventory adjustment was successfully updated.'
         end
-        format.json do
-          render :show, status: :ok, location: @inventory_adjustment
-        end
+        format.json { render :show, status: :ok, location: @inventory_adjustment }
       else
         format.html { render :edit }
-        format.json do
-          render json: @inventory_adjustment.errors,
-                 status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_adjustment.errors, status: :unprocessable_entity }
       end
     end
   end

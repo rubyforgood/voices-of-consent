@@ -73,9 +73,7 @@ class User < ApplicationRecord
            inverse_of: :sent_by,
            dependent: :nullify
   has_many :purchases,
-           foreign_key: :purchased_by_id,
-           inverse_of: :purchased_by,
-           dependent: :restrict_with_error
+           foreign_key: :purchased_by_id, inverse_of: :purchased_by, dependent: :restrict_with_error
   has_many :reimbursed_purchases,
            class_name: 'Purchase',
            foreign_key: :reimbursed_by_id,

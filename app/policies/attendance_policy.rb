@@ -30,9 +30,7 @@ class AttendancePolicy < ApplicationPolicy
   end
 
   def can_volunteer_at_events?
-    !!UserPermission.find_by(
-      user: user, permission: Permission::VOLUNTEER_AT_EVENTS
-    )
+    !!UserPermission.find_by(user: user, permission: Permission::VOLUNTEER_AT_EVENTS)
   end
 
   class Scope < Scope

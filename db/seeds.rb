@@ -4,7 +4,8 @@
 # Use rake db:seed:<env> to use a seed in the db/seeds folder
 
 volunteer =
-  Volunteer.where(id: 1).first_or_create!( # querying on id allows us to always find or create the "first" volunteer, regardless of the current name, etc
+  Volunteer.where(id: 1).first_or_create!(
+    # querying on id allows us to always find or create the "first" volunteer, regardless of the current name, etc
     first_name: '[ChangeMe]',
     last_name: '[Inprod]',
     street_address: '[1234 ChangeMe in Prod Drive]',
@@ -20,9 +21,7 @@ volunteer =
 
 user =
   User.where(volunteer: volunteer).first_or_create!(
-    email: 'change-me-in-prod@example.com',
-    password: 'password',
-    password_confirmation: 'password'
+    email: 'change-me-in-prod@example.com', password: 'password', password_confirmation: 'password'
   )
 
 AbuseType::SUPPORTED_ABUSE_TYPES.each do |abuse_type_name|

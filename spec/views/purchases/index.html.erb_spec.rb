@@ -10,11 +10,7 @@ RSpec.describe 'purchases/index', type: :view do
         location: create(:location, name: 'MyGreatLocation'),
         total_price: 1.5,
         purchased_by:
-          create(
-            :user,
-            volunteer:
-              create(:volunteer, first_name: 'MyGreat', last_name: 'Name')
-          ),
+          create(:user, volunteer: create(:volunteer, first_name: 'MyGreat', last_name: 'Name')),
         reimbursement_check_number: 'GreatReimbursementCheckNumber',
         reimbursement_status: 'GreatReimbursementStatus'
       ),
@@ -23,11 +19,7 @@ RSpec.describe 'purchases/index', type: :view do
         location: create(:location, name: 'MyTerribleLocation'),
         total_price: 2.5,
         purchased_by:
-          create(
-            :user,
-            volunteer:
-              create(:volunteer, first_name: 'MyTerrible', last_name: 'Name')
-          ),
+          create(:user, volunteer: create(:volunteer, first_name: 'MyTerrible', last_name: 'Name')),
         reimbursement_check_number: 'TerribleReimbursementCheckNumber',
         reimbursement_status: 'TerribleReimbursementStatus'
       )

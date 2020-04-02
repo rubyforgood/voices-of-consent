@@ -48,9 +48,8 @@ RSpec.describe PurchasesController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Purchase' do
-        expect do
-          post :create, params: { purchase: valid_attributes }
-        end.to change(Purchase, :count).by(1)
+        expect { post :create, params: { purchase: valid_attributes } }.to change(Purchase, :count)
+          .by(1)
       end
 
       it 'redirects to the created purchase' do
@@ -89,8 +88,7 @@ RSpec.describe PurchasesController, type: :controller do
 
       it 'redirects to the purchase' do
         purchase = Purchase.create! valid_attributes
-        put :update,
-            params: { id: purchase.to_param, purchase: valid_attributes }
+        put :update, params: { id: purchase.to_param, purchase: valid_attributes }
         expect(response).to redirect_to(purchase)
       end
     end
@@ -98,8 +96,7 @@ RSpec.describe PurchasesController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         purchase = Purchase.create! valid_attributes
-        put :update,
-            params: { id: purchase.to_param, purchase: invalid_attributes }
+        put :update, params: { id: purchase.to_param, purchase: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -108,10 +105,9 @@ RSpec.describe PurchasesController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested purchase' do
       purchase = Purchase.create! valid_attributes
-      expect { delete :destroy, params: { id: purchase.to_param } }.to change(
-        Purchase,
-        :count
-      ).by(-1)
+      expect { delete :destroy, params: { id: purchase.to_param } }.to change(Purchase, :count).by(
+        -1
+      )
     end
 
     it 'redirects to the purchases list' do

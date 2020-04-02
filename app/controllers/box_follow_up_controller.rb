@@ -17,18 +17,13 @@ class BoxFollowUpController < ApplicationController
           @box.claim_follow_up! if @box.aasm_state == 'shipped'
 
           format.html do
-            redirect_to box_request_claim_thank_you_path(
-              @box.box_request,
-              'follow_up'
-            ),
+            redirect_to box_request_claim_thank_you_path(@box.box_request, 'follow_up'),
                         notice: 'Box followup was successfully claimed.'
           end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json do
-            render json: @box.errors, status: :unprocessable_entity
-          end
+          format.json { render json: @box.errors, status: :unprocessable_entity }
         end
       end
     else
@@ -42,21 +37,16 @@ class BoxFollowUpController < ApplicationController
       respond_to do |format|
         if @box.decline_follow_up!
           format.html do
-            redirect_to box_request_decline_thank_you_path(
-              id: @box.box_request, phase: 'follow_up'
-            )
+            redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: 'follow_up')
           end
           format.json { render :show, status: :ok, location: @box }
         else
-          format.html do
-            redirect_to root_path, alert: 'Box follow_up decline failed.'
-          end
+          format.html { redirect_to root_path, alert: 'Box follow_up decline failed.' }
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box),
-                  notice: 'You previously claimed follow_up of this Box'
+      redirect_to edit_box_path(@box), notice: 'You previously claimed follow_up of this Box'
     end
   end
 
@@ -75,8 +65,7 @@ class BoxFollowUpController < ApplicationController
         end
 
         format.html do
-          redirect_to box_requests_path,
-                      notice: 'Box follow up was successfully claimed.'
+          redirect_to box_requests_path, notice: 'Box follow up was successfully claimed.'
         end
         format.json { render :show, status: :ok, location: @box }
       else

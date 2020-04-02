@@ -11,10 +11,7 @@ class VolunteersController < ApplicationController
   end
 
   def index_for_selections
-    @volunteers =
-      Volunteer.all.map do |volunteer|
-        { id: volunteer.id, name: volunteer.name }
-      end
+    @volunteers = Volunteer.all.map { |volunteer| { id: volunteer.id, name: volunteer.name } }
     respond_to { |format| format.json { render json: @volunteers } }
   end
 
@@ -52,15 +49,11 @@ class VolunteersController < ApplicationController
           message_log.save
         end
 
-        format.html do
-          redirect_to @volunteer, notice: 'Volunteer was successfully created.'
-        end
+        format.html { redirect_to @volunteer, notice: 'Volunteer was successfully created.' }
         format.json { render :show, status: :created, location: @volunteer }
       else
         format.html { render :new }
-        format.json do
-          render json: @volunteer.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @volunteer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,15 +63,11 @@ class VolunteersController < ApplicationController
   def update
     respond_to do |format|
       if @volunteer.update(volunteer_params)
-        format.html do
-          redirect_to @volunteer, notice: 'Volunteer was successfully updated.'
-        end
+        format.html { redirect_to @volunteer, notice: 'Volunteer was successfully updated.' }
         format.json { render :show, status: :ok, location: @volunteer }
       else
         format.html { render :edit }
-        format.json do
-          render json: @volunteer.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @volunteer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -88,18 +77,13 @@ class VolunteersController < ApplicationController
   def destroy
     @volunteer.destroy
     respond_to do |format|
-      format.html do
-        redirect_to volunteers_url,
-                    notice: 'Volunteer was successfully destroyed.'
-      end
+      format.html { redirect_to volunteers_url, notice: 'Volunteer was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   def thank_you
-    respond_to do |format|
-      format.html { render layout: 'outreach_form_layout' }
-    end
+    respond_to { |format| format.html { render layout: 'outreach_form_layout' } }
   end
 
   def import
@@ -108,9 +92,7 @@ class VolunteersController < ApplicationController
     else
       Volunteer.import_csv(params[:file].path)
       respond_to do |format|
-        format.html do
-          redirect_to volunteers_path, notice: 'Successfully Imported Data!!!'
-        end
+        format.html { redirect_to volunteers_path, notice: 'Successfully Imported Data!!!' }
       end
     end
   end

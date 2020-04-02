@@ -4,9 +4,7 @@ class Box < ApplicationRecord
   include AASM
 
   belongs_to :assembly_location,
-             optional: true,
-             class_name: 'Location',
-             inverse_of: :assembled_boxes
+             optional: true, class_name: 'Location', inverse_of: :assembled_boxes
   belongs_to :box_request
   belongs_to :designed_by,
              optional: true,
@@ -90,8 +88,7 @@ class Box < ApplicationRecord
       transitions from: :reviewed, to: :design_in_progress, guard: :is_reviewed
     end
 
-    event :complete_design,
-          before: %i[check_has_box_items update_designed_at!] do
+    event :complete_design, before: %i[check_has_box_items update_designed_at!] do
       transitions from: :design_in_progress,
                   to: :designed,
                   if: :check_if_research_is_needed,
@@ -104,43 +101,27 @@ class Box < ApplicationRecord
     end
 
     event :claim_research, before: :check_if_research_is_needed do
-      transitions from: :designed,
-                  to: :researched,
-                  if: :is_researched,
-                  guard: :is_researched
-      transitions from: :designed,
-                  to: :research_in_progress,
-                  guard: :has_researcher_id
+      transitions from: :designed, to: :researched, if: :is_researched, guard: :is_researched
+      transitions from: :designed, to: :research_in_progress, guard: :has_researcher_id
     end
 
-    event :complete_research,
-          before: %i[check_was_researched update_researched_at!] do
-      transitions from: :research_in_progress,
-                  to: :researched,
-                  if: :check_if_research_is_needed
-      transitions from: :research_in_progress,
-                  to: :researched,
-                  guard: :is_researched
+    event :complete_research, before: %i[check_was_researched update_researched_at!] do
+      transitions from: :research_in_progress, to: :researched, if: :check_if_research_is_needed
+      transitions from: :research_in_progress, to: :researched, guard: :is_researched
     end
 
     event :claim_assembly do
-      transitions from: :researched,
-                  to: :assembly_in_progress,
-                  guard: :has_assembler_id
+      transitions from: :researched, to: :assembly_in_progress, guard: :has_assembler_id
     end
 
     event :complete_assembly,
           before: %i[add_box_items_to_box update_assembled_at!],
           after: :send_shipping_solicitation_email! do
-      transitions from: :assembly_in_progress,
-                  to: :assembled,
-                  guard: :is_assembled
+      transitions from: :assembly_in_progress, to: :assembled, guard: :is_assembled
     end
 
     event :claim_shipping do
-      transitions from: :assembled,
-                  to: :shipping_in_progress,
-                  guard: :has_shipper_id
+      transitions from: :assembled, to: :shipping_in_progress, guard: :has_shipper_id
     end
 
     event :complete_shipping, before: :update_shipped_at! do
@@ -148,15 +129,11 @@ class Box < ApplicationRecord
     end
 
     event :claim_follow_up do
-      transitions from: :shipped,
-                  to: :follow_up_in_progress,
-                  guard: :has_followed_up_by_id
+      transitions from: :shipped, to: :follow_up_in_progress, guard: :has_followed_up_by_id
     end
 
     event :complete_follow_up, before: :update_followed_up_at! do
-      transitions from: :follow_up_in_progress,
-                  to: :followed_up,
-                  guard: :is_followed_up
+      transitions from: :follow_up_in_progress, to: :followed_up, guard: :is_followed_up
     end
   end
 
@@ -193,17 +170,13 @@ class Box < ApplicationRecord
   def mark_box_items_as_researched!
     box_items.each do |box_item|
       box_item.update_attributes(
-        researched_at: Time.now,
-        researched_by_id: researched_by_id || designed_by_id
+        researched_at: Time.now, researched_by_id: researched_by_id || designed_by_id
       )
     end
   end
 
   def mark_as_researched!
-    update_attributes(
-      researched_at: Time.now,
-      researched_by_id: researched_by_id || designed_by_id
-    )
+    update_attributes(researched_at: Time.now, researched_by_id: researched_by_id || designed_by_id)
   end
 
   def check_was_researched
@@ -232,8 +205,7 @@ class Box < ApplicationRecord
 
   def is_reviewed
     box_request.aasm_state =
-      'reviewed' && box_request.reviewed_by_id &&
-      box_request.reviewed_at.present?
+      'reviewed' && box_request.reviewed_by_id && box_request.reviewed_at.present?
   end
 
   def is_designed
@@ -266,8 +238,7 @@ class Box < ApplicationRecord
       research_status = []
       box_items.each do |box_item|
         if box_item.requires_research
-          if research_status << box_item.researched_by_id.present? &&
-             box_item.researched_at
+          if research_status << box_item.researched_by_id.present? && box_item.researched_at
             true
           else
             false
@@ -305,9 +276,7 @@ class Box < ApplicationRecord
   end
 
   def log_status_change
-    puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{
-           aasm.current_event
-         })"
+    puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{aasm.current_event})"
   end
 
   def decline_design!
@@ -337,13 +306,10 @@ class Box < ApplicationRecord
 
   def create_core_box_items!
     box_request.box_request_abuse_types.each do |box_request_abuse_type|
-      CoreBoxItem.where(abuse_type: box_request_abuse_type.abuse_type)
-                 .each do |core_box_item|
-        BoxItem.where(box: self, inventory_type: core_box_item.inventory_type)
-               .first_or_create!(
-                 created_by: box_request.reviewed_by,
-                 updated_by: box_request.reviewed_by
-               )
+      CoreBoxItem.where(abuse_type: box_request_abuse_type.abuse_type).each do |core_box_item|
+        BoxItem.where(box: self, inventory_type: core_box_item.inventory_type).first_or_create!(
+          created_by: box_request.reviewed_by, updated_by: box_request.reviewed_by
+        )
       end
     end
   end

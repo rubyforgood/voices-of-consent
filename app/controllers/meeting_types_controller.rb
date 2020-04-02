@@ -28,16 +28,11 @@ class MeetingTypesController < ApplicationController
 
     respond_to do |format|
       if @meeting_type.save
-        format.html do
-          redirect_to @meeting_type,
-                      notice: 'Meeting type was successfully created.'
-        end
+        format.html { redirect_to @meeting_type, notice: 'Meeting type was successfully created.' }
         format.json { render :show, status: :created, location: @meeting_type }
       else
         format.html { render :new }
-        format.json do
-          render json: @meeting_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @meeting_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,16 +42,11 @@ class MeetingTypesController < ApplicationController
   def update
     respond_to do |format|
       if @meeting_type.update(meeting_type_params)
-        format.html do
-          redirect_to @meeting_type,
-                      notice: 'Meeting type was successfully updated.'
-        end
+        format.html { redirect_to @meeting_type, notice: 'Meeting type was successfully updated.' }
         format.json { render :show, status: :ok, location: @meeting_type }
       else
         format.html { render :edit }
-        format.json do
-          render json: @meeting_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @meeting_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,8 +57,7 @@ class MeetingTypesController < ApplicationController
     @meeting_type.destroy
     respond_to do |format|
       format.html do
-        redirect_to meeting_types_url,
-                    notice: 'Meeting type was successfully destroyed.'
+        redirect_to meeting_types_url, notice: 'Meeting type was successfully destroyed.'
       end
       format.json { head :no_content }
     end

@@ -10,9 +10,7 @@ RSpec.describe BoxShipmentController, type: :controller do
   let!(:edgars_box) { create(:box, shipped_by: box_shipper) }
 
   before do
-    allow(request.env['warden']).to receive(:authenticate!).and_return(
-      box_shipper
-    )
+    allow(request.env['warden']).to receive(:authenticate!).and_return(box_shipper)
     allow(subject).to receive(:current_user).and_return(box_shipper)
     allow(subject).to receive(:box_claim_scope).and_return(Box)
     allow(Box).to receive(:find).and_return(edgars_box)

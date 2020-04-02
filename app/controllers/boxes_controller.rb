@@ -32,9 +32,7 @@ class BoxesController < ApplicationController
 
     respond_to do |format|
       if @box.save
-        format.html do
-          redirect_to @box, notice: 'Box was successfully created.'
-        end
+        format.html { redirect_to @box, notice: 'Box was successfully created.' }
         format.json { render :show, status: :created, location: @box }
       else
         format.html { render :new }
@@ -50,8 +48,7 @@ class BoxesController < ApplicationController
       if @box.update(box_params)
         @box.complete_shipping! if @box.is_shipped
         format.html do
-          redirect_to box_requests_path(id: @box),
-                      notice: 'Box was successfully updated.'
+          redirect_to box_requests_path(id: @box), notice: 'Box was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @box }
       else
@@ -66,9 +63,7 @@ class BoxesController < ApplicationController
   def destroy
     @box.destroy
     respond_to do |format|
-      format.html do
-        redirect_to boxes_url, notice: 'Box was successfully destroyed.'
-      end
+      format.html { redirect_to boxes_url, notice: 'Box was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

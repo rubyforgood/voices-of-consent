@@ -31,13 +31,9 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # BoxRequestAbuseType. As you add validations to BoxRequestAbuseType, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
+  let(:valid_attributes) { skip('Add a hash of attributes valid for your model') }
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
+  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -55,9 +51,7 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
-      get :show,
-          params: { id: box_request_abuse_type.to_param },
-          session: valid_session
+      get :show, params: { id: box_request_abuse_type.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -72,9 +66,7 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
-      get :edit,
-          params: { id: box_request_abuse_type.to_param },
-          session: valid_session
+      get :edit, params: { id: box_request_abuse_type.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -82,26 +74,20 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new BoxRequestAbuseType' do
-        expect do
-          post :create,
-               params: { box_request_abuse_type: valid_attributes },
-               session: valid_session
-        end.to change(BoxRequestAbuseType, :count).by(1)
+        expect {
+          post :create, params: { box_request_abuse_type: valid_attributes }, session: valid_session
+        }.to change(BoxRequestAbuseType, :count).by(1)
       end
 
       it 'redirects to the created box_request_abuse_type' do
-        post :create,
-             params: { box_request_abuse_type: valid_attributes },
-             session: valid_session
+        post :create, params: { box_request_abuse_type: valid_attributes }, session: valid_session
         expect(response).to redirect_to(BoxRequestAbuseType.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create,
-             params: { box_request_abuse_type: invalid_attributes },
-             session: valid_session
+        post :create, params: { box_request_abuse_type: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -109,17 +95,12 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { skip('Add a hash of attributes valid for your model') }
 
       it 'updates the requested box_request_abuse_type' do
         box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
         put :update,
-            params: {
-              id: box_request_abuse_type.to_param,
-              box_request_abuse_type: new_attributes
-            },
+            params: { id: box_request_abuse_type.to_param, box_request_abuse_type: new_attributes },
             session: valid_session
         box_request_abuse_type.reload
         skip('Add assertions for updated state')
@@ -129,8 +110,7 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
         box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
         put :update,
             params: {
-              id: box_request_abuse_type.to_param,
-              box_request_abuse_type: valid_attributes
+              id: box_request_abuse_type.to_param, box_request_abuse_type: valid_attributes
             },
             session: valid_session
         expect(response).to redirect_to(box_request_abuse_type)
@@ -142,8 +122,7 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
         box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
         put :update,
             params: {
-              id: box_request_abuse_type.to_param,
-              box_request_abuse_type: invalid_attributes
+              id: box_request_abuse_type.to_param, box_request_abuse_type: invalid_attributes
             },
             session: valid_session
         expect(response).to be_successful
@@ -154,18 +133,14 @@ RSpec.describe BoxRequestAbuseTypesController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested box_request_abuse_type' do
       box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
-      expect do
-        delete :destroy,
-               params: { id: box_request_abuse_type.to_param },
-               session: valid_session
-      end.to change(BoxRequestAbuseType, :count).by(-1)
+      expect {
+        delete :destroy, params: { id: box_request_abuse_type.to_param }, session: valid_session
+      }.to change(BoxRequestAbuseType, :count).by(-1)
     end
 
     it 'redirects to the box_request_abuse_types list' do
       box_request_abuse_type = BoxRequestAbuseType.create! valid_attributes
-      delete :destroy,
-             params: { id: box_request_abuse_type.to_param },
-             session: valid_session
+      delete :destroy, params: { id: box_request_abuse_type.to_param }, session: valid_session
       expect(response).to redirect_to(box_request_abuse_types_url)
     end
   end

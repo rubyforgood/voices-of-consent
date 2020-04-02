@@ -24,8 +24,7 @@ class BoxRequestAbuseTypesController < ApplicationController
   # POST /box_request_abuse_types
   # POST /box_request_abuse_types.json
   def create
-    @box_request_abuse_type =
-      BoxRequestAbuseType.new(box_request_abuse_type_params)
+    @box_request_abuse_type = BoxRequestAbuseType.new(box_request_abuse_type_params)
 
     respond_to do |format|
       if @box_request_abuse_type.save
@@ -33,15 +32,10 @@ class BoxRequestAbuseTypesController < ApplicationController
           redirect_to @box_request_abuse_type,
                       notice: 'Box request abuse type was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @box_request_abuse_type
-        end
+        format.json { render :show, status: :created, location: @box_request_abuse_type }
       else
         format.html { render :new }
-        format.json do
-          render json: @box_request_abuse_type.errors,
-                 status: :unprocessable_entity
-        end
+        format.json { render json: @box_request_abuse_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,15 +49,10 @@ class BoxRequestAbuseTypesController < ApplicationController
           redirect_to @box_request_abuse_type,
                       notice: 'Box request abuse type was successfully updated.'
         end
-        format.json do
-          render :show, status: :ok, location: @box_request_abuse_type
-        end
+        format.json { render :show, status: :ok, location: @box_request_abuse_type }
       else
         format.html { render :edit }
-        format.json do
-          render json: @box_request_abuse_type.errors,
-                 status: :unprocessable_entity
-        end
+        format.json { render json: @box_request_abuse_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -90,9 +79,6 @@ class BoxRequestAbuseTypesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def box_request_abuse_type_params
-    params.require(:box_request_abuse_type).permit(
-      :box_request_id,
-      :abuse_type_id
-    )
+    params.require(:box_request_abuse_type).permit(:box_request_id, :abuse_type_id)
   end
 end

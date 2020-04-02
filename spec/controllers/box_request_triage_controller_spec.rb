@@ -61,16 +61,12 @@ RSpec.describe BoxRequestTriageController, type: :controller do
       box_request = BoxRequest.last
 
       expect(box_request.summary).to eql(expected_summary)
-      expect(box_request.is_interested_in_counseling_services).to eql(
-        expected_counseling
-      )
+      expect(box_request.is_interested_in_counseling_services).to eql(expected_counseling)
     end
 
     it 'returns redirect_url with a succesful submission' do
       post :create, params: { boxRequest: test_data }
-      expect(JSON.parse(response.body)).to include(
-        'redirect_url' => box_request_thank_you_path
-      )
+      expect(JSON.parse(response.body)).to include('redirect_url' => box_request_thank_you_path)
     end
 
     it 'returns error with an invalid email' do

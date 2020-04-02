@@ -19,18 +19,13 @@ class BoxResearchController < ApplicationController
           end
 
           format.html do
-            redirect_to box_request_claim_thank_you_path(
-              @box.box_request,
-              'research'
-            ),
+            redirect_to box_request_claim_thank_you_path(@box.box_request, 'research'),
                         notice: 'Box research was successfully claimed.'
           end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json do
-            render json: @box.errors, status: :unprocessable_entity
-          end
+          format.json { render json: @box.errors, status: :unprocessable_entity }
         end
       end
     else
@@ -44,21 +39,16 @@ class BoxResearchController < ApplicationController
       respond_to do |format|
         if @box.decline_research!
           format.html do
-            redirect_to box_request_decline_thank_you_path(
-              id: @box.box_request, phase: 'research'
-            )
+            redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: 'research')
           end
           format.json { render :show, status: :ok, location: @box }
         else
-          format.html do
-            redirect_to root_path, alert: 'Box research decline failed.'
-          end
+          format.html { redirect_to root_path, alert: 'Box research decline failed.' }
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box),
-                  notice: 'You previously claimed research of this Box'
+      redirect_to edit_box_path(@box), notice: 'You previously claimed research of this Box'
     end
   end
 
@@ -79,8 +69,7 @@ class BoxResearchController < ApplicationController
         end
 
         format.html do
-          redirect_to box_requests_path,
-                      notice: 'Box design was successfully claimed.'
+          redirect_to box_requests_path, notice: 'Box design was successfully claimed.'
         end
         format.json { render :show, status: :ok, location: @box }
       else

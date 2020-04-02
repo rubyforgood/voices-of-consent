@@ -8,13 +8,9 @@ RSpec.describe MessageLogsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # MessageLog. As you add validations to MessageLog, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
+  let(:valid_attributes) { skip('Add a hash of attributes valid for your model') }
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
+  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -70,23 +66,20 @@ RSpec.describe MessageLogsController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new MessageLog' do
-        expect do
-          post :create,
-               params: { message_log: valid_attributes }, session: valid_session
-        end.to change(MessageLog, :count).by(1)
+        expect {
+          post :create, params: { message_log: valid_attributes }, session: valid_session
+        }.to change(MessageLog, :count).by(1)
       end
 
       it 'redirects to the created message_log' do
-        post :create,
-             params: { message_log: valid_attributes }, session: valid_session
+        post :create, params: { message_log: valid_attributes }, session: valid_session
         expect(response).to redirect_to(MessageLog.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create,
-             params: { message_log: invalid_attributes }, session: valid_session
+        post :create, params: { message_log: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -94,9 +87,7 @@ RSpec.describe MessageLogsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { skip('Add a hash of attributes valid for your model') }
 
       it 'updates the requested message_log' do
         message_log = MessageLog.create! valid_attributes
@@ -120,9 +111,7 @@ RSpec.describe MessageLogsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         message_log = MessageLog.create! valid_attributes
         put :update,
-            params: {
-              id: message_log.to_param, message_log: invalid_attributes
-            },
+            params: { id: message_log.to_param, message_log: invalid_attributes },
             session: valid_session
         expect(response).to be_successful
       end
@@ -132,16 +121,14 @@ RSpec.describe MessageLogsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested message_log' do
       message_log = MessageLog.create! valid_attributes
-      expect do
-        delete :destroy,
-               params: { id: message_log.to_param }, session: valid_session
-      end.to change(MessageLog, :count).by(-1)
+      expect {
+        delete :destroy, params: { id: message_log.to_param }, session: valid_session
+      }.to change(MessageLog, :count).by(-1)
     end
 
     it 'redirects to the message_logs list' do
       message_log = MessageLog.create! valid_attributes
-      delete :destroy,
-             params: { id: message_log.to_param }, session: valid_session
+      delete :destroy, params: { id: message_log.to_param }, session: valid_session
       expect(response).to redirect_to(message_logs_url)
     end
   end

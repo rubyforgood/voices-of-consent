@@ -23,21 +23,14 @@ class BoxRequestTriageController < ApplicationController
       zip
       county
     ].each do |requester_attribute|
-      requester.assign_attributes(
-        requester_attribute => @payload[requester_attribute]
-      )
+      requester.assign_attributes(requester_attribute => @payload[requester_attribute])
     end
 
     # making is_underage to underage
     requester.underage = @payload[:is_underage]
 
     # nil checking these four
-    %i[
-      ok_to_email
-      ok_to_text
-      ok_to_call
-      ok_to_mail
-    ].each do |requester_attribute|
+    %i[ok_to_email ok_to_text ok_to_call ok_to_mail].each do |requester_attribute|
       value = @payload[requester_attribute]
       value = false if value.nil?
       requester.assign_attributes(requester_attribute => value)
@@ -58,9 +51,7 @@ class BoxRequestTriageController < ApplicationController
       question_re_referral_source
       summary
     ].each do |box_request_attribute|
-      box_request.assign_attributes(
-        box_request_attribute => @payload[box_request_attribute]
-      )
+      box_request.assign_attributes(box_request_attribute => @payload[box_request_attribute])
     end
 
     ### Prepopulate tags based on question data
@@ -89,10 +80,8 @@ class BoxRequestTriageController < ApplicationController
       )
     end
 
-    requester_email =
-      AutoEmailHandler.new('requester', box_request, current_user || User.first)
-    volunteer_email =
-      AutoEmailHandler.new('volunteer', box_request, current_user || User.first)
+    requester_email = AutoEmailHandler.new('requester', box_request, current_user || User.first)
+    volunteer_email = AutoEmailHandler.new('volunteer', box_request, current_user || User.first)
 
     render json: { "redirect_url": box_request_thank_you_path }, status: 200
   rescue ActiveRecord::RecordInvalid => e

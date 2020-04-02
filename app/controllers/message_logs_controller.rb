@@ -28,16 +28,11 @@ class MessageLogsController < ApplicationController
 
     respond_to do |format|
       if @message_log.save
-        format.html do
-          redirect_to @message_log,
-                      notice: 'Message log was successfully created.'
-        end
+        format.html { redirect_to @message_log, notice: 'Message log was successfully created.' }
         format.json { render :show, status: :created, location: @message_log }
       else
         format.html { render :new }
-        format.json do
-          render json: @message_log.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @message_log.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,16 +42,11 @@ class MessageLogsController < ApplicationController
   def update
     respond_to do |format|
       if @message_log.update(message_log_params)
-        format.html do
-          redirect_to @message_log,
-                      notice: 'Message log was successfully updated.'
-        end
+        format.html { redirect_to @message_log, notice: 'Message log was successfully updated.' }
         format.json { render :show, status: :ok, location: @message_log }
       else
         format.html { render :edit }
-        format.json do
-          render json: @message_log.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @message_log.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,8 +57,7 @@ class MessageLogsController < ApplicationController
     @message_log.destroy
     respond_to do |format|
       format.html do
-        redirect_to message_logs_url,
-                    notice: 'Message log was successfully destroyed.'
+        redirect_to message_logs_url, notice: 'Message log was successfully destroyed.'
       end
       format.json { head :no_content }
     end

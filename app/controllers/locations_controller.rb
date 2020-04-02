@@ -32,9 +32,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html do
-          redirect_to @location, notice: 'Location was successfully created.'
-        end
+        format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json do
           if params[:source] == 'volunteers-form'
             render json: @location, status: :created
@@ -44,9 +42,7 @@ class LocationsController < ApplicationController
         end
       else
         format.html { render :new }
-        format.json do
-          render json: @location.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,15 +52,11 @@ class LocationsController < ApplicationController
   def update
     respond_to do |format|
       if @location.update(location_params)
-        format.html do
-          redirect_to @location, notice: 'Location was successfully updated.'
-        end
+        format.html { redirect_to @location, notice: 'Location was successfully updated.' }
         format.json { render :show, status: :ok, location: @location }
       else
         format.html { render :edit }
-        format.json do
-          render json: @location.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,10 +66,7 @@ class LocationsController < ApplicationController
   def destroy
     @location.destroy
     respond_to do |format|
-      format.html do
-        redirect_to locations_url,
-                    notice: 'Location was successfully destroyed.'
-      end
+      format.html { redirect_to locations_url, notice: 'Location was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -91,14 +80,7 @@ class LocationsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def location_params
-    params.require(:location).permit(
-      :name,
-      :street_address,
-      :city,
-      :state,
-      :zip,
-      :location_type
-    )
+    params.require(:location).permit(:name, :street_address, :city, :state, :zip, :location_type)
   end
 
   def filter_params

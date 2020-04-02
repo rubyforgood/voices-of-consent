@@ -17,10 +17,7 @@ RSpec.describe AttendancesController, type: :routing do
     end
 
     it 'routes to #edit' do
-      expect(get: '/attendances/1/edit').to route_to(
-        'attendances#edit',
-        id: '1'
-      )
+      expect(get: '/attendances/1/edit').to route_to('attendances#edit', id: '1')
     end
 
     it 'routes to #create' do
@@ -36,10 +33,7 @@ RSpec.describe AttendancesController, type: :routing do
     end
 
     it 'routes to #destroy' do
-      expect(delete: '/attendances/1').to route_to(
-        'attendances#destroy',
-        id: '1'
-      )
+      expect(delete: '/attendances/1').to route_to('attendances#destroy', id: '1')
     end
   end
 end

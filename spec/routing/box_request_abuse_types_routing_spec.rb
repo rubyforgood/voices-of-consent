@@ -5,22 +5,15 @@ require 'rails_helper'
 RSpec.describe BoxRequestAbuseTypesController, type: :routing do
   describe 'routing' do
     it 'routes to #index' do
-      expect(get: '/box_request_abuse_types').to route_to(
-        'box_request_abuse_types#index'
-      )
+      expect(get: '/box_request_abuse_types').to route_to('box_request_abuse_types#index')
     end
 
     it 'routes to #new' do
-      expect(get: '/box_request_abuse_types/new').to route_to(
-        'box_request_abuse_types#new'
-      )
+      expect(get: '/box_request_abuse_types/new').to route_to('box_request_abuse_types#new')
     end
 
     it 'routes to #show' do
-      expect(get: '/box_request_abuse_types/1').to route_to(
-        'box_request_abuse_types#show',
-        id: '1'
-      )
+      expect(get: '/box_request_abuse_types/1').to route_to('box_request_abuse_types#show', id: '1')
     end
 
     it 'routes to #edit' do
@@ -31,9 +24,7 @@ RSpec.describe BoxRequestAbuseTypesController, type: :routing do
     end
 
     it 'routes to #create' do
-      expect(post: '/box_request_abuse_types').to route_to(
-        'box_request_abuse_types#create'
-      )
+      expect(post: '/box_request_abuse_types').to route_to('box_request_abuse_types#create')
     end
 
     it 'routes to #update via PUT' do

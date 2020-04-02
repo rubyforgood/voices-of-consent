@@ -10,15 +10,11 @@ module DeliverNowWithErrorHandling
     rescue StandardError => e
       @delivery_status = "FAILED #{e}"
       Rails.logger.info(
-        "=============BEGIN ERROR/PROBLEM WITH EMAIL DELIVERY: #{
-          log_message
-        }================="
+        "=============BEGIN ERROR/PROBLEM WITH EMAIL DELIVERY: #{log_message}================="
       )
       Rails.logger.info("============= #{e} =================")
       Rails.logger.info(
-        "=============END ERROR/PROBLEM WITH EMAIL DELIVERY: #{
-          log_message
-        }================="
+        "=============END ERROR/PROBLEM WITH EMAIL DELIVERY: #{log_message}================="
       )
     end
   end

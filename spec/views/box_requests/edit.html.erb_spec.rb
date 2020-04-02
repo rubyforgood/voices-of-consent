@@ -11,9 +11,7 @@ RSpec.describe 'box_requests/edit', type: :view do
   it 'renders the edit box_request form' do
     render
 
-    assert_select 'form[action=?][method=?]',
-                  box_requests_path(@box_request),
-                  'post' do
+    assert_select 'form[action=?][method=?]', box_requests_path(@box_request), 'post' do
       assert_select 'textarea[name=?]', 'box_request[tag_list]'
 
       assert_select 'textarea[name=?]', 'box_request[summary]'

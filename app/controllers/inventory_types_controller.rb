@@ -30,17 +30,12 @@ class InventoryTypesController < ApplicationController
     respond_to do |format|
       if @inventory_type.save
         format.html do
-          redirect_to @inventory_type,
-                      notice: 'Inventory type was successfully created.'
+          redirect_to @inventory_type, notice: 'Inventory type was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @inventory_type
-        end
+        format.json { render :show, status: :created, location: @inventory_type }
       else
         format.html { render :new }
-        format.json do
-          render json: @inventory_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,15 +46,12 @@ class InventoryTypesController < ApplicationController
     respond_to do |format|
       if @inventory_type.update(inventory_type_params)
         format.html do
-          redirect_to @inventory_type,
-                      notice: 'Inventory type was successfully updated.'
+          redirect_to @inventory_type, notice: 'Inventory type was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @inventory_type }
       else
         format.html { render :edit }
-        format.json do
-          render json: @inventory_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,8 +62,7 @@ class InventoryTypesController < ApplicationController
     @inventory_type.destroy
     respond_to do |format|
       format.html do
-        redirect_to inventory_types_url,
-                    notice: 'Inventory type was successfully destroyed.'
+        redirect_to inventory_types_url, notice: 'Inventory type was successfully destroyed.'
       end
       format.json { head :no_content }
     end
@@ -86,10 +77,6 @@ class InventoryTypesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def inventory_type_params
-    params.require(:inventory_type).permit(
-      :name,
-      :description,
-      :requires_research
-    )
+    params.require(:inventory_type).permit(:name, :description, :requires_research)
   end
 end

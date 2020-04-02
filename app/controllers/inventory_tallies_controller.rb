@@ -6,8 +6,7 @@ class InventoryTalliesController < ApplicationController
   # GET /inventory_tallies
   # GET /inventory_tallies.json
   def index
-    @inventory_tallies =
-      InventoryTally.all.includes(:storage_location, :inventory_type)
+    @inventory_tallies = InventoryTally.all.includes(:storage_location, :inventory_type)
   end
 
   # GET /inventory_tallies/1
@@ -30,17 +29,12 @@ class InventoryTalliesController < ApplicationController
     respond_to do |format|
       if @inventory_tally.save
         format.html do
-          redirect_to @inventory_tally,
-                      notice: 'Inventory tally was successfully created.'
+          redirect_to @inventory_tally, notice: 'Inventory tally was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @inventory_tally
-        end
+        format.json { render :show, status: :created, location: @inventory_tally }
       else
         format.html { render :new }
-        format.json do
-          render json: @inventory_tally.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_tally.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,15 +45,12 @@ class InventoryTalliesController < ApplicationController
     respond_to do |format|
       if @inventory_tally.update(inventory_tally_params)
         format.html do
-          redirect_to @inventory_tally,
-                      notice: 'Inventory tally was successfully updated.'
+          redirect_to @inventory_tally, notice: 'Inventory tally was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @inventory_tally }
       else
         format.html { render :edit }
-        format.json do
-          render json: @inventory_tally.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @inventory_tally.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,8 +61,7 @@ class InventoryTalliesController < ApplicationController
     @inventory_tally.destroy
     respond_to do |format|
       format.html do
-        redirect_to inventory_tallies_url,
-                    notice: 'Inventory tally was successfully destroyed.'
+        redirect_to inventory_tallies_url, notice: 'Inventory tally was successfully destroyed.'
       end
       format.json { head :no_content }
     end

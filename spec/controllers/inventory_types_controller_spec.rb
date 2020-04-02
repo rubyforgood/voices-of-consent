@@ -33,14 +33,10 @@ RSpec.describe InventoryTypesController, type: :controller do
   # InventoryType. As you add validations to InventoryType, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    {
-      name: Faker::House.furniture.titleize, description: Faker::Lorem.sentence
-    }
+    { name: Faker::House.furniture.titleize, description: Faker::Lorem.sentence }
   end
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
+  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -109,26 +105,20 @@ RSpec.describe InventoryTypesController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new InventoryType' do
-        expect do
-          post :create,
-               params: { inventory_type: valid_attributes },
-               session: valid_session
-        end.to change(InventoryType, :count).by(1)
+        expect {
+          post :create, params: { inventory_type: valid_attributes }, session: valid_session
+        }.to change(InventoryType, :count).by(1)
       end
 
       it 'redirects to the created inventory_type' do
-        post :create,
-             params: { inventory_type: valid_attributes },
-             session: valid_session
+        post :create, params: { inventory_type: valid_attributes }, session: valid_session
         expect(response).to redirect_to(InventoryType.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create,
-             params: { inventory_type: invalid_attributes },
-             session: valid_session
+        post :create, params: { inventory_type: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -136,16 +126,12 @@ RSpec.describe InventoryTypesController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { skip('Add a hash of attributes valid for your model') }
 
       it 'updates the requested inventory_type' do
         inventory_type = InventoryType.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_type.to_param, inventory_type: new_attributes
-            },
+            params: { id: inventory_type.to_param, inventory_type: new_attributes },
             session: valid_session
         inventory_type.reload
         skip('Add assertions for updated state')
@@ -154,9 +140,7 @@ RSpec.describe InventoryTypesController, type: :controller do
       it 'redirects to the inventory_type' do
         inventory_type = InventoryType.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_type.to_param, inventory_type: valid_attributes
-            },
+            params: { id: inventory_type.to_param, inventory_type: valid_attributes },
             session: valid_session
         expect(response).to redirect_to(inventory_type)
       end
@@ -166,9 +150,7 @@ RSpec.describe InventoryTypesController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         inventory_type = InventoryType.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_type.to_param, inventory_type: invalid_attributes
-            },
+            params: { id: inventory_type.to_param, inventory_type: invalid_attributes },
             session: valid_session
         expect(response).to be_successful
       end
@@ -178,16 +160,14 @@ RSpec.describe InventoryTypesController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested inventory_type' do
       inventory_type = InventoryType.create! valid_attributes
-      expect do
-        delete :destroy,
-               params: { id: inventory_type.to_param }, session: valid_session
-      end.to change(InventoryType, :count).by(-1)
+      expect {
+        delete :destroy, params: { id: inventory_type.to_param }, session: valid_session
+      }.to change(InventoryType, :count).by(-1)
     end
 
     it 'redirects to the inventory_types list' do
       inventory_type = InventoryType.create! valid_attributes
-      delete :destroy,
-             params: { id: inventory_type.to_param }, session: valid_session
+      delete :destroy, params: { id: inventory_type.to_param }, session: valid_session
       expect(response).to redirect_to(inventory_types_url)
     end
   end

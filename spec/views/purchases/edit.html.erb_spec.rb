@@ -8,9 +8,7 @@ RSpec.describe 'purchases/edit', type: :view do
   it 'renders the edit purchase form' do
     render
 
-    assert_select 'form[action=?][method=?]',
-                  purchase_path(@purchase),
-                  'post' do
+    assert_select 'form[action=?][method=?]', purchase_path(@purchase), 'post' do
       assert_select 'select[name=?]', 'purchase[location_id]'
       assert_select 'input[name=?]', 'purchase[total_price]'
       assert_select 'select[name=?]', 'purchase[purchased_by_id]'

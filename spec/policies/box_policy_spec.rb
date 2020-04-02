@@ -4,11 +4,7 @@ require 'rails_helper'
 
 RSpec.describe BoxPolicy do
   let(:user) do
-    User.create!(
-      email: 'test@test.com',
-      password: 'super secret',
-      volunteer: create(:volunteer)
-    )
+    User.create!(email: 'test@test.com', password: 'super secret', volunteer: create(:volunteer))
   end
 
   describe '#can_design?' do
@@ -36,8 +32,7 @@ RSpec.describe BoxPolicy do
       UserPermission.create!(user: user, permission: Permission::BOX_DESIGNER)
       expect(Box).to receive(:all).and_return(scope_mock)
       result = [Box.new]
-      expect(scope_mock).to receive(:where).with(designed_by_id: [user, nil])
-                                           .and_return(result)
+      expect(scope_mock).to receive(:where).with(designed_by_id: [user, nil]).and_return(result)
       scope = BoxPolicy::DesignScope.new(user, Box.all)
       expect(scope.resolve).to eq result
     end
@@ -68,8 +63,7 @@ RSpec.describe BoxPolicy do
       UserPermission.create!(user: user, permission: Permission::SHIPPER)
       expect(Box).to receive(:all).and_return(scope_mock)
       result = [Box.new]
-      expect(scope_mock).to receive(:where).with(shipped_by_id: [user, nil])
-                                           .and_return(result)
+      expect(scope_mock).to receive(:where).with(shipped_by_id: [user, nil]).and_return(result)
       scope = BoxPolicy::ShipmentScope.new(user, Box.all)
       expect(scope.resolve).to eq result
     end

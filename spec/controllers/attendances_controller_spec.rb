@@ -17,12 +17,7 @@ RSpec.describe AttendancesController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    {
-      meeting_id: nil,
-      user_id: subject.current_user.id,
-      special_duties: '',
-      completed_hours: nil
-    }
+    { meeting_id: nil, user_id: subject.current_user.id, special_duties: '', completed_hours: nil }
   end
 
   describe 'GET #index' do
@@ -43,9 +38,10 @@ RSpec.describe AttendancesController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Attendance' do
-        expect do
-          post :create, params: { attendance: valid_attributes }
-        end.to change(Attendance, :count).by(1)
+        expect { post :create, params: { attendance: valid_attributes } }.to change(
+          Attendance,
+          :count
+        ).by(1)
       end
 
       it 'redirects to the created attendance' do
@@ -61,9 +57,10 @@ RSpec.describe AttendancesController, type: :controller do
       end
 
       it 'does not create a new Attendance' do
-        expect do
-          post :create, params: { attendance: invalid_attributes }
-        end.to change(Attendance, :count).by(0)
+        expect { post :create, params: { attendance: invalid_attributes } }.to change(
+          Attendance,
+          :count
+        ).by(0)
       end
     end
   end
@@ -81,8 +78,7 @@ RSpec.describe AttendancesController, type: :controller do
 
       it 'updates the requested attendance' do
         attendance = Attendance.create! valid_attributes
-        put :update,
-            params: { id: attendance.to_param, attendance: new_attributes }
+        put :update, params: { id: attendance.to_param, attendance: new_attributes }
         attendance.reload
         expect(response).to redirect_to(attendance)
         expect(attendance.special_duties).to eq('special duties string updated')
@@ -90,8 +86,7 @@ RSpec.describe AttendancesController, type: :controller do
 
       it 'redirects to the attendance' do
         attendance = Attendance.create! valid_attributes
-        put :update,
-            params: { id: attendance.to_param, attendance: valid_attributes }
+        put :update, params: { id: attendance.to_param, attendance: valid_attributes }
         expect(response).to redirect_to(attendance)
       end
     end
@@ -99,8 +94,7 @@ RSpec.describe AttendancesController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         attendance = Attendance.create! valid_attributes
-        put :update,
-            params: { id: attendance.to_param, attendance: invalid_attributes }
+        put :update, params: { id: attendance.to_param, attendance: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -109,10 +103,8 @@ RSpec.describe AttendancesController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested attendance' do
       attendance = Attendance.create! valid_attributes
-      expect { delete :destroy, params: { id: attendance.to_param } }.to change(
-        Attendance,
-        :count
-      ).by(-1)
+      expect { delete :destroy, params: { id: attendance.to_param } }.to change(Attendance, :count)
+        .by(-1)
     end
 
     it 'redirects to the attendances list' do

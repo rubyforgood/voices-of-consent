@@ -27,9 +27,7 @@ box_items.each do |inventory_type_name, abuse_types, _age_ranges|
         name: inventory_type_name
       )
     abuse_type =
-      AbuseType.where('name ILIKE ?', abuse_type_name).first_or_create!(
-        name: abuse_type_name
-      )
+      AbuseType.where('name ILIKE ?', abuse_type_name).first_or_create!(name: abuse_type_name)
     CoreBoxItem.joins(:abuse_type, :inventory_type).where(
       abuse_type: abuse_type, inventory_type: inventory_type
     ).first_or_create!
@@ -37,10 +35,7 @@ box_items.each do |inventory_type_name, abuse_types, _age_ranges|
 end
 
 40.times do |i|
-  is_underage = [
-    { boolean: false, value: '12+' },
-    { boolean: true, value: 'UNDERAGE' }
-  ].sample
+  is_underage = [{ boolean: false, value: '12+' }, { boolean: true, value: 'UNDERAGE' }].sample
 
   requester =
     Requester.create!(
@@ -50,16 +45,9 @@ end
       street_address: Faker::Address.street_address,
       city: Faker::Address.city,
       state: Faker::Address.state,
-      zip: Faker::Address.zip,
-      county:
-        # I know this is not a county, but there are no counties in Faker
-        Faker::Address.country,
-      phone:
-        [
-          Faker::Number.number(3),
-          Faker::Number.number(3),
-          Faker::Number.number(4)
-        ].join('-'),
+      zip: Faker::Address.zip, # I know this is not a county, but there are no counties in Faker
+      county: Faker::Address.country,
+      phone: [Faker::Number.number(3), Faker::Number.number(3), Faker::Number.number(4)].join('-'),
       ok_to_email: [true, false].sample,
       ok_to_text: [true, false].sample,
       ok_to_call: [true, false].sample,
@@ -67,10 +55,7 @@ end
       underage: is_underage[:boolean]
     )
 
-  is_safe = [
-    { boolean: false, value: 'NOT SAFE' },
-    { boolean: true, value: 'safe' }
-  ].sample
+  is_safe = [{ boolean: false, value: 'NOT SAFE' }, { boolean: true, value: 'safe' }].sample
   is_interested_in_health_services = [
     { boolean: false, value: nil },
     { boolean: true, value: 'health_services' }
@@ -88,18 +73,15 @@ end
       question_re_referral_source: referral_source.sample,
       question_re_if_not_self_completed: Faker::Relationship.familial,
       requester_id: requester.id,
-      is_interested_in_counseling_services:
-        is_interested_in_counseling_services[:boolean],
-      is_interested_in_health_services:
-        is_interested_in_health_services[:boolean],
+      is_interested_in_counseling_services: is_interested_in_counseling_services[:boolean],
+      is_interested_in_health_services: is_interested_in_health_services[:boolean],
       is_safe: is_safe[:boolean],
       aasm_state: 'requested'
     )
 
   box_request_abuse_type =
     BoxRequestAbuseType.create!(
-      box_request_id: box_request.id,
-      abuse_type_id: AbuseType.order(Arel.sql('RANDOM()')).first.id
+      box_request_id: box_request.id, abuse_type_id: AbuseType.order(Arel.sql('RANDOM()')).first.id
     )
 
   box_request.tag_list = [

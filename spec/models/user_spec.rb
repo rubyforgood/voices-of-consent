@@ -11,9 +11,7 @@ RSpec.describe User, type: :model do
       expect(user.user_permissions.count).to eq(0)
 
       user.grant_all_permissions!
-      expect(user.user_permissions.count).to eq(
-        Permission::AVAILABLE_PERMISSIONS.count
-      )
+      expect(user.user_permissions.count).to eq(Permission::AVAILABLE_PERMISSIONS.count)
     end
 
     it "doesn't create any duplicative permissions" do
@@ -21,10 +19,7 @@ RSpec.describe User, type: :model do
       user = user_permission.user
 
       user.grant_all_permissions!
-      expect(
-        user.user_permissions.where(permission: user_permission.permission)
-          .count
-      ).to eq(1)
+      expect(user.user_permissions.where(permission: user_permission.permission).count).to eq(1)
     end
   end
 end

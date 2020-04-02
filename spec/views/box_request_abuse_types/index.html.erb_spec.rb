@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'box_request_abuse_types/index', type: :view do
-  before(:each) do
-    @box_request_abuse_types = build_stubbed_list(:box_request_abuse_type, 2)
-  end
+  before(:each) { @box_request_abuse_types = build_stubbed_list(:box_request_abuse_type, 2) }
 
   it 'renders a list of box_request_abuse_types' do
     render

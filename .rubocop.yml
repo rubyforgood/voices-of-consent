@@ -4,8 +4,10 @@ AllCops:
   Exclude:
     - 'Gemfile'
     - 'Rakefile'
+    - 'db/**/*'
     - 'spec/spec_helper.rb'
     - 'node_modules/**/*'
+    - 'config/initializers/**/*'
 
 Metrics/LineLength:
   Max: 100
@@ -15,3 +17,6 @@ Metrics/LineLength:
 
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context', 'define', 'setup']
+
+Style/BlockDelimiters:
+  Enabled: false

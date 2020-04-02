@@ -9,9 +9,7 @@ RSpec.describe InventoryImporter do
 
   context 'when no locations or inventory types exist' do
     it 'creates a tally object for each row in csv' do
-      expect { subject.perform }.to change { InventoryTally.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
     end
 
     it 'returns results' do
@@ -21,9 +19,7 @@ RSpec.describe InventoryImporter do
     end
 
     it 'creates inventory_adjustments for each tally' do
-      expect { subject.perform }.to change { InventoryAdjustment.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryAdjustment.count }.by(tally_object_count)
     end
 
     it 'creates a location object for each location in csv' do
@@ -36,14 +32,10 @@ RSpec.describe InventoryImporter do
   end
 
   context 'when some locations exist' do
-    let!(:location) do
-      Location.create(name: 'store-a-lot', location_type: 'shop')
-    end
+    let!(:location) { Location.create(name: 'store-a-lot', location_type: 'shop') }
 
     it 'creates a tally object for each row in csv' do
-      expect { subject.perform }.to change { InventoryTally.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
     end
 
     it 'returns results' do
@@ -53,9 +45,7 @@ RSpec.describe InventoryImporter do
     end
 
     it 'creates inventory_adjustments for each tally' do
-      expect { subject.perform }.to change { InventoryAdjustment.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryAdjustment.count }.by(tally_object_count)
     end
 
     it 'creates a location object for new locations in csv' do
@@ -72,15 +62,11 @@ RSpec.describe InventoryImporter do
     let!(:inventory_type) { InventoryType.create(name: 'tampons') }
 
     it 'creates a tally object for each row in csv' do
-      expect { subject.perform }.to change { InventoryTally.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count)
     end
 
     it 'creates inventory_adjustments for each tally' do
-      expect { subject.perform }.to change { InventoryAdjustment.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryAdjustment.count }.by(tally_object_count)
     end
 
     it 'creates a location object for new locations in csv' do
@@ -103,23 +89,16 @@ RSpec.describe InventoryImporter do
     before do
       location = Location.create(name: 'store-a-lot', location_type: 'shop')
       type = InventoryType.create(name: 'tampons')
-      tally =
-        InventoryTally.create(storage_location: location, inventory_type: type)
-      InventoryAdjustment.create(
-        inventory_tally: tally, adjustment_quantity: 10
-      )
+      tally = InventoryTally.create(storage_location: location, inventory_type: type)
+      InventoryAdjustment.create(inventory_tally: tally, adjustment_quantity: 10)
     end
 
     it 'creates a tally object for new tally combos in csv' do
-      expect { subject.perform }.to change { InventoryTally.count }.by(
-        tally_object_count - 1
-      )
+      expect { subject.perform }.to change { InventoryTally.count }.by(tally_object_count - 1)
     end
 
     it 'creates inventory_adjustments for each row' do
-      expect { subject.perform }.to change { InventoryAdjustment.count }.by(
-        tally_object_count
-      )
+      expect { subject.perform }.to change { InventoryAdjustment.count }.by(tally_object_count)
     end
 
     it 'creates a location object for new locations in csv' do

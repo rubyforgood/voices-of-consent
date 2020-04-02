@@ -21,9 +21,7 @@ AddMissingIndexesOnTaggings.class_eval do
     unless index_exists? :taggings,
                          %i[taggable_id taggable_type tagger_id context],
                          name: 'taggings_idy'
-      add_index :taggings,
-                %i[taggable_id taggable_type tagger_id context],
-                name: 'taggings_idy'
+      add_index :taggings, %i[taggable_id taggable_type tagger_id context], name: 'taggings_idy'
     end
   end
 end

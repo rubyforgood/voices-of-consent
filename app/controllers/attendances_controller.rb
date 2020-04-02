@@ -28,16 +28,11 @@ class AttendancesController < ApplicationController
 
     respond_to do |format|
       if @attendance.save
-        format.html do
-          redirect_to @attendance,
-                      notice: 'Attendance was successfully created.'
-        end
+        format.html { redirect_to @attendance, notice: 'Attendance was successfully created.' }
         format.json { render :show, status: :created, location: @attendance }
       else
         format.html { render :new }
-        format.json do
-          render json: @attendance.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @attendance.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,16 +42,11 @@ class AttendancesController < ApplicationController
   def update
     respond_to do |format|
       if @attendance.update(attendance_params)
-        format.html do
-          redirect_to @attendance,
-                      notice: 'Attendance was successfully updated.'
-        end
+        format.html { redirect_to @attendance, notice: 'Attendance was successfully updated.' }
         format.json { render :show, status: :ok, location: @attendance }
       else
         format.html { render :edit }
-        format.json do
-          render json: @attendance.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @attendance.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,10 +56,7 @@ class AttendancesController < ApplicationController
   def destroy
     @attendance.destroy
     respond_to do |format|
-      format.html do
-        redirect_to attendances_url,
-                    notice: 'Attendance was successfully destroyed.'
-      end
+      format.html { redirect_to attendances_url, notice: 'Attendance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -83,11 +70,6 @@ class AttendancesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def attendance_params
-    params.require(:attendance).permit(
-      :meeting_id,
-      :user_id,
-      :special_duties,
-      :completed_hours
-    )
+    params.require(:attendance).permit(:meeting_id, :user_id, :special_duties, :completed_hours)
   end
 end

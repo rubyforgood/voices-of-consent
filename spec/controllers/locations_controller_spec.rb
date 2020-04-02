@@ -43,9 +43,7 @@ RSpec.describe LocationsController, type: :controller do
     }
   end
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
+  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
 
   describe 'GET #index' do
     it 'returns a success response' do
@@ -70,9 +68,7 @@ RSpec.describe LocationsController, type: :controller do
     it 'can sort by field in desired direction' do
       location1 = Location.create!(valid_attributes)
       location2 = Location.create!(valid_attributes.merge(name: 'Zzzzzz'))
-      get :index,
-          format: :json,
-          params: { sort_by: { attribute: :name, direction: :desc } }
+      get :index, format: :json, params: { sort_by: { attribute: :name, direction: :desc } }
       parsed_body = JSON.parse(response.body)
 
       expect(parsed_body.first['name']).to eq(location2.name)
@@ -106,9 +102,8 @@ RSpec.describe LocationsController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Location' do
-        expect do
-          post :create, params: { location: valid_attributes }
-        end.to change(Location, :count).by(1)
+        expect { post :create, params: { location: valid_attributes } }.to change(Location, :count)
+          .by(1)
       end
 
       it 'redirects to the created location' do
@@ -127,9 +122,7 @@ RSpec.describe LocationsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { skip('Add a hash of attributes valid for your model') }
 
       it 'updates the requested location' do
         location = Location.create! valid_attributes
@@ -140,8 +133,7 @@ RSpec.describe LocationsController, type: :controller do
 
       it 'redirects to the location' do
         location = Location.create! valid_attributes
-        put :update,
-            params: { id: location.to_param, location: valid_attributes }
+        put :update, params: { id: location.to_param, location: valid_attributes }
         expect(response).to redirect_to(location)
       end
     end
@@ -149,8 +141,7 @@ RSpec.describe LocationsController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         location = Location.create! valid_attributes
-        put :update,
-            params: { id: location.to_param, location: invalid_attributes }
+        put :update, params: { id: location.to_param, location: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -159,10 +150,9 @@ RSpec.describe LocationsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested location' do
       location = Location.create! valid_attributes
-      expect { delete :destroy, params: { id: location.to_param } }.to change(
-        Location,
-        :count
-      ).by(-1)
+      expect { delete :destroy, params: { id: location.to_param } }.to change(Location, :count).by(
+        -1
+      )
     end
 
     it 'redirects to the locations list' do

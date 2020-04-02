@@ -30,10 +30,8 @@ RSpec.describe MessageLog, type: :model do
     describe 'scopes' do
       it 'returns ordered in descending order of creation' do
         volunteer = build(:volunteer, id: 1)
-        first =
-          create(:message_log, messageable: volunteer, sendable: volunteer)
-        second =
-          create(:message_log, messageable: volunteer, sendable: volunteer)
+        first = create(:message_log, messageable: volunteer, sendable: volunteer)
+        second = create(:message_log, messageable: volunteer, sendable: volunteer)
 
         expect(MessageLog.ordered).to eq([second, first])
       end

@@ -47,9 +47,7 @@ RSpec.describe VolunteerApplicationController, type: :controller do
 
     it 'returns redirect_url with a succesful submission' do
       post :create, params: { volunteerApplication: test_data }
-      expect(JSON.parse(response.body)).to include(
-        'redirect_url' => volunteers_thank_you_path
-      )
+      expect(JSON.parse(response.body)).to include('redirect_url' => volunteers_thank_you_path)
     end
   end
 end

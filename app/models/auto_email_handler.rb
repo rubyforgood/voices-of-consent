@@ -11,12 +11,7 @@ class AutoEmailHandler
     @mailer_klass = nil
     @mailer_action = nil
     @permission_name = nil
-    @recipients =
-      if recipient_type == 'requester'
-        [object.requester]
-      else
-        get_solicitation_recipients
-      end
+    @recipients = recipient_type == 'requester' ? [object.requester] : get_solicitation_recipients
     @queued_autoemails = []
 
     send_relevant_messages
@@ -32,13 +27,11 @@ class AutoEmailHandler
   ######
 
   def get_solicitation_recipients
-    User.includes(:volunteer).where(volunteers: { ok_to_email: true })
-        .permission(@permission_name)
+    User.includes(:volunteer).where(volunteers: { ok_to_email: true }).permission(@permission_name)
   end
 
   def set_mailer_klass
-    @mailer_klass =
-      @recipient_type.include?('requester') ? RequesterMailer : VolunteerMailer
+    @mailer_klass = @recipient_type.include?('requester') ? RequesterMailer : VolunteerMailer
   end
 
   def set_mailer_mailer_action_and_permission
@@ -84,11 +77,7 @@ class AutoEmailHandler
     @queued_autoemails.each do |email_object|
       sent_email = send_email(email_object)
       recipient =
-        if @recipients.length == 1
-          @recipients.first
-        else
-          @recipients.where(email: email_object.to).last
-        end
+        @recipients.length == 1 ? @recipients.first : @recipients.where(email: email_object.to).last
       message_log =
         MessageLog.log_autoemail(
           email_object,

@@ -16,18 +16,13 @@ class BoxShipmentController < ApplicationController
         if @box.save
           @box.claim_shipping! if @box.aasm_state == 'assembled'
           format.html do
-            redirect_to box_request_claim_thank_you_path(
-              @box.box_request,
-              'assemble'
-            ),
+            redirect_to box_request_claim_thank_you_path(@box.box_request, 'assemble'),
                         notice: 'Box design was successfully claimed.'
           end
           format.json { render :show, status: :ok, location: @box }
         else
           format.html { render :edit }
-          format.json do
-            render json: @box.errors, status: :unprocessable_entity
-          end
+          format.json { render json: @box.errors, status: :unprocessable_entity }
         end
       end
     else
@@ -41,21 +36,16 @@ class BoxShipmentController < ApplicationController
       respond_to do |format|
         if @box.decline_shipping!
           format.html do
-            redirect_to box_request_decline_thank_you_path(
-              id: @box.box_request, phase: 'shipping'
-            )
+            redirect_to box_request_decline_thank_you_path(id: @box.box_request, phase: 'shipping')
           end
           format.json { render :show, status: :ok, location: @box }
         else
-          format.html do
-            redirect_to root_path, alert: 'Box shipping decline failed.'
-          end
+          format.html { redirect_to root_path, alert: 'Box shipping decline failed.' }
           format.json { render :show, status: :ok, location: @box }
         end
       end
     else
-      redirect_to edit_box_path(@box),
-                  notice: 'You previously claimed shipping of this Box'
+      redirect_to edit_box_path(@box), notice: 'You previously claimed shipping of this Box'
     end
   end
 
@@ -76,8 +66,7 @@ class BoxShipmentController < ApplicationController
         end
 
         format.html do
-          redirect_to box_requests_path,
-                      notice: 'Box design was successfully claimed.'
+          redirect_to box_requests_path, notice: 'Box design was successfully claimed.'
         end
         format.json { render :show, status: :ok, location: @box }
       else

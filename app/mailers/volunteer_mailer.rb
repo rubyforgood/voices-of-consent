@@ -5,26 +5,18 @@ class VolunteerMailer < ApplicationMailer
 
   def welcome_email(volunteer)
     @volunteer = volunteer
-    mail(
-      to: User.find(@volunteer.user.id).email,
-      subject: 'Welcome to Voices of Consent!'
-    )
+    mail(to: User.find(@volunteer.user.id).email, subject: 'Welcome to Voices of Consent!')
   end
 
   def box_request_email(volunteer)
     @volunteer = volunteer
-    mail(
-      to: User.find(@volunteer.user.id).email,
-      subject: 'A Box Request has been sent'
-    )
+    mail(to: User.find(@volunteer.user.id).email, subject: 'A Box Request has been sent')
   end
 
   def review_solicitation_email(volunteer, box_request)
     @recipient = volunteer
     @box_request = box_request
-    mail(
-      to: @recipient.email, subject: 'Voices of Consent BoxRequest needs Review'
-    )
+    mail(to: @recipient.email, subject: 'Voices of Consent BoxRequest needs Review')
   end
 
   def design_solicitation_email(volunteer, box_request)
@@ -42,9 +34,7 @@ class VolunteerMailer < ApplicationMailer
   def research_solicitation_email(volunteer, box_request)
     @recipient = volunteer
     @box_request = box_request
-    mail(
-      to: @recipient.email, subject: 'Voices of Consent BoxItem needs Research'
-    )
+    mail(to: @recipient.email, subject: 'Voices of Consent BoxItem needs Research')
   end
 
   def shipping_solicitation_email(volunteer, box_request)

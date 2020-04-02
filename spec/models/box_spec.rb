@@ -21,10 +21,8 @@ RSpec.describe Box, type: :model do
   let(:box_request_1) do
     BoxRequest.create(
       requester: requester,
-      summary:
-        'Lorem ipsum text.... Caramels tart sweet pudding pie candy lollipop.',
-      question_re_affect:
-        'Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies.',
+      summary: 'Lorem ipsum text.... Caramels tart sweet pudding pie candy lollipop.',
+      question_re_affect: 'Lorem ipsum text.... Tart jujubes candy canes pudding I love gummies.',
       question_re_current_situation: 'Sweet roll cake pastry cookie.',
       question_re_referral_source:
         'Ice cream sesame snaps danish marzipan macaroon icing jelly beans.'
@@ -37,12 +35,8 @@ RSpec.describe Box, type: :model do
   let(:assembler) { create(:user, :assembler) }
   let(:shipper) { create(:user, :shipper) }
   let(:follow_upper) { create(:user, :follow_upper) }
-  let(:inventory_type_research_needed) do
-    create(:inventory_type, requires_research: true)
-  end
-  let(:inventory_type_no_research_needed) do
-    create(:inventory_type, requires_research: false)
-  end
+  let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
+  let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
 
   describe 'state transitions' do
     before(:each) { allow(AutoEmailHandler).to receive(:new) }
@@ -64,8 +58,7 @@ RSpec.describe Box, type: :model do
       box = box_request_1.box
       box.designed_by_id = designer.id
       box.save
-      expect(box).to transition_from(:reviewed).to(:design_in_progress)
-                                               .on_event(:claim_design)
+      expect(box).to transition_from(:reviewed).to(:design_in_progress).on_event(:claim_design)
     end
 
     it 'transitions from design_in_progress to designed' do
@@ -80,12 +73,8 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
-      expect(box).to transition_from(:design_in_progress).to(:designed)
-                                                         .on_event(:complete_design)
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
+      expect(box).to transition_from(:design_in_progress).to(:designed).on_event(:complete_design)
       expect(box).to have_received(:send_research_solicitation_email!) # make sure there are items
     end
 
@@ -101,12 +90,8 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_no_research_needed
-      )
-      expect(box).to transition_from(:design_in_progress).to(:researched)
-                                                         .on_event(:complete_design)
+      create(:box_item, box: box, inventory_type: inventory_type_no_research_needed)
+      expect(box).to transition_from(:design_in_progress).to(:researched).on_event(:complete_design)
       expect(box).to have_received(:send_assembly_solicitation_email!) # make sure there are items
     end
 
@@ -121,15 +106,11 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
-      expect(box).to transition_from(:designed).to(:research_in_progress)
-                                               .on_event(:claim_research) # make sure there are items
+      expect(box).to transition_from(:designed).to(:research_in_progress).on_event(:claim_research) # make sure there are items
     end
 
     it 'transitions from research_in_progress to researched' do
@@ -145,22 +126,18 @@ RSpec.describe Box, type: :model do
       box.save
       box.claim_design!
       box.check_has_box_items
-      expect(box).to receive(:send_research_solicitation_email!).and_return(
-        true
-      )
+      expect(box).to receive(:send_research_solicitation_email!).and_return(true)
 
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
       box.claim_research!
       box.mark_box_items_as_researched!
-      expect(box).to transition_from(:research_in_progress).to(:researched)
-                                                           .on_event(:complete_research)
+      expect(box).to transition_from(:research_in_progress).to(:researched).on_event(
+        :complete_research
+      )
       expect(box.researched_at).to eq(time_now) # make sure there are items
     end
 
@@ -175,10 +152,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -187,8 +161,9 @@ RSpec.describe Box, type: :model do
       box.complete_research!
       box.assembled_by_id = assembler.id
       box.save
-      expect(box).to transition_from(:researched).to(:assembly_in_progress)
-                                                 .on_event(:claim_assembly) # make sure there are items
+      expect(box).to transition_from(:researched).to(:assembly_in_progress).on_event(
+        :claim_assembly
+      ) # make sure there are items
     end
 
     it 'transitons from assembly_in_progress to assembled' do
@@ -203,10 +178,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -216,8 +188,9 @@ RSpec.describe Box, type: :model do
       box.assembled_by_id = assembler.id
       box.save
       box.claim_assembly!
-      expect(box).to transition_from(:assembly_in_progress).to(:assembled)
-                                                           .on_event(:complete_assembly)
+      expect(box).to transition_from(:assembly_in_progress).to(:assembled).on_event(
+        :complete_assembly
+      )
       expect(box).to have_received(:send_shipping_solicitation_email!) # make sure there are items
     end
 
@@ -232,10 +205,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -248,8 +218,7 @@ RSpec.describe Box, type: :model do
       box.shipped_by_id = shipper.id
       box.save
       box.complete_assembly!
-      expect(box).to transition_from(:assembled).to(:shipping_in_progress)
-                                                .on_event(:claim_shipping) # make sure there are items
+      expect(box).to transition_from(:assembled).to(:shipping_in_progress).on_event(:claim_shipping) # make sure there are items
     end
 
     it 'transitons from shipping in progress to shipped' do
@@ -263,10 +232,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -280,8 +246,9 @@ RSpec.describe Box, type: :model do
       box.save
       box.complete_assembly!
       box.claim_shipping!
-      expect(box).to transition_from(:shipping_in_progress).to(:shipped)
-                                                           .on_event(:complete_shipping) # make sure there are items
+      expect(box).to transition_from(:shipping_in_progress).to(:shipped).on_event(
+        :complete_shipping
+      ) # make sure there are items
     end
 
     it 'transitons from shipped to follow_up_in_progress' do
@@ -295,10 +262,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -314,8 +278,7 @@ RSpec.describe Box, type: :model do
       box.claim_shipping!
       box.followed_up_by_id = follow_upper.id
       box.save
-      expect(box).to transition_from(:shipped).to(:follow_up_in_progress)
-                                              .on_event(:claim_follow_up) # make sure there are items
+      expect(box).to transition_from(:shipped).to(:follow_up_in_progress).on_event(:claim_follow_up) # make sure there are items
     end
 
     it 'transitons from follow_up_in_progress to followed up' do
@@ -329,10 +292,7 @@ RSpec.describe Box, type: :model do
       box.claim_design!
       box.check_has_box_items
       # make sure at least one item needs research
-      create(
-        :box_item,
-        box: box, inventory_type: inventory_type_research_needed
-      )
+      create(:box_item, box: box, inventory_type: inventory_type_research_needed)
       box.complete_design!
       box.researched_by_id = researcher.id
       box.save
@@ -350,8 +310,9 @@ RSpec.describe Box, type: :model do
       box.followed_up_by_id = follow_upper.id
       box.save
       box.claim_follow_up!
-      expect(box).to transition_from(:follow_up_in_progress).to(:followed_up)
-                                                            .on_event(:complete_follow_up) # make sure there are items
+      expect(box).to transition_from(:follow_up_in_progress).to(:followed_up).on_event(
+        :complete_follow_up
+      ) # make sure there are items
     end
   end
 
@@ -362,11 +323,7 @@ RSpec.describe Box, type: :model do
 
       box.send_research_solicitation_email!
 
-      expect(AutoEmailHandler).to have_received(:new).with(
-        'volunteer',
-        box,
-        designer
-      )
+      expect(AutoEmailHandler).to have_received(:new).with('volunteer', box, designer)
     end
   end
 
@@ -386,17 +343,12 @@ RSpec.describe Box, type: :model do
 
       box.send_shipping_solicitation_email!
 
-      expect(AutoEmailHandler).to have_received(:new).with(
-        'volunteer',
-        box,
-        box.assembled_by
-      )
+      expect(AutoEmailHandler).to have_received(:new).with('volunteer', box, box.assembled_by)
     end
   end
 
   it do
-    is_expected.to belong_to(:assembly_location).class_name('Location')
-                                                .optional,
+    is_expected.to belong_to(:assembly_location).class_name('Location').optional,
                    inverse_of: :assembled_boxes
   end
 end

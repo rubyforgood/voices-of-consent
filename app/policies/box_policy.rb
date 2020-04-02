@@ -23,11 +23,7 @@ class BoxPolicy
     end
 
     def resolve
-      if BoxPolicy.new(user, scope).can_design?
-        scope.where(designed_by_id: [user, nil])
-      else
-        scope.none
-      end
+      BoxPolicy.new(user, scope).can_design? ? scope.where(designed_by_id: [user, nil]) : scope.none
     end
   end
 
@@ -51,9 +47,7 @@ class BoxPolicy
   end
 
   def can_review_box_request?
-    !!UserPermission.find_by(
-      user: user, permission: Permission::REQUEST_REVIEWER
-    )
+    !!UserPermission.find_by(user: user, permission: Permission::REQUEST_REVIEWER)
   end
 
   class AssemblyScope
@@ -65,11 +59,7 @@ class BoxPolicy
     end
 
     def resolve
-      if BoxPolicy.new(user, scope).can_design?
-        scope.where(designed_by_id: [user, nil])
-      else
-        scope.none
-      end
+      BoxPolicy.new(user, scope).can_design? ? scope.where(designed_by_id: [user, nil]) : scope.none
     end
   end
 
@@ -86,11 +76,7 @@ class BoxPolicy
     end
 
     def resolve
-      if BoxPolicy.new(user, scope).can_ship?
-        scope.where(shipped_by_id: [user, nil])
-      else
-        scope.none
-      end
+      BoxPolicy.new(user, scope).can_ship? ? scope.where(shipped_by_id: [user, nil]) : scope.none
     end
   end
 

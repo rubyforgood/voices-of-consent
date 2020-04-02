@@ -25,25 +25,19 @@ class BoxRequest < ApplicationRecord
 
   scope :requested, -> { where(reviewed_by_id: nil) }
   scope :designed, -> { joins(:box).where('boxes.aasm_state = ?', 'designed') }
-  scope :design_in_progress,
-        -> { joins(:box).where('boxes.aasm_state = ?', 'design_in_progress') }
+  scope :design_in_progress, -> { joins(:box).where('boxes.aasm_state = ?', 'design_in_progress') }
   scope :assembly_in_progress,
         -> { joins(:box).where('boxes.aasm_state = ?', 'assembly_in_progress') }
-  scope :assembled,
-        -> { joins(:box).where('boxes.aasm_state = ?', 'assembled') }
+  scope :assembled, -> { joins(:box).where('boxes.aasm_state = ?', 'assembled') }
   scope :shipping_in_progress,
         -> { joins(:box).where('boxes.aasm_state = ?', 'shipping_in_progress') }
   scope :shipped, -> { joins(:box).where('boxes.aasm_state = ?', 'shipped') }
   scope :research_in_progress,
         -> { joins(:box).where('boxes.aasm_state = ?', 'research_in_progress') }
-  scope :researched,
-        -> { joins(:box).where('boxes.aasm_state = ?', 'researched') }
+  scope :researched, -> { joins(:box).where('boxes.aasm_state = ?', 'researched') }
   scope :follow_up_in_progress,
-        lambda {
-          joins(:box).where('boxes.aasm_state = ?', 'follow_up_in_progress')
-        }
-  scope :followed_up,
-        -> { joins(:box).where('boxes.aasm_state = ?', 'followed_up') }
+        -> { joins(:box).where('boxes.aasm_state = ?', 'follow_up_in_progress') }
+  scope :followed_up, -> { joins(:box).where('boxes.aasm_state = ?', 'followed_up') }
 
   aasm do
     state :requested, initial: true
@@ -53,9 +47,7 @@ class BoxRequest < ApplicationRecord
     after_all_transitions :log_status_change
 
     event :claim_review do
-      transitions from: :requested,
-                  to: :review_in_progress,
-                  guard: :check_reviewer
+      transitions from: :requested, to: :review_in_progress, guard: :check_reviewer
     end
 
     event :complete_review, before: :mark_as_reviewed! do
@@ -96,8 +88,6 @@ class BoxRequest < ApplicationRecord
   end
 
   def log_status_change
-    puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{
-           aasm.current_event
-         })"
+    puts "Changed from #{aasm.from_state} to #{aasm.to_state} (event: #{aasm.current_event})"
   end
 end

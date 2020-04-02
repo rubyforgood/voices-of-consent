@@ -22,7 +22,5 @@ module Permission
   VIEW_MESSAGE_LOGS = 'view message logs'
   # add new permissions above this line; new constants that are not permissions must go below AVAILABLE_PERMISSIONS=
   AVAILABLE_PERMISSIONS =
-    constants.each_with_object({}) do |c, permissions|
-      permissions[c] = const_get(c)
-    end
+    constants.each_with_object({}) { |c, permissions| permissions[c] = const_get(c) }
 end

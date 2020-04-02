@@ -20,9 +20,7 @@ RSpec.describe Location, type: :model do
     end
 
     it 'is invalid without location_type' do
-      expect(
-        Location.new(valid_attributes.without(:location_type))
-      ).to be_invalid
+      expect(Location.new(valid_attributes.without(:location_type))).to be_invalid
     end
   end
 
@@ -55,22 +53,17 @@ RSpec.describe Location, type: :model do
     expect(volunteer.reload.university_location).to be_nil
   end
 
-
-  it { 
-    is_expected.to have_many(:assembled_boxes)
-    .class_name('Box'),
-    foreign_key: 'assembly_location_id',
-    inverse_of: :assembly_location
-  }
+  it do
+    is_expected.to have_many(:assembled_boxes).class_name('Box'),
+                   foreign_key: 'assembly_location_id', inverse_of: :assembly_location
+  end
 
   context 'after_create' do
     context 'when location_type is storage_unit' do
-      before do
-        create_list(:inventory_type, 4)
-      end
+      before { create_list(:inventory_type, 4) }
 
       it 'should create a InventoryTally to each InventoryType' do
-        location = create(:location, location_type: "storage_unit")
+        location = create(:location, location_type: 'storage_unit')
         expect(InventoryTally.where(storage_location: location).count).to eq(4)
       end
     end

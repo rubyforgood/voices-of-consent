@@ -4,8 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'inventory_adjustments/show', type: :view do
   before(:each) do
-    @inventory_adjustment =
-      create(:inventory_adjustment, total_cost: 2, adjustment_quantity: 5)
+    @inventory_adjustment = create(:inventory_adjustment, total_cost: 2, adjustment_quantity: 5)
   end
 
   it 'renders attributes in <p>' do

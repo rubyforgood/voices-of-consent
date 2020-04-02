@@ -47,25 +47,20 @@ class InventoryImporter
 
   def upsert_tally(row)
     location =
-      Location.where('lower(name) = ?', row['location_name'].downcase)
-              .first_or_create(
-                name: row['location_name'], location_type: row['location_type']
-              )
+      Location.where('lower(name) = ?', row['location_name'].downcase).first_or_create(
+        name: row['location_name'], location_type: row['location_type']
+      )
 
     inventory_type =
-      InventoryType.where(
-        'lower(name) = ?',
-        row['inventory_type_name'].downcase
-      ).first_or_create(name: row['inventory_type_name'])
+      InventoryType.where('lower(name) = ?', row['inventory_type_name'].downcase).first_or_create(
+        name: row['inventory_type_name']
+      )
 
     tally =
-      InventoryTally.where(inventory_type: inventory_type).where(
-        storage_location: location
-      ).first_or_create
+      InventoryTally.where(inventory_type: inventory_type).where(storage_location: location)
+                    .first_or_create
 
-    tally.inventory_adjustments.create(
-      adjustment_quantity: row['quantity'].to_i
-    )
+    tally.inventory_adjustments.create(adjustment_quantity: row['quantity'].to_i)
 
     tally
   rescue StandardError

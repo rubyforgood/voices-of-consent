@@ -11,10 +11,7 @@ class RequestersController < ApplicationController
   end
 
   def index_for_selections
-    @requesters =
-      Requester.all.map do |requester|
-        { id: requester.id, name: requester.name }
-      end
+    @requesters = Requester.all.map { |requester| { id: requester.id, name: requester.name } }
     respond_to { |format| format.json { render json: @requesters } }
   end
 
@@ -38,15 +35,11 @@ class RequestersController < ApplicationController
 
     respond_to do |format|
       if @requester.save
-        format.html do
-          redirect_to @requester, notice: 'Requester was successfully created.'
-        end
+        format.html { redirect_to @requester, notice: 'Requester was successfully created.' }
         format.json { render :show, status: :created, location: @requester }
       else
         format.html { render :new }
-        format.json do
-          render json: @requester.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @requester.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,15 +49,11 @@ class RequestersController < ApplicationController
   def update
     respond_to do |format|
       if @requester.update(requester_params)
-        format.html do
-          redirect_to @requester, notice: 'Requester was successfully updated.'
-        end
+        format.html { redirect_to @requester, notice: 'Requester was successfully updated.' }
         format.json { render :show, status: :ok, location: @requester }
       else
         format.html { render :edit }
-        format.json do
-          render json: @requester.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @requester.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,18 +63,13 @@ class RequestersController < ApplicationController
   def destroy
     @requester.destroy
     respond_to do |format|
-      format.html do
-        redirect_to requesters_url,
-                    notice: 'Requester was successfully destroyed.'
-      end
+      format.html { redirect_to requesters_url, notice: 'Requester was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   def thank_you
-    respond_to do |format|
-      format.html { render layout: 'outreach_form_layout' }
-    end
+    respond_to { |format| format.html { render layout: 'outreach_form_layout' } }
   end
 
   private

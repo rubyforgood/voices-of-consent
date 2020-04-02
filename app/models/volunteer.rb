@@ -38,12 +38,8 @@ class Volunteer < ApplicationRecord
         zip: row[6],
         county: row[7],
         phone: row[8],
-        university_location_id: nil,
-        graduation_year:
-          # depending on how locations are being created and used we could use Location.find(row[8].to_i).id
-          row[
-            10
-          ],
+        university_location_id: nil, # depending on how locations are being created and used we could use Location.find(row[8].to_i).id
+        graduation_year: row[10],
         ok_to_email: row[11],
         ok_to_text: row[12],
         ok_to_call: row[13],
@@ -55,8 +51,7 @@ class Volunteer < ApplicationRecord
         email: row[2],
         password: 'Secret!!',
         password_confirmation: 'Secret!!',
-        volunteer_id:
-          Volunteer.find_by(first_name: row[0], last_name: row[1]).id
+        volunteer_id: Volunteer.find_by(first_name: row[0], last_name: row[1]).id
       )
 
       volunteer = Volunteer.find_by(first_name: row[0], last_name: row[1])

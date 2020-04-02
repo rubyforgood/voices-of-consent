@@ -31,13 +31,9 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # InventoryAdjustment. As you add validations to InventoryAdjustment, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
+  let(:valid_attributes) { skip('Add a hash of attributes valid for your model') }
 
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
+  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -55,8 +51,7 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       inventory_adjustment = InventoryAdjustment.create! valid_attributes
-      get :show,
-          params: { id: inventory_adjustment.to_param }, session: valid_session
+      get :show, params: { id: inventory_adjustment.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -71,8 +66,7 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       inventory_adjustment = InventoryAdjustment.create! valid_attributes
-      get :edit,
-          params: { id: inventory_adjustment.to_param }, session: valid_session
+      get :edit, params: { id: inventory_adjustment.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -80,26 +74,20 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new InventoryAdjustment' do
-        expect do
-          post :create,
-               params: { inventory_adjustment: valid_attributes },
-               session: valid_session
-        end.to change(InventoryAdjustment, :count).by(1)
+        expect {
+          post :create, params: { inventory_adjustment: valid_attributes }, session: valid_session
+        }.to change(InventoryAdjustment, :count).by(1)
       end
 
       it 'redirects to the created inventory_adjustment' do
-        post :create,
-             params: { inventory_adjustment: valid_attributes },
-             session: valid_session
+        post :create, params: { inventory_adjustment: valid_attributes }, session: valid_session
         expect(response).to redirect_to(InventoryAdjustment.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create,
-             params: { inventory_adjustment: invalid_attributes },
-             session: valid_session
+        post :create, params: { inventory_adjustment: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -107,17 +95,12 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { skip('Add a hash of attributes valid for your model') }
 
       it 'updates the requested inventory_adjustment' do
         inventory_adjustment = InventoryAdjustment.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_adjustment.to_param,
-              inventory_adjustment: new_attributes
-            },
+            params: { id: inventory_adjustment.to_param, inventory_adjustment: new_attributes },
             session: valid_session
         inventory_adjustment.reload
         skip('Add assertions for updated state')
@@ -126,10 +109,7 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
       it 'redirects to the inventory_adjustment' do
         inventory_adjustment = InventoryAdjustment.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_adjustment.to_param,
-              inventory_adjustment: valid_attributes
-            },
+            params: { id: inventory_adjustment.to_param, inventory_adjustment: valid_attributes },
             session: valid_session
         expect(response).to redirect_to(inventory_adjustment)
       end
@@ -139,10 +119,7 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         inventory_adjustment = InventoryAdjustment.create! valid_attributes
         put :update,
-            params: {
-              id: inventory_adjustment.to_param,
-              inventory_adjustment: invalid_attributes
-            },
+            params: { id: inventory_adjustment.to_param, inventory_adjustment: invalid_attributes },
             session: valid_session
         expect(response).to be_successful
       end
@@ -152,18 +129,14 @@ RSpec.describe InventoryAdjustmentsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested inventory_adjustment' do
       inventory_adjustment = InventoryAdjustment.create! valid_attributes
-      expect do
-        delete :destroy,
-               params: { id: inventory_adjustment.to_param },
-               session: valid_session
-      end.to change(InventoryAdjustment, :count).by(-1)
+      expect {
+        delete :destroy, params: { id: inventory_adjustment.to_param }, session: valid_session
+      }.to change(InventoryAdjustment, :count).by(-1)
     end
 
     it 'redirects to the inventory_adjustments list' do
       inventory_adjustment = InventoryAdjustment.create! valid_attributes
-      delete :destroy,
-             params: { id: inventory_adjustment.to_param },
-             session: valid_session
+      delete :destroy, params: { id: inventory_adjustment.to_param }, session: valid_session
       expect(response).to redirect_to(inventory_adjustments_url)
     end
   end
