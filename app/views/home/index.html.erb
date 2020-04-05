@@ -8,3 +8,36 @@
 <!-- Image Header -->
 <img class="img-fluid rounded mb-4" src="https://voices-of-consent-static-images.s3.amazonaws.com/voc_logo.jpg" alt="">
 
+<h2>Dashboard</h2>
+
+<div class="filter">
+  <%= form_for :inventory, action: root_path, method: :get do |f| %>
+    <%= f.date_field :start_date, value: params.dig(:inventory, :start_date) %>
+    <%= f.date_field :end_date, value: params.dig(:inventory, :end_date) %>
+    <%= f.submit 'Filter', :class => 'btn btn-success' %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="info-box">
+    <span class="info-box-icon bg-green"><i class="fas fa-box"></i></span>
+    <span class="info-box-text">Box Shipped</span>
+    <span class="info-box-content"><%= @presenter.total_box_shipped %></span>
+  </div>
+
+  <div class="info-box">
+    <span class="info-box-icon bg-aqua"><i class="fas fa-box-open"></i></span>
+    <span class="info-box-text">Box Requests<span>
+    <span class="info-box-content"><%= @presenter.total_box_requests %></span>
+  </div>
+</div>
+
+<h3>Total Items grouped by inventory</h3>
+<%= pie_chart(@presenter.total_items) %>
+
+<h3>Inventory type per location</h3>
+<%= pie_chart(@presenter.inventory_per_location) %>
+
+<h3>Total Purchases that have a box via shipping payment</h3>
+<%= pie_chart(@presenter.purchases_total) %>
+
