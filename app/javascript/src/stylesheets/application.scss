@@ -51,6 +51,19 @@ body {
   z-index: 3;
 }
 
+.btn {
+  border-radius: 3px;
+  border: 1px solid transparent;
+  font-weight: 400;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-success {
+  background-color: #00a65a;
+  color: #fff;
+  border-color: #008d4c;
+}
 
 footer {
   background-color: $footer-bg;
