@@ -10,6 +10,8 @@
     "@rails/webpacker": "^4.0.7",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.9.3",
+    "chartkick": "^3.2.0",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
     "prop-types": "^15.7.2",
