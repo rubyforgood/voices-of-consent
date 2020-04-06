@@ -15,8 +15,15 @@ FactoryBot.define do
       design_reviewed_by_id  {create(:user, :reviewer).id}
       design_reviewed_at { Time.now }
     end
+
+    trait :designed_no_research do 
+      design_in_progress
+      designed_at { Time.now }
+      aasm_state { "designed"}
+      box_items {create_list(:box_item, 1, :no_research_needed)}
+    end
     
-    trait :designed do 
+    trait :designed_needs_research do 
       design_in_progress
       designed_at { Time.now }
       aasm_state { "designed"}
@@ -24,7 +31,7 @@ FactoryBot.define do
     end
 
     trait :research_in_progress do 
-      designed
+      designed_needs_research
       aasm_state {"research_in_progress"}
       researched_by_id {create(:user, :researcher).id}
     end

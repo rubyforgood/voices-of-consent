@@ -43,17 +43,17 @@ RSpec.describe Box, :type => :model do
     end
 
     it "transitions from design_in_progress to researched when research not needed" do
-      box = build(:box, :design_in_progress)
+      #build a box with one item that does not require research
+      box = build(:box, :designed_no_research)
       allow(box).to receive(:send_assembly_solicitation_email!)
       #box.claim_design!
-      # add item that doesn't require research
-      create(:box_item, box: box)
       expect(box).to transition_from(:design_in_progress).to(:researched).on_event(:complete_design)
       expect(box).to have_received(:send_assembly_solicitation_email!)
     end
 
     it "transitions from designed to research_in_progress" do
-      box = build(:box, :designed)
+      #build a box with one item that does require research
+      box = build(:box, :designed_needs_research)
       box.researched_by_id = researcher.id
       expect(box).to transition_from(:designed).to(:research_in_progress).on_event(:claim_research)
     end
