@@ -4,25 +4,25 @@
   <% end %>
   <% if user_signed_in? %>
     <%= link_to box_requests_path, class: 'nav-icon' do %>
-      <i class="fas fa-user-clock"></i>
+      <i class="fas fa-user-clock" aria-hidden="true" role="presentation"></i>
       <span>Status</span>
     <% end %>
 
     <% if current_user.is_admin? %>
       <a class="nav-icon" href="/box_requests?filter_by=review_in_progress">
-        <i class="fas fa-address-card"></i>
+        <i class="fas fa-address-card" aria-hidden="true" role="presentation"></i>
         <span>Review</span>
       </a>
       <a class="nav-icon" href="/box_requests?filter_by=design_in_progress">
-        <i class="fas fa-object-group"></i>
+        <i class="fas fa-object-group" aria-hidden="true" role="presentation"></i>
         <span>Design</span>
       </a>
       <a class="nav-icon" href="/box_requests?filter_by=assembly_in_progress">
-        <i class="fas fa-box-open"></i>
+        <i class="fas fa-box-open" aria-hidden="true" role="presentation"></i>
         <span>Packing</span>
       </a>
       <a class="nav-icon" href="/box_requests?filter_by=shipping_in_progress">
-        <i class="fas fa-box"></i>
+        <i class="fas fa-box" aria-hidden="true" role="presentation"></i>
         <span>Shipping</span>
       </a>
     <% else %>
