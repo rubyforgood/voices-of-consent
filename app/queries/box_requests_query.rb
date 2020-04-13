@@ -1,5 +1,13 @@
-class BoxRequestsQuery
-  def self.call(start_date: Date.current, end_date: Date.current)
-    BoxRequest.where(created_at: start_date.to_date..end_date.to_date).count
+class BoxRequestsQuery < BaseTimeFilteredQuery
+  def function
+    :count
+  end
+
+  def search_field
+    :created_at
+  end
+
+  def relation
+    BoxRequest.all
   end
 end
