@@ -2,13 +2,7 @@ class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:contact]
 
   def index
-    filters = {}
-
-    filters.tap do |hash|
-      permitted_params[:inventory].each do |key, value|
-        filters[key.to_sym] = value if value.present?
-      end
-    end
+    filters = InventoryDateFilter.call(permitted_params.to_h)
 
     @presenter = ::InventoryDashboardPresenter.new(**filters)
   end
