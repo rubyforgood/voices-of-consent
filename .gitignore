@@ -68,6 +68,10 @@ node_modules/
 yarn-debug.log*
 .yarn-integrity
 
+# Ignore vim files
+*.swp
+*.swo
+
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
