@@ -5,20 +5,6 @@ RSpec.describe InventoryDateFilter do
     let(:hash) {{ inventory: { start_date: Date.today.to_s, end_date: Date.today.to_s } }}
     let(:hash_expected) { { start_date: Date.today.to_s, end_date: Date.today.to_s } }
 
-    context "no params given" do
-      it "#initialize" do
-        expect(subject.params).to eq({})
-      end
-
-      it ".call" do
-        expect(described_class.call).to eq({})
-      end
-
-      it "#call" do
-        expect(described_class.new.call).to eq({})
-      end
-    end
-
     context "params given" do
       it "#initialize" do
         expect(described_class.new(hash).params).to eq(hash)
