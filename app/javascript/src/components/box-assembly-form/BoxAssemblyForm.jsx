@@ -61,6 +61,8 @@ const BoxAssemblyForm = () => {
       }
       return item;
     })
+
+    updateItems(updatedItems);
   }
 
   var locationReadout = (selectedLocation) ?<div>{selectedLocation.name}</div> : [];
