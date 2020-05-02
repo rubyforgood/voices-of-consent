@@ -5,6 +5,7 @@ import './BoxAssemblyForm.scss';
 const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
+  const [selectedLocation, setLocation] = useState(null);
 
   useEffect(() => {
     // API call to return predetermined box items.
@@ -21,6 +22,21 @@ const BoxAssemblyForm = () => {
           return item;
         })
         updateItems(unassembledItemChecklist);
+      });
+  }, [])
+
+  //Find a location to pull from:
+  useEffect(() => {
+
+    // API call to return predetermined box items.
+    fetch(`/locations.json?location_type=storage_unit`)
+      .then(response => response.json())
+      .then((data) => {
+        if(data && Array.isArray(data) && data.length > 0) {
+          //Pick the first location
+          console.log("Setting location",data[0]);
+          setLocation(data[0]);
+        }
       });
   }, [])
 
@@ -45,16 +61,19 @@ const BoxAssemblyForm = () => {
       }
       return item;
     })
-    console.log("CHRIS: updated items= ", updatedItems);
-    updateItems(updatedItems);
   }
 
+  var locationReadout = (selectedLocation) ?<div>{selectedLocation.name}</div> : [];
 
   return (
     <main className="box-assembly">
       <h2 className="box-assembly__header">Box Packing Checklist</h2>
+
       <section className="text-box">
         <p>Please check items as you add them to the box.</p>
+      </section>
+      <section className="text-box">
+        {selectedLocation && <p>Items are coming from: {locationReadout}</p>}
       </section>
       <section className="box-assembly__item-checker">
         {
