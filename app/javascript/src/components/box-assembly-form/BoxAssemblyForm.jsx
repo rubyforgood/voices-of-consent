@@ -34,7 +34,7 @@ const BoxAssemblyForm = () => {
       .then((data) => {
         if(data && Array.isArray(data) && data.length > 0) {
           //Pick the first location
-          console.log("Setting location",data[0]);
+          console.debug("Setting location",data[0]);
           setLocation(data[0]);
         }
       });
@@ -62,6 +62,18 @@ const BoxAssemblyForm = () => {
       return item;
     })
 
+    // //Go out and get a tally
+    // fetch(`/locations.json?location_type=storage_unit`)
+    //   .then(response => response.json())
+    //   .then((data) => {
+    //     if(data && Array.isArray(data) && data.length > 0) {
+    //       //Pick the first location
+    //       console.log("Setting location",data[0]);
+    //       setLocation(data[0]);
+    //     }
+    //   });
+
+
     updateItems(updatedItems);
   }
 
@@ -82,6 +94,7 @@ const BoxAssemblyForm = () => {
           items &&
             items.map((item, i) => (
               <ItemChecker 
+                enabled={selectedLocation ? true : false}
                 key={ i }
                 updateCheckStatus={ () => {
                   updateAssemblyStatus(i);
