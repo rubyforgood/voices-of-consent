@@ -4,7 +4,8 @@ class InventoryTalliesController < ApplicationController
   # GET /inventory_tallies
   # GET /inventory_tallies.json
   def index
-    @inventory_tallies = InventoryTally.all.includes(:storage_location, :inventory_type)
+    @inventory_tallies = filter_tally || InventoryTally.all.includes(:storage_location, :inventory_type)
+  
   end
 
   # GET /inventory_tallies/1
@@ -72,5 +73,13 @@ class InventoryTalliesController < ApplicationController
       params.require(:inventory_tally).permit(:additional_location_info,
                                               :inventory_type_id,
                                               :storage_location_id)
+    end
+    def filter_params
+      params.permit(:additional_location_info,
+                    :inventory_type_id,
+                    :storage_location_id)
+    end
+    def filter_tally
+      InventoryTally.where(filter_params).includes(:storage_location, :inventory_type) unless filter_params.empty?
     end
 end
