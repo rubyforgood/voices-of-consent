@@ -6,6 +6,7 @@ const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
   const [selectedLocation, setLocation] = useState(null);
+  const [selectedInventoryTally, setSelectedInventoryTall] = useState({});
 
   useEffect(() => {
     // API call to return predetermined box items.
@@ -32,9 +33,9 @@ const BoxAssemblyForm = () => {
     fetch(`/locations.json?location_type=storage_unit`)
       .then(response => response.json())
       .then((data) => {
-        if(data && Array.isArray(data) && data.length > 0) {
+        if (data && Array.isArray(data) && data.length > 0) {
           //Pick the first location
-          console.debug("Setting location",data[0]);
+          console.debug("Setting location", data[0]);
           setLocation(data[0]);
         }
       });
@@ -43,9 +44,9 @@ const BoxAssemblyForm = () => {
   // This will run on every update to the items to determine
   // if the box is fully assembled and ready to ship.
   useEffect(() => {
-    if(items){
+    if (items) {
       const uncheckedItems = items.filter(item => !item.checked);
-      if(!uncheckedItems.length){
+      if (!uncheckedItems.length) {
         updateIsAssembled(true);
       }
       else {
@@ -55,29 +56,66 @@ const BoxAssemblyForm = () => {
   }, [items])
 
   const updateAssemblyStatus = (index) => {
-    const updatedItems = items.map((item, i) => {
-      if(i === index) {
-        item.checked = !item.checked;
-      }
-      return item;
-    })
+    var clickedItem = items.filter((anItem, i)  => {
+        return i == index;
+    })[0];
 
-    // //Go out and get a tally
-    // fetch(`/locations.json?location_type=storage_unit`)
-    //   .then(response => response.json())
-    //   .then((data) => {
-    //     if(data && Array.isArray(data) && data.length > 0) {
-    //       //Pick the first location
-    //       console.log("Setting location",data[0]);
-    //       setLocation(data[0]);
-    //     }
-    //   });
+    if (!selectedInventoryTally[clickedItem.id]) {
+      //Go out and get a tally
+      fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + clickedItem.id)
+        .then(response => response.json())
+        .then((data) => {
+          if (data && Array.isArray(data) && data.length > 0) {
 
+            var updatedTally = { ...selectedInventoryTally };
+            updatedTally[clickedItem.id] = data[0];
+            setSelectedInventoryTall(updatedTally);
+            updateInventoryTally(data[0].id,clickedItem.id, clickedItem.checked ? 1 : -1,index)
+            //Create a new Inventory Tally, based on state
+          } else {
+            console.error("Try again?");
+          }
 
-    updateItems(updatedItems);
+        });
+    } else {
+      updateInventoryTally(selectedInventoryTally[clickedItem.id].id,clickedItem.id, clickedItem.checked ? 1 : -1,index)
+    }
+    
   }
 
-  var locationReadout = (selectedLocation) ?<div>{selectedLocation.name}</div> : [];
+  const updateInventoryTally = (inventory_tally_id, box_item_id, adjustment_quantity,index) =>{
+    console.log("Updated: ", inventory_tally_id,' box= ',box_item_id,'adj= ',adjustment_quantity)
+    var opts = {
+      inventory_tally_id: inventory_tally_id,
+      box_item_id: box_item_id,
+      adjustment_quantity: adjustment_quantity
+    }
+    const token = document.getElementsByName('csrf-token')[0].content
+
+    fetch(`/inventory_adjustments.json/`,{
+      method: 'POST',
+      body: JSON.stringify(opts),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
+      }
+    })
+        .then(response => response.json())
+        .then((data) => {
+          console.log("Response: ",data);
+          const updatedItems = items.map((item, i) => {
+            if (i === index) {
+              item.checked = !item.checked;
+            }
+            return item;
+          })
+          updateItems(updatedItems);
+        });
+  };
+
+  var locationReadout = (selectedLocation) ? <div>{selectedLocation.name}</div> : [];
 
   return (
     <main className="box-assembly">
@@ -92,27 +130,27 @@ const BoxAssemblyForm = () => {
       <section className="box-assembly__item-checker">
         {
           items &&
-            items.map((item, i) => (
-              <ItemChecker 
-                enabled={selectedLocation ? true : false}
-                key={ i }
-                updateCheckStatus={ () => {
-                  updateAssemblyStatus(i);
-                }}
-                { ...item }
-              />
-            ))
+          items.map((item, i) => (
+            <ItemChecker
+              enabled={selectedLocation ? true : false}
+              key={i}
+              updateCheckStatus={() => {
+                updateAssemblyStatus(i);
+              }}
+              {...item}
+            />
+          ))
         }
       </section>
       <section className="next-steps">
         <button
-          className={`${ isAssembled ? 'active' : '' }` }
-          disabled={ !items }
+          className={`${isAssembled ? 'active' : ''}`}
+          disabled={!items}
           onClick={() => {
             // TODO: AJAX Call
             console.log(items)
           }}
-        >{ !isAssembled ? 'Waiting' : 'The box is ready to go' }</button>
+        >{!isAssembled ? 'Waiting' : 'The box is ready to go'}</button>
       </section>
     </main>
   )
