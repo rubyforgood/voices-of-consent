@@ -8,8 +8,9 @@ class InventoryType < ApplicationRecord
   private
 
   def create_inventory_tallies
-    Location.all.each do |location|
-      inventory_tallies.create(storage_location: location) if location.storage_unit?
+    locations = Location.where(location_type: "storage_unit")
+    locations.each do |location|
+      inventory_tallies.create(storage_location: location)
     end
   end
 end
