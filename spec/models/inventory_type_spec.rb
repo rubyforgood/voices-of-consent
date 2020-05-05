@@ -22,16 +22,14 @@ RSpec.describe InventoryType, type: :model do
     inverse_of: :assembly_location
   }
 
-  context 'after_create' do
-    context 'when location_type is storage_unit' do
-      before do
-        create_list(:location, 4, location_type: "storage_unit")
-      end
+  let!(:location) { create_list(:location, 1, location_type: "storage_unit") }
+  let!(:inventory_type) { create_list(:inventory_type, 1) }
 
-      it 'should create a InventoryTally to each Location' do
-        inventory_type = create(:inventory_type)
-        expect(InventoryTally.where(inventory_type: inventory_type).count).to eq(4)
-      end
+  context 'after_create' do
+    subject(:create_inventory_type) { create(:inventory_type) }
+
+    it 'creates one inventory tally for each type location pair' do
+      expect { create_inventory_type }.to change { InventoryTally.count }.by 2
     end
   end
 end

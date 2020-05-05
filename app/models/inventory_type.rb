@@ -10,7 +10,9 @@ class InventoryType < ApplicationRecord
   def create_inventory_tallies
     locations = Location.where(location_type: "storage_unit")
     locations.each do |location|
-      inventory_tallies.create(storage_location: location)
+      InventoryType.all.each do |inventory_type|
+        inventory_tallies.create(storage_location: location, inventory_type: inventory_type)
+      end
     end
   end
 end
