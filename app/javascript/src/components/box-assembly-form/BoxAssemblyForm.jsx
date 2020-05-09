@@ -150,8 +150,10 @@ const BoxAssemblyForm = () => {
         })
       console.log("Inventory tallies: ", inventoryTallies);
       Promise.all(inventoryTallies).then(allResponse=>{
-          console.log ("Got response: ", allResponse);
-      });
+          return Promise.all(allResponse.map(aResp=>aResp.json()));
+      }).then(json=>{
+        json.forEach(aJson=>console.log(aJson));
+      })
     }
 
   }
