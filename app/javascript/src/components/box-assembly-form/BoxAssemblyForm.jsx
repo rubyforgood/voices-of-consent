@@ -58,36 +58,6 @@ const BoxAssemblyForm = () => {
     }
   }, [items])
 
-  // const updateAssemblyStatus = (index) => {
-
-  //   var clickedItem = items.filter((anItem, i) => {
-  //     return i == index;
-  //   })[0];
-
-  //   if (!selectedInventoryTally[clickedItem.id]) {
-  //     //Go out and get a tally
-  //     fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + clickedItem.id)
-  //       .then(response => response.json())
-  //       .then((data) => {
-  //         if (data && Array.isArray(data) && data.length > 0) {
-
-  //           var updatedTally = { ...selectedInventoryTally };
-  //           updatedTally[clickedItem.id] = data[0];
-  //           setSelectedInventoryTally(updatedTally);
-  //           updateInventoryTally(data[0].id, clickedItem.id, clickedItem.checked ? 1 : -1, index)
-  //           //Create a new Inventory Tally, based on state
-  //         } else {
-  //           console.error("Try again?");
-  //         }
-
-  //       });
-  //   } else {
-  //     updateInventoryTally(selectedInventoryTally[clickedItem.id].id, clickedItem.id, clickedItem.checked ? 1 : -1, index)
-  //   }
-
-  // }
-
-
   const updateCheckboxState = (index) => {
     var newState = items.map((anItem, i) => {
       var returnItem = {};
@@ -102,63 +72,92 @@ const BoxAssemblyForm = () => {
 
   }
 
-  // const updateInventoryTally = (inventory_tally_id, box_item_id, adjustment_quantity, index) => {
+  const getInventoryTallyPromise = (inventory_tally_id, box_item_id, adjustment_quantity, index) => {
+    const token = document.getElementsByName('csrf-token')[0].content
+    var opts = {
+      inventory_tally_id: inventory_tally_id,
+      box_item_id: box_item_id,
+      adjustment_quantity: adjustment_quantity
+    }
 
-  //   var opts = {
-  //     inventory_tally_id: inventory_tally_id,
-  //     box_item_id: box_item_id,
-  //     adjustment_quantity: adjustment_quantity
-  //   }
 
-
-  //   fetch(`/inventory_adjustments.json/`, {
-  //     method: 'POST',
-  //     body: JSON.stringify(opts),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'X-Requested-With': 'XMLHttpRequest',
-  //       'X-CSRF-Token': token
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then((data) => {
-  //       console.log("Response: ", data);
-  //       const updatedItems = items.map((item, i) => {
-  //         if (i === index) {
-  //           item.checked = !item.checked;
-  //         }
-  //         return item;
-  //       })
-  //       updateItems(updatedItems);
-  //     });
-  // };
+    return fetch(`/inventory_adjustments.json/`, {
+      method: 'POST',
+      body: JSON.stringify(opts),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
+      }
+    });
+  };
 
   const tallySubmitted = () => {
+    console.group("Check box state: ");
+    console.debug("Items: ", items);
+    console.debug("submitedState: ",submitedState);
+    console.groupEnd();
 
+    //Only do work if there is location
     if (selectedLocation) {
-      const token = document.getElementsByName('csrf-token')[0].content
-      var inventoryTallies =  items.map((anItem, index) => {
 
+      var inventoryTallies =  items.map((anItem, index) => {
         if (anItem.checked != submitedState[index]) {
           return anItem;
         }
         return undefined;
-      }).filter(Boolean)
-        .map(anItem => {
+      }).filter(Boolean);
+
+      var inventoryPromises = inventoryTallies.map(anItem => {
           return fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + anItem.id);
         })
-      console.log("Inventory tallies: ", inventoryTallies);
-      Promise.all(inventoryTallies).then(allResponse=>{
+
+      Promise.all(inventoryPromises).then(allResponse=>{
           return Promise.all(allResponse.map(aResp=>aResp.json()));
       }).then(json=>{
-        json.forEach(aJson=>console.log(aJson));
+        var allInventoryTallies = [];
+        for(var i=0; i<json.length;i++) {
+          var subInventoryTallies = json[i].map(anObj=>{
+            return {
+              inventory_tally_id: anObj.id,
+              box_item_id: inventoryTallies[i].id,
+              adjustment_quantity: inventoryTallies[i].checked ? -1 : 1
+            }
+          })
+
+          allInventoryTallies.push(...subInventoryTallies);
+        }
+        
+        var updateTallyPromises = allInventoryTallies.map(aTally=>{
+          return getInventoryTallyPromise(aTally.inventory_tally_id, aTally.box_item_id, aTally.adjustment_quantity);
+        })
+
+        Promise.all(updateTallyPromises).then(allResponse=>{
+          return Promise.all(allResponse.map(aResp=>aResp.json()));
+        }).then(json=>{
+           //Update the checkbox state:
+           var newSavedState = [...submitedState];
+           for(var i = 0; i<json.length;i++) {
+             var updatedId = inventoryTallies[i].id;
+             var updatedIndex = items.findIndex(anItem=>anItem.id === updatedId)
+             newSavedState[updatedIndex] = inventoryTallies[i].checked;
+            
+           }
+
+           setSubmittedState(newSavedState);
+        })
+
       })
     }
 
   }
 
   var locationReadout = (selectedLocation) ? <div>{selectedLocation.name}</div> : [];
+
+  var buttonDisabled = !items ||  items.filter((anItem,index)=>{
+    return anItem.checked === submitedState[index];
+  }).length == items.length;
 
   return (
     <main className="box-assembly">
@@ -188,7 +187,7 @@ const BoxAssemblyForm = () => {
       <section className="next-steps">
         <button
           className={`${isAssembled ? 'active' : ''}`}
-          disabled={!items}
+          disabled={buttonDisabled}
           onClick={tallySubmitted}
         >{!isAssembled ? 'Waiting' : 'The box is ready to go'}</button>
       </section>
