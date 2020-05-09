@@ -140,7 +140,7 @@ const BoxAssemblyForm = () => {
       const token = document.getElementsByName('csrf-token')[0].content
       var inventoryTallies =  items.map((anItem, index) => {
 
-        if (anItem.checked != submitedState[index].checked) {
+        if (anItem.checked != submitedState[index]) {
           return anItem;
         }
         return undefined;
