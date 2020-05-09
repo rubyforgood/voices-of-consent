@@ -156,7 +156,12 @@ const BoxAssemblyForm = () => {
   var locationReadout = (selectedLocation) ? <div>{selectedLocation.name}</div> : [];
 
   var buttonDisabled = !items ||  items.filter((anItem,index)=>{
-    return anItem.checked === submitedState[index];
+
+    if(submitedState) {
+      return anItem.checked === submitedState[index];
+    }
+    return true;
+    
   }).length == items.length;
 
   return (
