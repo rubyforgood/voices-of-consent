@@ -6,7 +6,8 @@ const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
   const [selectedLocation, setLocation] = useState(null);
-  const [selectedInventoryTally, setSelectedInventoryTall] = useState({});
+  const [selectedInventoryTally, setSelectedInventoryTally] = useState({});
+  const [submitedState, setSubmittedState] = useState([]);
 
   useEffect(() => {
     // API call to return predetermined box items.
@@ -23,6 +24,7 @@ const BoxAssemblyForm = () => {
           return item;
         })
         updateItems(unassembledItemChecklist);
+        setSubmittedState(unassembledItemChecklist);
       });
   }, [])
 
@@ -55,71 +57,95 @@ const BoxAssemblyForm = () => {
     }
   }, [items])
 
-  const updateAssemblyStatus = (index) => {
-    var clickedItem = items.filter((anItem, i)  => {
-        return i == index;
-    })[0];
+  // const updateAssemblyStatus = (index) => {
 
-    if (!selectedInventoryTally[clickedItem.id]) {
-      //Go out and get a tally
-      fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + clickedItem.id)
-        .then(response => response.json())
-        .then((data) => {
-          if (data && Array.isArray(data) && data.length > 0) {
+  //   var clickedItem = items.filter((anItem, i) => {
+  //     return i == index;
+  //   })[0];
 
-            var updatedTally = { ...selectedInventoryTally };
-            updatedTally[clickedItem.id] = data[0];
-            setSelectedInventoryTall(updatedTally);
-            updateInventoryTally(data[0].id,clickedItem.id, clickedItem.checked ? 1 : -1,index)
-            //Create a new Inventory Tally, based on state
-          } else {
-            console.error("Try again?");
-          }
+  //   if (!selectedInventoryTally[clickedItem.id]) {
+  //     //Go out and get a tally
+  //     fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + clickedItem.id)
+  //       .then(response => response.json())
+  //       .then((data) => {
+  //         if (data && Array.isArray(data) && data.length > 0) {
 
-        });
-    } else {
-      updateInventoryTally(selectedInventoryTally[clickedItem.id].id,clickedItem.id, clickedItem.checked ? 1 : -1,index)
-    }
-    
+  //           var updatedTally = { ...selectedInventoryTally };
+  //           updatedTally[clickedItem.id] = data[0];
+  //           setSelectedInventoryTally(updatedTally);
+  //           updateInventoryTally(data[0].id, clickedItem.id, clickedItem.checked ? 1 : -1, index)
+  //           //Create a new Inventory Tally, based on state
+  //         } else {
+  //           console.error("Try again?");
+  //         }
+
+  //       });
+  //   } else {
+  //     updateInventoryTally(selectedInventoryTally[clickedItem.id].id, clickedItem.id, clickedItem.checked ? 1 : -1, index)
+  //   }
+
+  // }
+
+
+  const updateCheckboxState = (index) => {
+    console.log(typeof items);
+    var newState = items.map((anItem, i) => {
+      var returnItem = anItem;
+      if(i === index) {
+        returnItem.checked = !returnItem.checked;
+      }
+
+      return returnItem;
+    });
+
+    updateItems(newState);
   }
 
-  const updateInventoryTally = (inventory_tally_id, box_item_id, adjustment_quantity,index) =>{
-    console.log("Updated: ", inventory_tally_id,' box= ',box_item_id,'adj= ',adjustment_quantity)
-    var opts = {
-      inventory_tally_id: inventory_tally_id,
-      box_item_id: box_item_id,
-      adjustment_quantity: adjustment_quantity
-    }
+  // const updateInventoryTally = (inventory_tally_id, box_item_id, adjustment_quantity, index) => {
+
+  //   var opts = {
+  //     inventory_tally_id: inventory_tally_id,
+  //     box_item_id: box_item_id,
+  //     adjustment_quantity: adjustment_quantity
+  //   }
+
+
+  //   fetch(`/inventory_adjustments.json/`, {
+  //     method: 'POST',
+  //     body: JSON.stringify(opts),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'X-Requested-With': 'XMLHttpRequest',
+  //       'X-CSRF-Token': token
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then((data) => {
+  //       console.log("Response: ", data);
+  //       const updatedItems = items.map((item, i) => {
+  //         if (i === index) {
+  //           item.checked = !item.checked;
+  //         }
+  //         return item;
+  //       })
+  //       updateItems(updatedItems);
+  //     });
+  // };
+
+  const tallySubmitted = () => {
+
     const token = document.getElementsByName('csrf-token')[0].content
 
-    fetch(`/inventory_adjustments.json/`,{
-      method: 'POST',
-      body: JSON.stringify(opts),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token
-      }
-    })
-        .then(response => response.json())
-        .then((data) => {
-          console.log("Response: ",data);
-          const updatedItems = items.map((item, i) => {
-            if (i === index) {
-              item.checked = !item.checked;
-            }
-            return item;
-          })
-          updateItems(updatedItems);
-        });
-  };
+    console.log("Checkboxes are: ", items);
+
+  }
 
   var locationReadout = (selectedLocation) ? <div>{selectedLocation.name}</div> : [];
 
   return (
     <main className="box-assembly">
-      <h2 className="box-assembly__header">Box Packing Checklist</h2>
+      <h2 className="box-assembly__header">1 Box Packing Checklist</h2>
 
       <section className="text-box">
         <p>Please check items as you add them to the box.</p>
@@ -135,7 +161,7 @@ const BoxAssemblyForm = () => {
               enabled={selectedLocation ? true : false}
               key={i}
               updateCheckStatus={() => {
-                updateAssemblyStatus(i);
+                updateCheckboxState(i);
               }}
               {...item}
             />
@@ -146,10 +172,7 @@ const BoxAssemblyForm = () => {
         <button
           className={`${isAssembled ? 'active' : ''}`}
           disabled={!items}
-          onClick={() => {
-            // TODO: AJAX Call
-            console.log(items)
-          }}
+          onClick={tallySubmitted}
         >{!isAssembled ? 'Waiting' : 'The box is ready to go'}</button>
       </section>
     </main>
