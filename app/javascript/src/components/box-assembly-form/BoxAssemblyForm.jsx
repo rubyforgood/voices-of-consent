@@ -6,8 +6,8 @@ const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
   const [selectedLocation, setLocation] = useState(null);
-  const [selectedInventoryTally, setSelectedInventoryTally] = useState({});
-  const [submitedState, setSubmittedState] = useState([]);
+  // const [selectedInventoryTally, setSelectedInventoryTally] = useState({});
+  const [submitedState, setSubmittedState] = useState(null);
 
   useEffect(() => {
     // API call to return predetermined box items.
@@ -24,7 +24,8 @@ const BoxAssemblyForm = () => {
           return item;
         })
         updateItems(unassembledItemChecklist);
-        setSubmittedState(unassembledItemChecklist);
+        var submittedState = unassembledBoxItems.map(anItem=>anItem.checked);
+        setSubmittedState(submittedState);
       });
   }, [])
 
@@ -88,17 +89,17 @@ const BoxAssemblyForm = () => {
 
 
   const updateCheckboxState = (index) => {
-    console.log(typeof items);
     var newState = items.map((anItem, i) => {
-      var returnItem = anItem;
-      if(i === index) {
+      var returnItem = {};
+      if (i === index) {
         returnItem.checked = !returnItem.checked;
       }
 
-      return returnItem;
+      return { id: anItem.id, type: anItem.type, count: anItem.count, checked: (i === index)? !anItem.checked : anItem.checked}
     });
 
     updateItems(newState);
+
   }
 
   // const updateInventoryTally = (inventory_tally_id, box_item_id, adjustment_quantity, index) => {
@@ -135,9 +136,23 @@ const BoxAssemblyForm = () => {
 
   const tallySubmitted = () => {
 
-    const token = document.getElementsByName('csrf-token')[0].content
+    if (selectedLocation) {
+      const token = document.getElementsByName('csrf-token')[0].content
+      var inventoryTallies =  items.map((anItem, index) => {
 
-    console.log("Checkboxes are: ", items);
+        if (anItem.checked != submitedState[index].checked) {
+          return anItem;
+        }
+        return undefined;
+      }).filter(Boolean)
+        .map(anItem => {
+          return fetch(`/inventory_tallies.json/?storage_location_id=` + selectedLocation.id + `&inventory_type_id` + `=` + anItem.id);
+        })
+      console.log("Inventory tallies: ", inventoryTallies);
+      Promise.all(inventoryTallies).then(allResponse=>{
+          console.log ("Got response: ", allResponse);
+      });
+    }
 
   }
 
@@ -145,7 +160,7 @@ const BoxAssemblyForm = () => {
 
   return (
     <main className="box-assembly">
-      <h2 className="box-assembly__header">1 Box Packing Checklist</h2>
+      <h2 className="box-assembly__header">4 Box Packing Checklist</h2>
 
       <section className="text-box">
         <p>Please check items as you add them to the box.</p>
