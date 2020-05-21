@@ -74,7 +74,7 @@ gem 'devise_invitable', '~> 2.0.0'
 
 gem 'pundit', '~> 2.0'
 
-gem 'twilio-ruby', '~> 5.25'
+gem 'twilio-ruby', '~> 5.35'
 
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'simple_form'
