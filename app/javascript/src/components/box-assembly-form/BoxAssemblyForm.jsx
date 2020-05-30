@@ -6,7 +6,6 @@ const BoxAssemblyForm = () => {
   const [items, updateItems] = useState(null);
   const [isAssembled, updateIsAssembled] = useState(false);
   const [selectedLocation, setLocation] = useState(null);
-  // const [selectedInventoryTally, setSelectedInventoryTally] = useState({});
   const [submitedState, setSubmittedState] = useState(null);
 
   useEffect(() => {
