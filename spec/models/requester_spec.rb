@@ -77,4 +77,14 @@ RSpec.describe Requester, :type => :model do
    r = Requester.new(first_name: "Jane", last_name: "Doe", email: "jane@email.com", street_address: "122 Boggie Woogie Avenue", city: "Fairfax", state: "VA", zip: "22030", ok_to_email: true, ok_to_text: false, ok_to_call: false, ok_to_mail: true)
    expect(r).to_not be_valid
  end
+
+ describe '.name' do
+  let(:requester) { create :requester }
+
+  subject { requester.name } 
+
+  it "returns requester name" do
+    expect(subject).to eq("Anytown, PA, #{requester.created_at}")
+  end
+ end
 end

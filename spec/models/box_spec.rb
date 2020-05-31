@@ -18,6 +18,41 @@ RSpec.describe Box, :type => :model do
   let(:inventory_type_research_needed) { create(:inventory_type, requires_research: true) }
   let(:inventory_type_no_research_needed) { create(:inventory_type, requires_research: false) }
 
+  describe '.has_designer?' do
+    let(:box) { create :box }
+    subject(:has_designer) { box.has_designer? }
+    
+    it{ expect(has_designer).to be(false) }
+  end
+
+  describe '.has_researcher?' do
+    let(:box) { create :box }
+    subject(:has_researcher) { box.has_researcher? }
+    
+    it{ expect(has_researcher).to be(false) }
+  end
+
+  describe '.has_assembler?' do
+    let(:box) { create :box }
+    subject(:has_assembler) { box.has_assembler? }
+    
+    it{ expect(has_assembler).to be(false) }
+  end
+
+  describe '.has_shipper?' do
+    let(:box) { create :box }
+    subject(:has_shipper) { box.has_shipper? }
+    
+    it{ expect(has_shipper).to be(false) }
+  end
+
+  describe '.has_follow_upper?' do
+    let(:box) { create :box }
+    subject(:has_follow_upper) { box.has_follow_upper? }
+    
+    it{ expect(has_follow_upper).to be(false) }
+  end
+
   describe "state transitions" do
     before(:each) do
       allow(AutoEmailHandler).to receive(:new)
