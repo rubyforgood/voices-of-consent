@@ -6,6 +6,11 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 
+if ENV['RAILS_ENV'] == 'test'
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require_relative 'support/controller_macros'
 require_relative 'support/authentication_helpers'
 require_relative 'support/shoulda.rb'
