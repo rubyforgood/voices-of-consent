@@ -128,6 +128,12 @@ RSpec.describe InventoryTypesController, type: :controller do
         post :create, params: {inventory_type: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
+
+      it "not creates a new InventoryType" do
+        expect {
+          post :create, params: {inventory_type: invalid_attributes}, session: valid_session
+        }.to_not change(InventoryType, :count)
+      end
     end
   end
 
