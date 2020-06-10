@@ -72,5 +72,15 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       assert_select "a[href='#{base_url}shipping_in_progress']",
                     text: 'Shipping', count: 1
     end
+
+    it 'renders menu icons' do
+      render
+
+      assert_select 'i', class: 'fas fa-user-clock'
+      assert_select 'i', class: 'fas fa-address-card'
+      assert_select 'i', class: 'fas fa-object-group'
+      assert_select 'i', class: 'fas fa-box-open'
+      assert_select 'i', class: 'fas fa-box'
+    end
   end
 end

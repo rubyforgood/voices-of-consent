@@ -2,6 +2,7 @@ $nav-background: #eee;
 $nav-color: #ddd;
 $nav-text-color: #888;
 $border-color: rgb(170, 150, 153);
+$icon-color: #dea9b2;
 
 .app-nav {
   background-color: $nav-background;
@@ -61,6 +62,10 @@ $border-color: rgb(170, 150, 153);
         max-height: 80px;
       }
     }
+  }
+
+  a.nav-icon {
+    color: $icon-color;
   }
 
   .nav-item {
