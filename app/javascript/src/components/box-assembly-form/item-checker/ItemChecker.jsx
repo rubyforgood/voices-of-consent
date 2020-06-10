@@ -5,6 +5,7 @@ const ItemChecker = ({
   count,
   checked,
   updateCheckStatus,
+  enabled
 }) => {
   return (
     <div className="item-checker">
@@ -12,6 +13,7 @@ const ItemChecker = ({
       <div className="item-checker__name">{ type }</div>
       <div className="item-checker__check-button">
         <input 
+          disabled = {enabled ? "" : "disabled"}
           type="checkbox"
           checked={ checked }
           onChange={e => {
