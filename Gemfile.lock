@@ -258,7 +258,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (0.20.3)
     thread_safe (0.3.6)
-    twilio-ruby (5.36.0)
+    twilio-ruby (5.38.0)
       faraday (>= 0.9, < 2.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
@@ -321,7 +321,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
-  twilio-ruby (~> 5.36)
+  twilio-ruby (~> 5.38)
   tzinfo-data
   web-console (>= 3.3.0)
   webdrivers (~> 4.0)
