@@ -18,6 +18,8 @@
 // global dependencies
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
+require("chartkick")
+require("chart.js")
 
 import 'jquery'
 import 'bootstrap/js/dist/util'
