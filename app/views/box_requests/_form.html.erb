@@ -11,8 +11,20 @@
     </div>
   <% end %>
 
+  <!-- jquery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Materialize JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Material Icon Webfont -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <div id="tag_list" name="box_request[tag_list]" class="chips input-field" placeholder="Add tags" data-autocomplete="<%= @tags_json %>"></div>
+
+
   <div class="field">
-    <%= form.input :tag_list, as: :text, value: form.object.tag_list.to_s %>
+    <%#= form.input :tag_list, as: :text, value: form.object.tag_list.to_s %>
     <br>
   </div>
 
@@ -24,3 +36,147 @@
     <%= form.button :submit, "Complete Box Review", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+    $(document).ready(function() {
+
+        // Cycle through anything with an data-autocomplete attribute
+        // Cannot use 'input' as chips must be innitialised on a div
+        $("[data-autocomplete]").each(function() {
+
+            var dataJSON = JSON.parse($(this).attr("data-autocomplete"));
+
+            // Prepare array for items and add each
+            var items = [];
+            var i;
+            for (i = 0; i < dataJSON.length; ++i) {
+                items[dataJSON[i].name] = null; // Could assign id to image url and grab this later? dataJSON[i].id
+            }
+
+
+            // Check if component needs to be a chips
+            if ($(this).hasClass("chips")) {
+
+                // Initialise chips
+                // Documentation: https://materializecss.com/chips.html
+                $(this).chips({
+                    placeholder: $(this).attr("placeholder"),
+                    autocompleteOptions: {
+                        data: items,
+                        limit: Infinity,
+                        minLength: 1
+                    },
+                    onChipAdd: () => {
+                        chipChange($(this).attr("id")); // See below
+                    },
+                    onChipDelete: () => {
+                        chipChange($(this).attr("id")); // See below
+                    }
+                });
+
+
+                // Tweak the input names, etc
+                // This means we can style the code within the view as we would a simple_form input
+                $(this).attr("id", $(this).attr("id") + "_wrapper");
+
+                $(this).attr("name", $(this).attr("name") + "_wrapper");
+
+            } else {
+
+                // Autocomplete is much simpler! Just initialise with data
+                // Documentation: https://materializecss.com/autocomplete.html
+                $(this).autocomplete({
+                    data: items,
+                });
+
+            }
+
+
+
+
+        });
+
+    });
+
+    function chipChange(elementID) {
+
+        // Get chip element from ID
+        var elem = $("#" + elementID);
+
+        // In theory you can get the data of the chips instance, rather than re-parsing it
+        var dataJSON = JSON.parse(elem.attr("data-autocomplete"));
+
+        // Remove any previous inputs (we are about to re-add them all)
+        elem.children("input[auto-chip-entry=true]").remove();
+
+        // Find the wrapping element
+        wrapElement = elem.closest("div[data-autocomplete].chips");
+
+        // Get the input name we need, [] tells Rails that this is an array
+        formInputName = wrapElement.attr("name").replace("_wrapper", "") + "[]";
+
+        // Start counting entries so we can add value to input
+        var i = 0;
+
+        // Cycle through each chip
+        elem.children(".chip").each(function() {
+
+            // Get text of chip (effectively just excluding material icons 'close' text)
+            chipText = $(this).ignore("*").text();
+
+            // Get id from original JSON array
+            // You should be able to check the initialised Materialize data array.... Not sure how to make that work
+            var chipID = findElement(dataJSON, "name", chipText);
+
+            // ?Check for undefined here, will be rejected by Rails anyway...?
+
+            // Add input with value of the selected model ID
+            $(this).parent().append('<input value="' + chipID + '"  multiple="multiple" type="hidden" name="' + formInputName + '" auto-chip-entry="true">');
+
+
+        });
+
+    }
+
+
+    // Get object from array of objects using property name and value
+    function findElement(arr, propName, propValue) {
+        for (var i = 0; i < arr.length; i++)
+            if (arr[i][propName] == propValue)
+                return arr[i].id; // Return id only
+        // will return undefined if not found; you could return a default instead
+    }
+
+
+    // Remove text from children, etc
+    $.fn.ignore = function(sel) {
+        return this.clone().find(sel || ">*").remove().end();
+    };
+
+
+    // Print to console instead of posting
+    $(document).on("click", "input[type=submit]", function(event) {
+
+        // Prevent submission of form
+        event.preventDefault();
+
+        // Gather input values
+        var info = [];
+        $(this).closest("form").find("input").each(function() {
+            info.push($(this).attr("name") + ":" + $(this).val());
+        });
+
+        // Prepare hash in easy to read format
+        var outText = "<h6>Output</h6><p>" + info.join("</br>") + "</p>";
+
+        // Add to output if exists, or create if it does not
+        if ($("#output").length > 0) {
+            $("#output").html(outText);
+        } else {
+            $("form").append("<div id='output'>" + outText + "</div>");
+        }
+
+
+    });
+
+</script>
