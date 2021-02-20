@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_004449) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.text "feedback"
+    t.text "description"
     t.string "category"
     t.string "type"
     t.datetime "created_at", null: false
