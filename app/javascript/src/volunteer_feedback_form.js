@@ -5,9 +5,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import VolunteerFeedbackForm from 'components/volunteer-feedback-form'
+
 const App = () => {
   return (
-    <h1>Teste</h1>
+    <VolunteerFeedbackForm />
   )
 }
 

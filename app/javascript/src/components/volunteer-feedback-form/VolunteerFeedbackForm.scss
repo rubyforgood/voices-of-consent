@@ -1,0 +1,36 @@
+$primary_dark: #c18189;
+$primary_light: #fedddd;
+$primary_highlight-dark: #b49194;
+
+.volunteer-feedback {
+  min-height: 100%;
+  section {
+      width: 50%;
+      margin: 0 auto;
+  }
+}
+
+main > section > div.form-info {
+  color: $primary_dark;
+}
+
+.volunteer-feedback__form {
+  position: relative;
+  height: 45px;
+  margin: 30px 0 25px 0;
+}
+
+form > div.form-item {
+  margin: 30px 0px;
+}
+
+textarea.feedback-description {
+  width: 100%;
+  height: 150px;
+  border: 1px solid hsl(0,0%,80%);
+}
+div.form-item > div > label {
+  font-size: 1.1rem;
+  font-weight: bolder;
+  color: #555
+}
