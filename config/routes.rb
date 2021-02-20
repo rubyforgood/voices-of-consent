@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   # resources :requesters, only: %i[new thank_you], controller: :requesters
 
+  get 'feedbacks/volunteers/new', to: 'feedbacks/volunteers#new'
+  
+
   get 'requesters/new', to: 'requesters#new'
   post 'box_request_triage',                       to: "box_request_triage#create"
   get 'requesters/thank_you',                      to: 'requesters#thank_you',           as: 'box_request_thank_you'
