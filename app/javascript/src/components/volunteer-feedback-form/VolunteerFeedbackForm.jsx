@@ -18,19 +18,25 @@ const VolunteerFeedbackForm = () => {
   ]
   const [category, setCategory] = useState(null)
   const [description, setDescription] = useState('')
-  const [formData, setFormData ] = useState({type: 'Feedbacks::Volunteer'})
 
   const handleSelectChange = (selected, _action) => {
-    setFormData({...formData, category: selected.value})
+    setCategory(selected.value)
   }
 
   const handleDescriptionChange = (event) => {
-    setFormData({...formData, description: event.target.value})
+    setDescription(event.target.value)
   }
 
   const handleFormSubmit = (event) => {
-    event.preventDefault()
-    console.log(formData)
+    event.preventDefault();
+    let params = {
+      feedback: {
+        description: description,
+        category: category
+      }
+    }
+
+    console.log(params)
   }
 
   return(
