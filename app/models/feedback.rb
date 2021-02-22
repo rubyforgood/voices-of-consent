@@ -1,5 +1,5 @@
 class Feedback < ApplicationRecord
-  CATEGORY = [
+  CATEGORIES = [
     'New BoxRequest form',
     'BoxRequest Review phase',
     'Box Design phase',
