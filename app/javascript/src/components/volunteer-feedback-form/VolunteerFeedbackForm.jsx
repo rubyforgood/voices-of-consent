@@ -18,6 +18,8 @@ const VolunteerFeedbackForm = () => {
   ]
   const [category, setCategory] = useState(null)
   const [description, setDescription] = useState('')
+  const [sendingData, setSendingData] = useState(false)
+  const [requestErrors, setRequestErrors] = useState(null)
 
   const handleSelectChange = (selected, _action) => {
     setCategory(selected.value)
@@ -29,6 +31,10 @@ const VolunteerFeedbackForm = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    const token = document.getElementsByName('csrf-token')[0].content
+    const url = `${location.origin}/feedbacks/volunteers`
+    setSendingData(true)
+
     let params = {
       feedback: {
         description: description,
@@ -36,13 +42,39 @@ const VolunteerFeedbackForm = () => {
       }
     }
 
-    console.log(params)
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(params),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': token
+      }
+    }).then((response) => {
+      if( !response.ok ) { 
+        throw response 
+      } else {
+        return response.json();
+      }
+    }).then(successMessage => {
+      console.log(successMessage);
+
+    }).catch((error) => {
+      error.json().then( errMessages => {
+        setRequestErrors(errMessages)
+        console.log({...errMessages, status: error.status})
+      })
+    }).finally( setSendingData(false) )
+
+    
   }
 
   return(
     <main className='volunteer-feedback'>
       <section>
-      <div className="form-info">Thank you for providing your feedback to Voices of Consent</div>
+        <div className="form-info">Thank you for providing your feedback to Voices of Consent</div>
+        <div className="errors"> { requestErrors != null && 'test' } </div>
       <hr/>
       <form onSubmit={handleFormSubmit} className='volunteer-feedback__form'>
         <div className="row form-item">
@@ -80,7 +112,8 @@ const VolunteerFeedbackForm = () => {
             <button
               className='btn btn-primary btn-lg float-right'
               type='submit'
-            >Submit</button>
+              disabled={ sendingData }
+            >{ sendingData ? '...' : 'Submit' } </button>
           </div>
         </div>
       </form>
