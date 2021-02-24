@@ -29,6 +29,11 @@ const VolunteerFeedbackForm = () => {
     setDescription(event.target.value)
   }
 
+  const clearForm = (_event) => {
+    setCategory(null)
+    setDescription('')
+  }
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const token = document.getElementsByName('csrf-token')[0].content
@@ -152,6 +157,7 @@ const VolunteerFeedbackForm = () => {
             <button
               className='btn btn-secondary btn-lg'
               type='reset'
+              onClick={clearForm}
             >Clear</button>
           </div>
 
