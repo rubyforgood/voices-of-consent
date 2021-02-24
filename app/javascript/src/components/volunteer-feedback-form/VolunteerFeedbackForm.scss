@@ -17,11 +17,15 @@ main > section > div.form-info {
 .volunteer-feedback__form {
   position: relative;
   height: 45px;
-  margin: 30px 0 25px 0;
+  margin: 25px 0 25px 0;
 }
 
 form > div.form-item {
   margin: 30px 0px;
+}
+
+select {
+  width: 100%;
 }
 
 textarea.feedback-description {
@@ -32,5 +36,4 @@ textarea.feedback-description {
 div.form-item > div > label {
   font-size: 1.1rem;
   font-weight: bolder;
-  color: #555
 }

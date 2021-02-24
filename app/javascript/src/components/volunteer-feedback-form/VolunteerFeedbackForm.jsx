@@ -5,24 +5,24 @@ import Select from 'react-select'
 
 const VolunteerFeedbackForm = () => {
   const category_options = [
-    { label: 'Please, select one option', value: null },
-    { label: "New BoxRequest form", value: "New BoxRequest form"},
-    { label: "BoxRequest Review phase", value: "BoxRequest Review phase"},
-    { label: "Box Design phase", value: "Box Design phase"},
-    { label: "BoxItem Research phase", value: "BoxItem Research phase"},
-    { label: "Box Assembly phase", value: "Box Assembly phase"},
-    { label: "Box Shipment phase", value: "Box Shipment phase"},
-    { label: "Box Followup phase", value: "Box Followup phase"},
-    { label: "Inventory Management", value: "Inventory Management"},
-    { label: "Attendance/Meeting Management", value: "Attendance/Meeting Management"},
+    "New BoxRequest form",
+    "BoxRequest Review phase",
+    "Box Design phase",
+    "BoxItem Research phase",
+    "Box Assembly phase",
+    "Box Shipment phase",
+    "Box Followup phase",
+    "Inventory Management",
+    "Attendance/Meeting Management"
   ]
   const [category, setCategory] = useState(null)
   const [description, setDescription] = useState('')
   const [sendingData, setSendingData] = useState(false)
   const [requestErrors, setRequestErrors] = useState(null)
+  const [requestSuccess, setRequestSuccess] = useState(false)
 
-  const handleSelectChange = (selected, _action) => {
-    setCategory(selected.value)
+  const handleSelectChange = (event) => {
+    setCategory(event.target.value)
   }
 
   const handleDescriptionChange = (event) => {
@@ -34,6 +34,8 @@ const VolunteerFeedbackForm = () => {
     const token = document.getElementsByName('csrf-token')[0].content
     const url = `${location.origin}/feedbacks/volunteers`
     setSendingData(true)
+    setRequestErrors(null);
+    setRequestSuccess(false);
 
     let params = {
       feedback: {
@@ -41,6 +43,8 @@ const VolunteerFeedbackForm = () => {
         category: category
       }
     }
+
+    console.log(params);
 
     fetch(url, {
       method: 'POST',
@@ -55,37 +59,79 @@ const VolunteerFeedbackForm = () => {
       if( !response.ok ) { 
         throw response 
       } else {
-        return response.json();
+        setRequestSuccess(true)
       }
-    }).then(successMessage => {
-      console.log(successMessage);
-
     }).catch((error) => {
       error.json().then( errMessages => {
         setRequestErrors(errMessages)
-        console.log({...errMessages, status: error.status})
       })
     }).finally( setSendingData(false) )
-
-    
+  
   }
 
+  const showResponseMessage = () => {
+    if(requestErrors != null) {
+      return  (
+        <span><i className="fas fa-exclamation-triangle"></i> Whoops, something went wrong, please, try again</span>
+      )
+    }
+
+    if (requestSuccess) {
+      return  (
+        <span><i className="fas fa-check"></i> Feedback sent with success, thank you!</span>
+      )
+    }
+  }
+
+  const responseMessageClass = () => {
+    if (requestErrors != null && !requestSuccess) {
+      return 'text-center text-danger'
+    }
+
+    if (requestSuccess) {
+      return 'text-center text-success'
+    }
+  }
+
+  const showDescriptionErrors = () => {
+    if(requestErrors != null && requestErrors.description != null) {
+      return (
+        <div className='text-danger'>
+          <small>{ requestErrors.description.join(', ') }</small>
+        </div>
+      )
+    }
+  }
+
+  const showCategoryErrors = () => {
+    if(requestErrors != null && requestErrors.category != null) {
+      return (
+        <div className='text-danger'>
+          <small>{ requestErrors.category.join(', ') }</small>
+        </div>
+      )
+    }
+  }
+  
   return(
     <main className='volunteer-feedback'>
       <section>
         <div className="form-info">Thank you for providing your feedback to Voices of Consent</div>
-        <div className="errors"> { requestErrors != null && 'test' } </div>
       <hr/>
+      <div className={ responseMessageClass() }> { showResponseMessage() } </div>
       <form onSubmit={handleFormSubmit} className='volunteer-feedback__form'>
         <div className="row form-item">
           <div className="col-12">
             <label htmlFor="Cateogry">Category</label>
-            <Select
-              name='category'
-              value={ category }
-              placeholder={ category_options.find( (option) => option.value == category ).label }
-              onChange={handleSelectChange}
-              options={category_options}/>
+            <select 
+              id="category"
+              name="category"
+              className={ requestErrors!= null && requestErrors.category != null ? 'feedback-description form-control is-invalid' : 'form-control' }
+              onChange={handleSelectChange}>
+              <option value="">Please, select one option</option>
+              { category_options.map( (opt, index) => <option key={index} value={opt}>{opt}</option> )}
+            </select> 
+            { showCategoryErrors() }
           </div>
         </div>
 
@@ -93,10 +139,11 @@ const VolunteerFeedbackForm = () => {
           <div className='col-12'>
             <label htmlFor="Cateogry">Description</label>
             <textarea 
-              className='feedback-description'
+              className={ requestErrors!= null && requestErrors.description != null ? 'feedback-description form-control is-invalid' : 'feedback-description form-control' }
               name='description'
               onChange={handleDescriptionChange}
               defaultValue={description}></textarea>
+            { showDescriptionErrors() }
           </div>
         </div>
 
