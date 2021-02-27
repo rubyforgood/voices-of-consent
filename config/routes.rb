@@ -18,7 +18,6 @@ Rails.application.routes.draw do
 
   get 'feedbacks/volunteers/new', to: 'feedbacks/volunteers#new'
   post 'feedbacks/volunteers', to: 'feedbacks/volunteers#create'
-  
 
   get 'requesters/new', to: 'requesters#new'
   post 'box_request_triage',                       to: "box_request_triage#create"
@@ -89,6 +88,7 @@ Rails.application.routes.draw do
   resources :volunteers
   resources :abuse_types, only: %i[index]
   resources :box_assembly
+  resources :feedbacks, only: %i[index show]
 
   # For details on the DSL available within this file, see
   # http://guides.rubyonrails.org/routing.html

@@ -16,6 +16,7 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       assert_select 'a', text: 'Design', count: 0
       assert_select 'a', text: 'Packing', count: 0
       assert_select 'a', text: 'Shipping', count: 0
+      assert_select 'a', text: 'Feedback', count: 0
     end
   end
 
@@ -30,6 +31,7 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       render
 
       assert_select "a[href='/box_requests']", text: 'Status', count: 1
+      assert_select "a[href='/feedbacks']", text: 'Feedback', count: 0
       base_url = '/box_requests?filter_by='
       assert_select "a[href='#{base_url}review_in_progress&current_user_id=#{@user.id}']",
                     text: 'Review', count: 1
