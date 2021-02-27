@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FeedbackPolicy < ApplicationPolicy
   attr_reader :user, :scope
 
@@ -16,7 +18,7 @@ class FeedbackPolicy < ApplicationPolicy
   end
 
   def can_view_feedbacks?
-    !!@user.is_admin?
+    @user.is_admin?
   end
 
   class Scope < Scope
