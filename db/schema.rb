@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_145825) do
+ActiveRecord::Schema.define(version: 2021_02_20_004449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +145,14 @@ ActiveRecord::Schema.define(version: 2019_12_18_145825) do
     t.datetime "updated_at", null: false
     t.index ["abuse_type_id"], name: "index_core_box_items_on_abuse_type_id"
     t.index ["inventory_type_id"], name: "index_core_box_items_on_inventory_type_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.text "description"
+    t.string "category"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "inventory_adjustments", force: :cascade do |t|

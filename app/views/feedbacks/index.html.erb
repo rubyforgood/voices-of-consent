@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag 'feedbacks' %>
+
+<p id="notice"><%= notice %></p>
+
+<h1>Feedbacks</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Category</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.created_at.strftime("%m-%d-%y") %></td>
+        <td><%= feedback.category %></td>
+        <td><%= feedback.type %></td>
+        <td class='feedback__description'><%= feedback.description %></td>
+        <td><a href="<%= feedback_path(id: feedback.id) %>" class="btn btn-secondary">View</a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
